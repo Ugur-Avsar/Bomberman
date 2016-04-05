@@ -29,8 +29,10 @@ public final class Game extends Canvas implements Runnable {
 
 	public static final String TITLE = "GAME";
 
-	public static final int DESKTOP_WIDTH = 1280;
-	public static final int DESKTOP_HEIGHT = 720;
+	public static final int DESKTOP_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static final int DESKTOP_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	//public static final int DESKTOP_WIDTH = 1280;
+	//public static final int DESKTOP_HEIGHT = 720;
 	public static final float SCREEN_SCALING_FACTOR = (DESKTOP_WIDTH + DESKTOP_HEIGHT) / (1920f + 1080f);
 	public static final int FPS_TARGET = 60;
 	public static final float SPEED_SCALING_FACTOR = FPS_TARGET / 1000;
