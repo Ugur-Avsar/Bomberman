@@ -1,5 +1,7 @@
 package entities;
 
+import java.awt.Rectangle;
+
 import main.Game;
 import resources.Spritesheet;
 
@@ -22,9 +24,9 @@ public class DynamicEntity extends Entity {
 	 * @param texture
 	 */
 	public DynamicEntity(int x, int y, int width, int height, double rotation, String spriteSheet, double speedX,
-			double speedY, int rowCount, int colCount) {
+			double speedY, int rowCount, int colCount, Rectangle colesion) {
 
-		super(x, y, width, height, rotation, new Spritesheet(spriteSheet, rowCount, colCount));
+		super(x, y, width, height, rotation, new Spritesheet(spriteSheet, rowCount, colCount), colesion);
 
 		this.direction = 0;
 		this.setMaxXSpeed(speedX);
@@ -34,9 +36,10 @@ public class DynamicEntity extends Entity {
 	@Override
 	public void update() {
 		super.update();
-		if (Game.getLevel().walkable(x + currentXSpeed, y + currentYSpeed, width, height)) {
+		if (Game.getLevel().walkable(x + currentXSpeed, y + currentYSpeed, colesion.getWidth(), colesion.getHeight())) {
 			moveX(currentXSpeed);
 			moveY(currentYSpeed);
+			colesion.setLocation((int) x, (int) y);
 		}
 	}
 

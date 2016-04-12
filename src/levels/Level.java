@@ -86,7 +86,8 @@ public class Level {
 				data = line.split(";");
 
 				entities.add(new StaticEntity(Double.parseDouble(data[0]), Double.parseDouble(data[1]),
-						Integer.parseInt(data[2]), Integer.parseInt(data[3]), Double.parseDouble(data[4]), data[5]));
+						Integer.parseInt(data[2]), Integer.parseInt(data[3]), Double.parseDouble(data[4]), data[5],
+						new Rectangle(Integer.parseInt(data[6]), Integer.parseInt(data[7]))));
 
 				line = reader.readLine();
 			}
@@ -97,8 +98,7 @@ public class Level {
 
 	public boolean walkable(double x, double y, double width, double height) {
 		for (Rectangle rectangle : collisionBoxes)
-			if (rectangle.intersects(x - COLLISION_TOLERANCE, y - COLLISION_TOLERANCE, width + COLLISION_TOLERANCE,
-					height + COLLISION_TOLERANCE))
+			if (rectangle.intersects(x, y, width, height))
 				return false;
 		return true;
 	}

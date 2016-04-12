@@ -41,7 +41,7 @@ public final class Game extends Canvas implements Runnable {
 	private Graphics2D g;
 	public static JFrame parentFrame;
 	private boolean running;
-	////,,,,//////////////////////////////////////////////////// GAME Elements
+	//////////////////////////////////////////////////////// GAME Elements
 	private ArrayList<Entity> entities;
 	private static Level level;
 
@@ -57,7 +57,7 @@ public final class Game extends Canvas implements Runnable {
 	private void initGameElements() {
 		entities = new ArrayList<Entity>();
 		DynamicEntity player;
-		player = new DynamicEntity(700, 700, 170, 128, 0, "playerBlue", 2, 2, 4, 3);
+		player = new DynamicEntity(700, 700, 170, 128, 0, "playerBlue", 2, 2, 4, 3,new Rectangle(100,120));
 		player.addEntityComponent(new ControledDirectionsMovement(player, 15, VK_A, VK_D, VK_W, VK_S));
 		entities.add(player);
 		level = new Level(new File("./levels/level1.txt"));
@@ -108,7 +108,6 @@ public final class Game extends Canvas implements Runnable {
 
 		requestFocus();
 		while (running) {
-			System.out.println(entities.get(0).getX() + "//" + entities.get(0).getY());
 			long now = System.nanoTime();
 			unprocessed += (now - lastTime) / nsPerTick;
 			lastTime = now;

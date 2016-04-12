@@ -29,6 +29,8 @@ public class Renderer {
 			width = (int) (entity.getWidth());
 			height = (int) (entity.getHeight());
 
+			g1.fillRect((int) (entity.getColesion().getX() * Game.SCREEN_SCALING_FACTOR), (int)( entity.getColesion().getY() * Game.SCREEN_SCALING_FACTOR),
+					(int) (entity.getColesion().getWidth() * Game.SCREEN_SCALING_FACTOR-100), (int)( entity.getColesion().getHeight() * Game.SCREEN_SCALING_FACTOR));
 			g1.rotate(Math.toRadians(entity.getRotation()),
 					(int) (x * Game.SCREEN_SCALING_FACTOR) + (int) (width * Game.SCREEN_SCALING_FACTOR) / 2,
 					(int) (y * Game.SCREEN_SCALING_FACTOR) + (int) (height * Game.SCREEN_SCALING_FACTOR) / 2);
@@ -52,6 +54,11 @@ public class Renderer {
 					(int) (y * Game.SCREEN_SCALING_FACTOR) + (int) (height * Game.SCREEN_SCALING_FACTOR) / 2);
 
 			entity.getTexture().render(g1, x, y, width, height);
+		}
+
+		for (Rectangle box : Game.getLevel().getCollisionBoxes()) {
+			Graphics2D g1 = (Graphics2D) g.create();
+			g1.fillRect((int) box.getX(), (int) box.getY(), (int) box.getWidth(), (int) box.getHeight());
 		}
 	}
 }
