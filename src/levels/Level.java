@@ -165,7 +165,6 @@ public class Level {
 
 	public boolean walkable(double x, double y, double width, double height) {
 		for (Polygon polygon : collisionBoxes) {
-			System.out.println(polygon);
 			if (polygon.intersects(x, y, width, height))
 				return false;
 		}

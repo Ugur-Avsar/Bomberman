@@ -1,7 +1,5 @@
 package entities;
 
-import java.awt.Polygon;
-
 import main.Game;
 import resources.Spritesheet;
 

@@ -57,7 +57,7 @@ public class LevelBuilder extends JPanel {
 		init();
 		levelField.setDoubleBuffered(true);
 		collisionBoxes = new ArrayList<Polygon>();
-		this.playerCount = 0;
+		setPlayerCount();
 	}
 
 	private void init() {
@@ -149,7 +149,6 @@ public class LevelBuilder extends JPanel {
 		if (xCoords != null && yCoords != null)
 			for (int i = 0; i < xCoords.size(); i++)
 				g.fillOval(xCoords.get(i) - 3, yCoords.get(i) - 3, 6, 6);
-
 	}
 
 	/**
@@ -192,7 +191,6 @@ public class LevelBuilder extends JPanel {
 				for (int i : yCoords) {
 					writer.write("," + (int) (i * FULLHD_SCLAING_FACTOR));
 				}
-
 				writer.newLine();
 			}
 			writer.close();
