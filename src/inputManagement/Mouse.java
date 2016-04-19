@@ -12,7 +12,7 @@ public class Mouse implements MouseWheelListener, MouseListener {
 	private static double x, y;
 	private static boolean[] buttons;
 
-	// buttons = 0: Left Button .... 1: Middle Button .... 2: Right Button
+	// 0: Left Button .... 1: Middle Button .... 2: Right Button
 
 	public Mouse() {
 		x = 0;

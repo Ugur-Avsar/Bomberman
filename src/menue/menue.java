@@ -117,6 +117,11 @@ public class menue extends JFrame implements ActionListener , MouseListener{
 				
 	}
 	
+	public void update( Graphics g )
+	{
+		System.out.println("Update....");
+		paint(g);
+	}
 	public void paint(Graphics g) {
 
 	
@@ -178,9 +183,10 @@ public class menue extends JFrame implements ActionListener , MouseListener{
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		startGame.setBackground(Color.black);
+		
 		changeToTrue();
 		repaint();
+		
 		System.out.println(MouseON);
 		
 	
@@ -190,7 +196,7 @@ public class menue extends JFrame implements ActionListener , MouseListener{
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		startGame.setBackground(Color.white);
+		
 		changeToFalse();
 		repaint();
 		

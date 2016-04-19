@@ -47,8 +47,8 @@ public class Spritesheet implements Renderable {
 		spritesheetFilename = filename;
 
 		if (sheet.getWidth() == sheet.getHeight()
-				&& sheet.getWidth() / colCount - (int) sheet.getWidth() / colCount == 0
-				&& sheet.getHeight() / rowCount - (int) sheet.getHeight() / rowCount == 0) {
+				&& sheet.getWidth() / colCount - sheet.getWidth() / colCount == 0
+				&& sheet.getHeight() / rowCount - sheet.getHeight() / rowCount == 0) {
 
 			this.rowHeight = sheet.getHeight() / rowCount;
 			this.colWidth = sheet.getWidth() / colCount;
@@ -67,12 +67,14 @@ public class Spritesheet implements Renderable {
 		this.selectedTexture++;
 	}
 
+	@Override
 	public void render(Graphics2D g, int x, int y, int breite, int hoehe) {
 		g.drawImage(sprites.get(selectedTexture), (int) (x * Game.SCREEN_SCALING_FACTOR),
 				(int) (y * Game.SCREEN_SCALING_FACTOR), (int) (breite * Game.SCREEN_SCALING_FACTOR),
 				(int) (hoehe * Game.SCREEN_SCALING_FACTOR), null);
 	}
 
+	@Override
 	public String toString() {
 		return sprites.size() + " Sprites from ./res/" + spritesheetFilename + ".png";
 	}

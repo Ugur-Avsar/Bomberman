@@ -3,7 +3,6 @@ package rendering;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.util.List;
 
 import entities.Entity;
@@ -55,9 +54,9 @@ public class Renderer {
 			entity.getTexture().render(g1, x, y, width, height);
 		}
 
-		for (Rectangle box : Game.getLevel().getCollisionBoxes()) {
+		for (Polygon box : Game.getLevel().getCollisionBoxes()) {
 			Graphics2D g1 = (Graphics2D) g.create();
-			g1.fill(box);
+			g1.fillPolygon(box);
 		}
 	}
 }

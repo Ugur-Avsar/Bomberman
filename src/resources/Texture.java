@@ -1,7 +1,6 @@
 package resources;
 
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,14 +9,11 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import com.sun.glass.events.KeyEvent;
-
-import inputManagement.Keyboard;
 import main.Game;
 import rendering.Renderable;
 
 public class Texture implements Renderable {
-	private final static Map<String, TextureManager> texMap = new HashMap<String, TextureManager>();
+	private static final Map<String, TextureManager> texMap = new HashMap<String, TextureManager>();
 	private TextureManager manager;
 	private String filename;
 
@@ -38,6 +34,7 @@ public class Texture implements Renderable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 			System.out.println(filename + ".png ... Texture loaded");
 		}
 	}
@@ -49,6 +46,7 @@ public class Texture implements Renderable {
 		super.finalize();
 	}
 
+	@Override
 	public void render(Graphics2D g, int x, int y, int width, int height) {
 		if (manager != null)
 			g.drawImage(manager.getImage(), (int) (x * Game.SCREEN_SCALING_FACTOR),

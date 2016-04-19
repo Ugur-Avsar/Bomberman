@@ -53,7 +53,7 @@ public final class Game extends Canvas implements Runnable {
 	private void initGameElements() {
 		entities = new ArrayList<Entity>();
 		DynamicEntity player;
-		player = new DynamicEntity(700, 700, 170, 128, 0, "playerBlue", 2, 2, 4, 3,null);
+		player = new DynamicEntity(700, 700, 170, 128, 0, "playerBlue", 2, 2, 4, 3);
 		player.addEntityComponent(new ControledDirectionsMovement(player, 15, VK_A, VK_D, VK_W, VK_S));
 		entities.add(player);
 		level = new Level(new File("./levels/level1.txt"));

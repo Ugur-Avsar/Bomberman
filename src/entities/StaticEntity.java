@@ -1,7 +1,5 @@
 package entities;
 
-import java.awt.Rectangle;
-
 import resources.Texture;
 
 public class StaticEntity extends Entity {
@@ -14,8 +12,8 @@ public class StaticEntity extends Entity {
 	 * @param rotation
 	 * @param texture
 	 */
-	public StaticEntity(double x, double y, int width, int height, double rotation, String texture,Rectangle colesion) {
-		super(x, y, width, height, rotation, new Texture(texture),colesion);
+	public StaticEntity(double x, double y, int width, int height, double rotation, String texture) {
+		super(x, y, width, height, rotation, new Texture(texture));
 		this.setTexture(new Texture(texture));
 	}
 

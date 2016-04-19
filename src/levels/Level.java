@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import entities.DynamicEntity;
@@ -17,7 +18,6 @@ import main.Game;
 import resources.Texture;
 
 public class Level {
-
 	public static final double COLLISION_TOLERANCE = 0;
 
 	private Texture texture;
@@ -25,14 +25,14 @@ public class Level {
 	private String name;
 	private int maxPlayers;
 
-	private List<Rectangle> collisionBoxes;
+	private List<Polygon> collisionBoxes;
 	private List<StaticEntity> entities;
 	private List<DynamicEntity> players;
 
 	public Level(File levelFile) {
 		players = new ArrayList<DynamicEntity>();
 		entities = new ArrayList<StaticEntity>();
-		collisionBoxes = new ArrayList<Rectangle>();
+		collisionBoxes = new ArrayList<Polygon>();
 		try {
 			initLevel(levelFile);
 		} catch (UnvalidLevelFormatException e) {
@@ -42,6 +42,7 @@ public class Level {
 
 	private void initLevel(File levelFile) throws UnvalidLevelFormatException {
 		BufferedReader reader = null;
+
 		try {
 			reader = new BufferedReader(new FileReader(levelFile));
 		} catch (FileNotFoundException e) {
@@ -56,43 +57,44 @@ public class Level {
 			throw new UnvalidLevelFormatException();
 		}
 
-		initEntities(reader);
+		// initEntities(reader);
 		initCollisionBoxes(reader);
+
+		try {
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initCollisionBoxes(BufferedReader reader) throws UnvalidLevelFormatException {
 		try {
 			String line = reader.readLine();
 			String[] data = null;
-			String[] leftSide = null;
-			String[] rightSide = null;
+			List<String> xCoords = null;
+			List<String> yCoords = null;
+
+			int[] xPoints = null;
+			int[] yPoints = null;
 
 			while (line != null) {
 				data = line.split(";");
-				
 
-				collisionBoxes.add(new Rectangle(Integer.parseInt(data[0]), Integer.parseInt(data[1]),
-						Integer.parseInt(data[2]), Integer.parseInt(data[3])));
+				xCoords = new ArrayList<>(Arrays.asList(data[0]));
+				yCoords = new ArrayList<>(Arrays.asList(data[1]));
 
-				line = reader.readLine();
-			}
-		} catch (IOException | NumberFormatException e) {
-			throw new UnvalidLevelFormatException();
-		}
-	}
+				xCoords.remove(0);
+				yCoords.remove(0);
 
-	private void initEntities(BufferedReader reader) throws UnvalidLevelFormatException {
-		try {
-			String line = reader.readLine();
-			String[] data = null;
-			StaticEntity currentEntity = null;
+				xPoints = new int[xCoords.size()];
+				yPoints = new int[yCoords.size()];
 
-			while (line != null && !line.equals("COLLISION")) {
-				data = line.split(";");
+				for (int i = 0; i < xCoords.size() && i < yCoords.size(); i++) {
+					xPoints[i] = Integer.parseInt(xCoords.get(i));
+					yPoints[i] = Integer.parseInt(yCoords.get(i));
+				}
 
-		   		currentEntity = new StaticEntity(Double.parseDouble(data[0]), Double.parseDouble(data[1]),
-						Integer.parseInt(data[2]), Integer.parseInt(data[3]), Double.parseDouble(data[4]), data[5], null);
-				entities.add(currentEntity);
+				collisionBoxes.add(new Polygon(xPoints, yPoints, xPoints.length));
 
 				line = reader.readLine();
 			}
@@ -101,13 +103,38 @@ public class Level {
 		}
 	}
 
-	public boolean walkable(double x, double y, double width, double height) {
-		for (Rectangle rectangle : collisionBoxes)
-			if (rectangle.intersects(x - COLLISION_TOLERANCE, y - COLLISION_TOLERANCE, width + COLLISION_TOLERANCE,
-					height + COLLISION_TOLERANCE))
-				return false;
-		return true;
-	}
+	// private void initEntities(BufferedReader reader) throws
+	// UnvalidLevelFormatException {
+	// try {
+	// String line = reader.readLine();
+	// String[] data = null;
+	// StaticEntity currentEntity = null;
+	//
+	// while (line != null && !line.equals("COLLISION")) {
+	// data = line.split(";");
+	//
+	// currentEntity = new StaticEntity(Double.parseDouble(data[0]),
+	// Double.parseDouble(data[1]),
+	// Integer.parseInt(data[2]), Integer.parseInt(data[3]),
+	// Double.parseDouble(data[4]), data[5]);
+	// entities.add(currentEntity);
+	//
+	// line = reader.readLine();
+	// }
+	// } catch (IOException | NumberFormatException e) {
+	// throw new UnvalidLevelFormatException();
+	// }
+	// }
+	//
+	// public boolean walkable(double x, double y, double width, double height)
+	// {
+	// for (Rectangle rectangle : collisionBoxes)
+	// if (rectangle.intersects(x - COLLISION_TOLERANCE, y -
+	// COLLISION_TOLERANCE, width + COLLISION_TOLERANCE,
+	// height + COLLISION_TOLERANCE))
+	// return false;
+	// return true;
+	// }
 
 	/**
 	 * @return the texture
@@ -134,7 +161,15 @@ public class Level {
 	/**
 	 * @return the collisionBoxes
 	 */
-	public List<Rectangle> getCollisionBoxes() {
+	public List<Polygon> getCollisionBoxes() {
 		return collisionBoxes;
+	}
+
+	public boolean walkable(double x, double y, double width, double height) {
+		for (Polygon polygon : collisionBoxes) {
+			if (polygon.intersects(x, y, width, height))
+				return false;
+		}
+		return true;
 	}
 }

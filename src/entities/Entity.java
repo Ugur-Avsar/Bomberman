@@ -1,19 +1,16 @@
 package entities;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
 import entityComponents.EntityComponent;
-import main.Game;
 import rendering.Renderable;
-import resources.Texture;
 
 public abstract class Entity {
 	protected List<EntityComponent> components;
 
 	protected Renderable texture;
-	protected Rectangle colesion;
+
 	protected double x, y;
 	protected double width, height;
 	protected double rotation;
@@ -25,27 +22,14 @@ public abstract class Entity {
 	 * @param height
 	 * @param rotation
 	 */
-	public Entity(double x, double y, int width, int height, double rotation, Renderable texture, Rectangle colesion) {
+	public Entity(double x, double y, int width, int height, double rotation, Renderable texture) {
 		setX(x);
 		setY(y);
 		setWidth(width);
 		setHeight(height);
 		setRotation(rotation);
 		setTexture(texture);
-		colesion.setLocation((int) x, (int) y);
-		setColesion(colesion);
 		components = new ArrayList<EntityComponent>();
-	}
-
-	public void setColesion(Rectangle colesion) {
-		// TODO Auto-generated method stub
-		this.colesion = colesion;
-
-	}
-
-	public Rectangle getColesion() {
-		return colesion;
-
 	}
 
 	public void addEntityComponent(EntityComponent e) {
