@@ -22,7 +22,7 @@ import javax.swing.text.Caret;
 
 import com.sun.prism.Image;
 
-public class menue extends JFrame implements ActionListener , MouseListener{
+public class Menue extends JFrame implements ActionListener , MouseListener{
 	private boolean MouseON = false;
 	private JPanel  panel;
 	private JButton startGame;
@@ -43,7 +43,7 @@ public class menue extends JFrame implements ActionListener , MouseListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		menue frame = new menue("Welcome"); 
+		Menue frame = new Menue("Welcome"); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(null);
 		frame.setSize(500, 600);
@@ -53,11 +53,11 @@ public class menue extends JFrame implements ActionListener , MouseListener{
 	}
 	
 	
-	public menue(String string)
+	public Menue(String string)
 	{
 		 
-		super();
-		gui();
+		super(string);
+		
 		PicPositionX=225;
 		PicPositionY=50;
 		
@@ -69,7 +69,26 @@ public class menue extends JFrame implements ActionListener , MouseListener{
 		bomb = b.getImage();
 		
 		ImageIcon bc = new ImageIcon("C:/Users/Kevin/Pictures/WhiteBoardpng.png");
+		
 		background = bc.getImage();
+		
+		// kleinbuchstabe
+		LVLBuilder= new JButton("LVlBuilder");
+		LVLBuilder.setBounds(180,300,100,100);
+		LVLBuilder.addActionListener(this);
+		LVLBuilder.addMouseListener(this);
+		LVLBuilder.setVisible(true);
+		LVLBuilder.setToolTipText("Button");
+		
+		add(LVLBuilder);
+		
+		startGame = new JButton("Start");
+		startGame.setBounds(180, 100, 100, 100);
+		startGame.addActionListener(this);
+		startGame.addMouseListener(this);
+		add(startGame);
+		
+	
 		
 		
 	}
@@ -87,27 +106,12 @@ public class menue extends JFrame implements ActionListener , MouseListener{
 		this.MouseON = MouseON;
 	}
 	
-	public boolean grtMouseON()
+	public boolean getMouseON()
 	{
 		return MouseON;
 	}
 	public void gui() {
 		// TODO Auto-generated method stub
-		LVLBuilder= new JButton("LVlBuilder");
-		LVLBuilder.setBounds(250,300,100,100);
-		LVLBuilder.addActionListener(this);
-		LVLBuilder.addMouseListener(this);
-		
-		add(LVLBuilder);
-		
-		startGame = new JButton("Start");
-		startGame.setBounds(180, 100, 100, 100);
-		startGame.addActionListener(this);
-		startGame.addMouseListener(this);
-		add(startGame);
-		
-		repaint();
-		
 		
 		
 		
@@ -117,11 +121,8 @@ public class menue extends JFrame implements ActionListener , MouseListener{
 				
 	}
 	
-	public void update( Graphics g )
-	{
-		System.out.println("Update....");
-		paint(g);
-	}
+	
+	@Override
 	public void paint(Graphics g) {
 
 	
@@ -136,9 +137,7 @@ public class menue extends JFrame implements ActionListener , MouseListener{
 		System.out.println("Bild");
 		}
 		
-		
 		}
-	
 	
 		
 		
