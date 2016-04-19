@@ -18,8 +18,6 @@ import main.Game;
 import resources.Texture;
 
 public class Level {
-	public static final double COLLISION_TOLERANCE = 0;
-
 	private Texture texture;
 
 	private String name;
@@ -80,8 +78,8 @@ public class Level {
 			while (line != null) {
 				data = line.split(";");
 
-				xCoords = new ArrayList<>(Arrays.asList(data[0]));
-				yCoords = new ArrayList<>(Arrays.asList(data[1]));
+				xCoords = new ArrayList<String>(Arrays.asList(data[0]));
+				yCoords = new ArrayList<String>(Arrays.asList(data[1]));
 
 				xCoords.remove(0);
 				yCoords.remove(0);
@@ -167,6 +165,7 @@ public class Level {
 
 	public boolean walkable(double x, double y, double width, double height) {
 		for (Polygon polygon : collisionBoxes) {
+			System.out.println(polygon);
 			if (polygon.intersects(x, y, width, height))
 				return false;
 		}

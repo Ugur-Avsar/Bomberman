@@ -11,8 +11,6 @@ import levels.Level;
 import main.Game;
 
 public class Renderer {
-	static int i = 0;
-
 	public static void renderEntity(Level level, List<Entity> entities, Graphics2D g) {
 
 		level.getTexture().render(g, 0, 0, 1920, 1080);
