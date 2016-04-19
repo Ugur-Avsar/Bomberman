@@ -2,15 +2,14 @@ package rendering;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.util.List;
 
-import entities.DynamicEntity;
 import entities.Entity;
 import entities.StaticEntity;
 import levels.Level;
 import main.Game;
-import resources.Texture;
 
 public class Renderer {
 	static int i = 0;
@@ -29,14 +28,14 @@ public class Renderer {
 			width = (int) (entity.getWidth());
 			height = (int) (entity.getHeight());
 
-			g1.fillRect((int) (entity.getColesion().getX() * Game.SCREEN_SCALING_FACTOR), (int)( entity.getColesion().getY() * Game.SCREEN_SCALING_FACTOR),
-					(int) (entity.getColesion().getWidth() * Game.SCREEN_SCALING_FACTOR-100), (int)( entity.getColesion().getHeight() * Game.SCREEN_SCALING_FACTOR));
 			g1.rotate(Math.toRadians(entity.getRotation()),
 					(int) (x * Game.SCREEN_SCALING_FACTOR) + (int) (width * Game.SCREEN_SCALING_FACTOR) / 2,
 					(int) (y * Game.SCREEN_SCALING_FACTOR) + (int) (height * Game.SCREEN_SCALING_FACTOR) / 2);
 			g1.setColor(Color.BLACK);
-			g1.fillRect((int) (x * Game.SCREEN_SCALING_FACTOR), (int) (y * Game.SCREEN_SCALING_FACTOR),
-					(int) (width * Game.SCREEN_SCALING_FACTOR), (int) (height * Game.SCREEN_SCALING_FACTOR));
+			// g1.fillRect((int) (x * Game.SCREEN_SCALING_FACTOR), (int) (y *
+			// Game.SCREEN_SCALING_FACTOR),
+			// (int) (width * Game.SCREEN_SCALING_FACTOR), (int) (height *
+			// Game.SCREEN_SCALING_FACTOR));
 
 			entity.getTexture().render(g1, x, y, width, height);
 		}
@@ -58,7 +57,7 @@ public class Renderer {
 
 		for (Rectangle box : Game.getLevel().getCollisionBoxes()) {
 			Graphics2D g1 = (Graphics2D) g.create();
-			g1.fillRect((int) box.getX(), (int) box.getY(), (int) box.getWidth(), (int) box.getHeight());
+			g1.fill(box);
 		}
 	}
 }

@@ -7,21 +7,17 @@ import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.JFrame;
 
 import entities.DynamicEntity;
 import entities.Entity;
 import entityComponents.ControledDirectionsMovement;
-import entityComponents.MouseOriented;
 import exceptions.BadFrameSizeException;
-import exceptions.InvalidSpritesheetSizeException;
 import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import levels.Level;
 import rendering.Renderer;
-import resources.Texture;
 
 public final class Game extends Canvas implements Runnable {
 
@@ -57,7 +53,7 @@ public final class Game extends Canvas implements Runnable {
 	private void initGameElements() {
 		entities = new ArrayList<Entity>();
 		DynamicEntity player;
-		player = new DynamicEntity(700, 700, 170, 128, 0, "playerBlue", 2, 2, 4, 3,new Rectangle(100,120));
+		player = new DynamicEntity(700, 700, 170, 128, 0, "playerBlue", 2, 2, 4, 3,null);
 		player.addEntityComponent(new ControledDirectionsMovement(player, 15, VK_A, VK_D, VK_W, VK_S));
 		entities.add(player);
 		level = new Level(new File("./levels/level1.txt"));
@@ -162,6 +158,7 @@ public final class Game extends Canvas implements Runnable {
 		return level;
 	}
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		JFrame f = new JFrame("Game");
 		Game g = new Game(f);

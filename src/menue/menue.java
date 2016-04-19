@@ -106,8 +106,8 @@ public class menue extends JFrame implements ActionListener , MouseListener{
 		startGame.addMouseListener(this);
 		add(startGame);
 		
+		repaint();
 		
-	
 		
 		
 		
