@@ -69,8 +69,9 @@ public class Level {
 		try {
 			String line = reader.readLine();
 			String[] data = null;
-			List<String> xCoords = null;
-			List<String> yCoords = null;
+
+			List<String> xCoords = new ArrayList<String>();
+			List<String> yCoords = new ArrayList<String>();
 
 			int[] xPoints = null;
 			int[] yPoints = null;
@@ -78,8 +79,10 @@ public class Level {
 			while (line != null) {
 				data = line.split(";");
 
-				xCoords = new ArrayList<String>(Arrays.asList(data[0]));
-				yCoords = new ArrayList<String>(Arrays.asList(data[1]));
+				for (String s : data[0].split(","))
+					xCoords.add(s);
+				for (String s : data[1].split(","))
+					yCoords.add(s);
 
 				xCoords.remove(0);
 				yCoords.remove(0);
@@ -95,6 +98,8 @@ public class Level {
 				collisionBoxes.add(new Polygon(xPoints, yPoints, xPoints.length));
 
 				line = reader.readLine();
+				xCoords.clear();
+				yCoords.clear();
 			}
 		} catch (IOException | NumberFormatException e) {
 			throw new UnvalidLevelFormatException();

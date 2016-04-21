@@ -27,8 +27,8 @@ public final class Game extends Canvas implements Runnable {
 
 	public static final int DESKTOP_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static final int DESKTOP_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	//public static final int DESKTOP_WIDTH = 1280;
-	//public static final int DESKTOP_HEIGHT = 720;
+	// public static final int DESKTOP_WIDTH = 1280;
+	// public static final int DESKTOP_HEIGHT = 720;
 	public static final float SCREEN_SCALING_FACTOR = (DESKTOP_WIDTH + DESKTOP_HEIGHT) / (1920f + 1080f);
 	public static final int FPS_TARGET = 60;
 	public static final float SPEED_SCALING_FACTOR = FPS_TARGET / 1000;
@@ -52,8 +52,7 @@ public final class Game extends Canvas implements Runnable {
 
 	private void initGameElements() {
 		entities = new ArrayList<Entity>();
-		DynamicEntity player;
-		player = new DynamicEntity(700, 700, 80, 75, 0, "playerBlue", 2, 2, 4, 3);
+		DynamicEntity player = new DynamicEntity(700, 500, 80, 75, 0, "playerBlue", 2, 2, 4, 3);
 		player.addEntityComponent(new ControledDirectionsMovement(player, 15, VK_A, VK_D, VK_W, VK_S));
 		entities.add(player);
 		level = new Level(new File("./levels/level.txt"));
