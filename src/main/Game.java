@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
@@ -14,10 +15,12 @@ import entities.DynamicEntity;
 import entities.Entity;
 import entityComponents.ControledDirectionsMovement;
 import exceptions.BadFrameSizeException;
+import exceptions.InvalidSpritesheetSizeException;
 import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import levels.Level;
 import rendering.Renderer;
+import resources.Spritesheet;
 
 public final class Game extends Canvas implements Runnable {
 
@@ -52,7 +55,7 @@ public final class Game extends Canvas implements Runnable {
 
 	private void initGameElements() {
 		entities = new ArrayList<Entity>();
-		DynamicEntity player = new DynamicEntity(700, 500, 80, 75, 0, "playerBlue", 2, 2, 4, 3);
+		DynamicEntity player = new DynamicEntity(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
 		player.addEntityComponent(new ControledDirectionsMovement(player, 15, VK_A, VK_D, VK_W, VK_S));
 		entities.add(player);
 		level = new Level(new File("./levels/level.txt"));
@@ -128,8 +131,13 @@ public final class Game extends Canvas implements Runnable {
 				System.out.println("-----------------------------------------------------");
 			}
 			// String[] tex = new String[] { "Red", "Blue", "Green", "Yellow" };
-			// ((DynamicEntity) entities.get(0)).getSpritesheet()
-			// .loadSpritesheet("player" + tex[new Random().nextInt(4)]);
+			// try {
+			// ((Spritesheet)
+			// entities.get(0).getTexture()).loadSpritesheet("player" + tex[new
+			// Random().nextInt(4)]);
+			// } catch (InvalidSpritesheetSizeException e) {
+			// e.printStackTrace();
+			// }
 		}
 	}
 
@@ -137,17 +145,15 @@ public final class Game extends Canvas implements Runnable {
 		////////////////////////////////// RENDER PART
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 1920, 1080);
-		for (Entity e : entities) {
-			Renderer.renderEntity(level, entities, g);
-		}
+		Renderer.renderEntity(level, entities, g);
 		//////////////////////////////////
 		bs.show();
 	}
 
 	private void tick() {
-		Mouse.update();
 		for (Entity e : entities)
 			e.update();
+		;
 	}
 
 	/**
@@ -157,7 +163,6 @@ public final class Game extends Canvas implements Runnable {
 		return level;
 	}
 
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		JFrame f = new JFrame("Game");
 		Game g = new Game(f);

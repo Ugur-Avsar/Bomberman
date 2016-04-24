@@ -1,0 +1,9 @@
+[LEVELNAME]
+[MAX-PLAYER-COUNT]
+[LEVEL-BACKGROUND-TEXTURE PATH]
+,x,x,x,x,x,x;,y,y,y,y,y,y
+,x,x,x,x,x,x;,y,y,y,y,y,y
+,x,x,x,x,x,x;,y,y,y,y,y,y
+,x,x,x,x,x,x;,y,y,y,y,y,y
+,x,x,x,x,x,x;,y,y,y,y,y,y
+/////COLLISION-BOXES\\\\\

@@ -1,37 +1,29 @@
 package inputManagement;
 
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import main.Game;
+import levels.LevelBuilder;
 
-public class Mouse implements MouseWheelListener, MouseListener {
+public class Mouse implements MouseWheelListener, MouseListener, MouseMotionListener {
 	private static double x, y;
-	private static boolean[] buttons;
+	private static boolean[] buttonsPressed;
 
 	// 0: Left Button .... 1: Middle Button .... 2: Right Button
 
 	public Mouse() {
+		super();
 		x = 0;
 		y = 0;
-		buttons = new boolean[3];
+		buttonsPressed = new boolean[3];
 	}
 
-	public static void update() {
-		try {
-			Point mousePoint = Game.parentFrame.getMousePosition();
-			x = mousePoint.getX();
-			y = mousePoint.getY();
-		} catch (NullPointerException e) {
-		}
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-
+	public static void updateCoords() {
+		x = LevelBuilder.getLevelFieldMousePoint().getX();
+		y = LevelBuilder.getLevelFieldMousePoint().getY();
 	}
 
 	@Override
@@ -47,26 +39,26 @@ public class Mouse implements MouseWheelListener, MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
-			buttons[0] = true;
+			buttonsPressed[0] = true;
 		}
 		if (e.getButton() == MouseEvent.BUTTON2) {
-			buttons[1] = true;
+			buttonsPressed[1] = true;
 		}
 		if (e.getButton() == MouseEvent.BUTTON3) {
-			buttons[2] = true;
+			buttonsPressed[2] = true;
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
-			buttons[0] = false;
+			buttonsPressed[0] = false;
 		}
 		if (e.getButton() == MouseEvent.BUTTON2) {
-			buttons[1] = false;
+			buttonsPressed[1] = false;
 		}
 		if (e.getButton() == MouseEvent.BUTTON3) {
-			buttons[2] = false;
+			buttonsPressed[2] = false;
 		}
 	}
 
@@ -76,7 +68,7 @@ public class Mouse implements MouseWheelListener, MouseListener {
 	}
 
 	public static boolean isButtonDown(int buttonID) {
-		return buttons[buttonID];
+		return buttonsPressed[buttonID];
 	}
 
 	/**
@@ -91,5 +83,22 @@ public class Mouse implements MouseWheelListener, MouseListener {
 	 */
 	public static double getY() {
 		return y;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		x = e.getX();
+		y = e.getY();
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		x = e.getX();
+		y = e.getY();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
 	}
 }
