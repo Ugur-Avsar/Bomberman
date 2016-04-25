@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -26,6 +27,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import inputManagement.Keyboard;
+import inputManagement.Mouse;
+import toolbox.ArrayListConverter;
+import toolbox.StringUtils;
 import toolbox.TimeManager;
 
 public class LevelBuilder extends JPanel {
@@ -49,6 +53,8 @@ public class LevelBuilder extends JPanel {
 	private JButton addCollisionBox;
 	private JButton setPlayerSpawnPoint;
 	private JButton exportLevel;
+	private JButton reset;
+	private JButton delete;
 
 	private static List<Polygon> collisionBoxes;
 
@@ -57,26 +63,32 @@ public class LevelBuilder extends JPanel {
 		init();
 		levelField.setDoubleBuffered(true);
 		collisionBoxes = new ArrayList<Polygon>();
-		this.playerCount = 0;
+		background = new Texture("levels/black");
 	}
 
 	private void init() {
-		JPanel buttons = new JPanel(new GridLayout(2, 2));
+		JPanel buttons = new JPanel(new GridLayout(2, 3));
 		editBackground = new JButton("Edit Background");
 		addCollisionBox = new JButton("Add Collision-Box");
 		setPlayerSpawnPoint = new JButton("Add Spawn-Point");
 		exportLevel = new JButton("Export Level");
+		reset = new JButton("Reset Level");
+		delete = new JButton("Delete Collision Box");
 
-		Font f = new Font("Arial", Font.BOLD, 20);
+		Font f = new Font("Arial", Font.BOLD, 15);
 		editBackground.setFont(f);
 		addCollisionBox.setFont(f);
 		setPlayerSpawnPoint.setFont(f);
 		exportLevel.setFont(f);
+		reset.setFont(f);
+		delete.setFont(f);
 
 		buttons.add(editBackground);
 		buttons.add(addCollisionBox);
 		buttons.add(setPlayerSpawnPoint);
 		buttons.add(exportLevel);
+		buttons.add(reset);
+		buttons.add(delete);
 
 		buttons.setBounds(0, 0, LevelBuilder.WIDTH, BUTTON_HEIGHT);
 
@@ -105,7 +117,7 @@ public class LevelBuilder extends JPanel {
 					levelField.addMouseListener(
 							new CoordinateSaver(Integer.parseInt(JOptionPane.showInputDialog("Polygon-Point-Count:"))));
 				} catch (NumberFormatException | HeadlessException e1) {
-					System.err.println(TimeManager.getCurrentTime() + "... Invalid Polygon-Point count entered!!");
+					System.err.println(TimeManager.getCurrentTime() + "... Invalid Polygon-Point count entered!");
 				}
 			}
 		});
@@ -118,10 +130,53 @@ public class LevelBuilder extends JPanel {
 			}
 		});
 
+		reset.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				collisionBoxes.clear();
+				repaintLevel(null, null);
+			}
+		});
+
+		delete.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+
+				Mouse.updateCoords();
+				for (int i = 0; i < collisionBoxes.size(); i++) {
+					if (collisionBoxes.get(i).contains(Mouse.getX(), Mouse.getY())) {
+						System.out.println("---------------------------------------------");
+						System.out.println(TimeManager.getCurrentTime() + "... Collision box deleted from Level: ");
+						System.out.println(ArrayListConverter.toList(collisionBoxes.get(i).xpoints).toString() + "\n"
+								+ ArrayListConverter.toList(collisionBoxes.get(i).ypoints).toString());
+						System.out.println("---------------------------------------------");
+						collisionBoxes.remove(i);
+					}
+				}
+
+				repaintLevel(null, null);
+			}
+		});
+
 		levelField = new JPanel(null);
 		levelField.setBackground(Color.BLACK);
 		levelField.setBounds(0, BUTTON_HEIGHT, WIDTH, HEIGHT);
+
+		Mouse m = new Mouse();
+		levelField.addKeyListener(new Keyboard());
+		levelField.addMouseListener(m);
+		levelField.addMouseMotionListener(m);
+		levelField.addMouseWheelListener(m);
+
 		levelField.setFocusable(true);
+		levelField.requestFocus();
 
 		add(levelField);
 		add(buttons);
@@ -148,15 +203,14 @@ public class LevelBuilder extends JPanel {
 
 		if (xCoords != null && yCoords != null)
 			for (int i = 0; i < xCoords.size(); i++)
-				g.fillOval(xCoords.get(i) - 3, yCoords.get(i) - 3, 6, 6);
-
+				g.fillOval(xCoords.get(i) - 2, yCoords.get(i) - 2, 4, 4);
 	}
 
 	/**
 	 * @return the background
 	 */
 	public void setBG(Texture bg) {
-		this.background = bg;
+		background = bg;
 		System.out.println(
 				TimeManager.getCurrentTime() + "... Level background changed to: " + bg.getFilename() + ".png");
 		repaintLevel(null, null);
@@ -168,6 +222,12 @@ public class LevelBuilder extends JPanel {
 
 	public static void exportLevel() {
 		String exportName = JOptionPane.showInputDialog(levelField.getParent(), "Enter Level-Name:");
+
+		if (exportName == null || StringUtils.containsSpecialChars(exportName)) {
+			System.err.println(TimeManager.getCurrentTime() + "... Invalid Level-Name!");
+			return;
+		}
+
 		BufferedWriter writer = null;
 		try {
 			writer = new BufferedWriter(new FileWriter(LEVEL_EXPORT_FOLDER.getPath() + "/" + exportName + ".txt"));
@@ -192,7 +252,6 @@ public class LevelBuilder extends JPanel {
 				for (int i : yCoords) {
 					writer.write("," + (int) (i * FULLHD_SCLAING_FACTOR));
 				}
-
 				writer.newLine();
 			}
 			writer.close();
@@ -205,6 +264,13 @@ public class LevelBuilder extends JPanel {
 
 	public static void setPlayerCount() {
 		playerCount = Integer.parseInt(JOptionPane.showInputDialog(levelField.getParent(), "Enter Player-Count:"));
+	}
+
+	/**
+	 * @return the levelFields Mouse-Coordinates
+	 */
+	public static Point getLevelFieldMousePoint() {
+		return levelField.getMousePosition();
 	}
 
 	public static void main(String[] args) {
@@ -226,7 +292,8 @@ public class LevelBuilder extends JPanel {
 		f.setSize(LevelBuilder.WIDTH + 6, LevelBuilder.BUTTON_HEIGHT + LevelBuilder.HEIGHT + 35);
 		f.setLocationRelativeTo(null);
 		f.setResizable(false);
-		f.add(new LevelBuilder());
+		LevelBuilder l = new LevelBuilder();
+		f.add(l);
 
 		f.addWindowListener(new WindowAdapter() {
 			@Override
@@ -243,8 +310,6 @@ public class LevelBuilder extends JPanel {
 				System.err.println("---------------------------------------------");
 			}
 		});
-
-		new Keyboard();
 
 		f.setVisible(true);
 	}
