@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -15,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 
 public class menueAnimation extends JFrame{
@@ -34,7 +37,7 @@ public class menueAnimation extends JFrame{
 		img2 = new ImageIcon(getClass().getResource("Bomberman.png"));
 		setVisible(true);
 		setSize(9000,700);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setTitle("Unser Programm");
 		setResizable(true);
@@ -68,7 +71,7 @@ public class menueAnimation extends JFrame{
 		
 		
 		
-		
+		addWindowListener(new WindowHandler());
 		
 		
 	}
@@ -117,6 +120,58 @@ public class menueAnimation extends JFrame{
 		}
 
 		
+		
+	}
+	
+	private class WindowHandler implements WindowListener{
+
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			// TODO Auto-generated method stub
+		int nummber  =	JOptionPane.showConfirmDialog(menueAnimation.this,"Wollen sie beenden..?","Beenden?",JOptionPane.YES_NO_OPTION);
+			if(nummber== JOptionPane.YES_OPTION)
+			{
+				System.exit(0);
+			}
+			
+			
+		}
+
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}
 
