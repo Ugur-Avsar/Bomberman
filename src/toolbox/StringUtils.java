@@ -1,9 +1,8 @@
 package toolbox;
 
 public class StringUtils {
-	public static final char[] SPECIAL_CHARS = new char[] { ',', ';', ':', '.', ',', '&', '%', '$', '§', '"', '!', '^',
-			'°', '/', '?', '=', '`', '´', '{', '}', '[', ']', '#', 'ü', 'Ü', 'ä', 'Ä', 'ö', 'Ö', '+', '*', '~', '-',
-			'²', '³', '<', '>', '|' };
+	private static final char[] SPECIAL_CHARS = new char[] { ',', ';', ':', '.', '&', '%', '$', '�', '"', '!', '^', '<',
+			'>', '|', '?', '#', '+', '-', '*', '/', '(', ')', '[', ']', '{', '}' };
 
 	public static boolean contains(String s, char c) {
 		return s.indexOf(c) >= 0;

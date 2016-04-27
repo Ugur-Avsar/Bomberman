@@ -262,10 +262,6 @@ public class LevelBuilder extends JPanel {
 		System.out.println(TimeManager.getCurrentTime() + "... Level exported to: ./levels/" + exportName + ".txt");
 	}
 
-	public static void setPlayerCount() {
-		playerCount = Integer.parseInt(JOptionPane.showInputDialog(levelField.getParent(), "Enter Player-Count:"));
-	}
-
 	/**
 	 * @return the levelFields Mouse-Coordinates
 	 */
