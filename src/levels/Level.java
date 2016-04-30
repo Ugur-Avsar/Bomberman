@@ -1,5 +1,6 @@
 package levels;
 
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.io.BufferedReader;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import entities.DynamicEntity;
+import entities.Player;
 import entities.StaticEntity;
 import exceptions.UnvalidLevelFormatException;
 import main.Game;
@@ -21,20 +23,28 @@ public class Level {
 	private Texture texture;
 
 	private String name;
-	private int maxPlayers;
 
 	private List<Polygon> collisionBoxes;
-	private List<StaticEntity> entities;
-	private List<DynamicEntity> players;
+	private List<Point> playerSpawns;
+
+	private List<Player> players;
 
 	public Level(File levelFile) {
-		players = new ArrayList<DynamicEntity>();
-		entities = new ArrayList<StaticEntity>();
+		playerSpawns = new ArrayList<Point>();
 		collisionBoxes = new ArrayList<Polygon>();
+		players = new ArrayList<Player>();
 		try {
 			initLevel(levelFile);
 		} catch (UnvalidLevelFormatException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void addPlayer(Player player) {
+		if (players.size() < playerSpawns.size()) {
+			player.setX(playerSpawns.get(players.size()).getX() - player.getWidth() / 2);
+			player.setY(playerSpawns.get(players.size()).getY() - player.getHeight() / 2);
+			players.add(player);
 		}
 	}
 
@@ -49,14 +59,14 @@ public class Level {
 
 		try {
 			this.name = reader.readLine();
-			this.maxPlayers = Integer.parseInt(reader.readLine());
+			this.playerSpawns = new ArrayList<Point>(Integer.parseInt(reader.readLine()));
 			this.texture = new Texture(reader.readLine());
 		} catch (IOException | NumberFormatException e) {
 			throw new UnvalidLevelFormatException();
 		}
 
-		// initEntities(reader);
 		initCollisionBoxes(reader);
+		initPlayerSpawns(reader);
 
 		try {
 			reader.close();
@@ -68,7 +78,7 @@ public class Level {
 	private void initCollisionBoxes(BufferedReader reader) throws UnvalidLevelFormatException {
 		try {
 			String line = reader.readLine();
-			String[] data = null;
+			String[] data = line.split(";");
 
 			List<String> xCoords = new ArrayList<String>();
 			List<String> yCoords = new ArrayList<String>();
@@ -76,13 +86,16 @@ public class Level {
 			int[] xPoints = null;
 			int[] yPoints = null;
 
-			while (line != null) {
+			while (line != null && !line.equals("")) {
 				data = line.split(";");
-
-				for (String s : data[0].split(","))
+				for (String s : data[0].split(",")) {
 					xCoords.add(s);
-				for (String s : data[1].split(","))
+					System.out.println(s);
+				}
+				for (String s : data[1].split(",")) {
 					yCoords.add(s);
+					System.out.println(s);
+				}
 
 				xCoords.remove(0);
 				yCoords.remove(0);
@@ -106,38 +119,21 @@ public class Level {
 		}
 	}
 
-	// private void initEntities(BufferedReader reader) throws
-	// UnvalidLevelFormatException {
-	// try {
-	// String line = reader.readLine();
-	// String[] data = null;
-	// StaticEntity currentEntity = null;
-	//
-	// while (line != null && !line.equals("COLLISION")) {
-	// data = line.split(";");
-	//
-	// currentEntity = new StaticEntity(Double.parseDouble(data[0]),
-	// Double.parseDouble(data[1]),
-	// Integer.parseInt(data[2]), Integer.parseInt(data[3]),
-	// Double.parseDouble(data[4]), data[5]);
-	// entities.add(currentEntity);
-	//
-	// line = reader.readLine();
-	// }
-	// } catch (IOException | NumberFormatException e) {
-	// throw new UnvalidLevelFormatException();
-	// }
-	// }
-	//
-	// public boolean walkable(double x, double y, double width, double height)
-	// {
-	// for (Rectangle rectangle : collisionBoxes)
-	// if (rectangle.intersects(x - COLLISION_TOLERANCE, y -
-	// COLLISION_TOLERANCE, width + COLLISION_TOLERANCE,
-	// height + COLLISION_TOLERANCE))
-	// return false;
-	// return true;
-	// }
+	private void initPlayerSpawns(BufferedReader reader) throws UnvalidLevelFormatException {
+		try {
+			String line = reader.readLine();
+			String[] data = null;
+
+			while (line != null) {
+				data = line.split("/");
+				playerSpawns.add(new Point(Integer.parseInt(data[0]), Integer.parseInt(data[1])));
+
+				line = reader.readLine();
+			}
+		} catch (IOException | NumberFormatException e) {
+			throw new UnvalidLevelFormatException();
+		}
+	}
 
 	/**
 	 * @return the texture
@@ -155,13 +151,6 @@ public class Level {
 	}
 
 	/**
-	 * @return the entities
-	 */
-	public List<StaticEntity> getEntities() {
-		return entities;
-	}
-
-	/**
 	 * @return the collisionBoxes
 	 */
 	public List<Polygon> getCollisionBoxes() {
@@ -174,5 +163,15 @@ public class Level {
 				return false;
 		}
 		return true;
+	}
+
+	public void update() {
+		for (Player player : players) {
+			player.update();
+		}
+	}
+
+	public List<Player> getPlayers() {
+		return players;
 	}
 }

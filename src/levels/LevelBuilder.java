@@ -56,6 +56,7 @@ public class LevelBuilder extends JPanel {
 	private JButton reset;
 	private JButton delete;
 
+	private static List<Point> playerSpawns;
 	private static List<Polygon> collisionBoxes;
 
 	public LevelBuilder() {
@@ -63,6 +64,7 @@ public class LevelBuilder extends JPanel {
 		init();
 		levelField.setDoubleBuffered(true);
 		collisionBoxes = new ArrayList<Polygon>();
+		playerSpawns = new ArrayList<Point>();
 		background = new Texture("levels/black");
 	}
 
@@ -165,6 +167,23 @@ public class LevelBuilder extends JPanel {
 			}
 		});
 
+		setPlayerSpawnPoint.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+
+				Mouse.updateCoords();
+				playerSpawns.add(new Point((int) Mouse.getX(), (int) Mouse.getY()));
+
+				repaintLevel(null, null);
+			}
+		});
+
 		levelField = new JPanel(null);
 		levelField.setBackground(Color.BLACK);
 		levelField.setBounds(0, BUTTON_HEIGHT, WIDTH, HEIGHT);
@@ -233,7 +252,7 @@ public class LevelBuilder extends JPanel {
 			writer = new BufferedWriter(new FileWriter(LEVEL_EXPORT_FOLDER.getPath() + "/" + exportName + ".txt"));
 			writer.write(exportName);
 			writer.newLine();
-			writer.write(playerCount + "");
+			writer.write(playerSpawns.size() + "");
 			writer.newLine();
 			writer.write(background.getFilename());
 			writer.newLine();
@@ -252,6 +271,16 @@ public class LevelBuilder extends JPanel {
 				for (int i : yCoords) {
 					writer.write("," + (int) (i * FULLHD_SCLAING_FACTOR));
 				}
+				writer.newLine();
+			}
+			writer.newLine();
+			for (Point point : playerSpawns) {
+				int x = (int) point.getX();
+				int y = (int) point.getY();
+
+				writer.write("" + ((int) (x * FULLHD_SCLAING_FACTOR)));
+				writer.write('/');
+				writer.write("" + ((int) (y * FULLHD_SCLAING_FACTOR)));
 				writer.newLine();
 			}
 			writer.close();

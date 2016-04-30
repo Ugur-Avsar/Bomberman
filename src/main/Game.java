@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 
 import entities.DynamicEntity;
 import entities.Entity;
+import entities.Player;
 import entityComponents.ControledDirectionsMovement;
 import exceptions.BadFrameSizeException;
 import exceptions.InvalidSpritesheetSizeException;
@@ -41,7 +42,6 @@ public final class Game extends Canvas implements Runnable {
 	public static JFrame parentFrame;
 	private boolean running;
 	//////////////////////////////////////////////////////// GAME Elements
-	private ArrayList<Entity> entities;
 	private static Level level;
 
 	public Game(JFrame parentFrame) {
@@ -54,11 +54,27 @@ public final class Game extends Canvas implements Runnable {
 	}
 
 	private void initGameElements() {
-		entities = new ArrayList<Entity>();
-		DynamicEntity player = new DynamicEntity(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
-		player.addEntityComponent(new ControledDirectionsMovement(player, 15, VK_A, VK_D, VK_W, VK_S));
-		entities.add(player);
 		level = new Level(new File("./levels/level.txt"));
+
+		Player player1 = new Player(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
+		player1.addEntityComponent(new ControledDirectionsMovement(player1, 15, VK_A, VK_D, VK_W, VK_S));
+		level.addPlayer(player1);
+
+		Player player2 = new Player(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
+		player2.addEntityComponent(new ControledDirectionsMovement(player2, 15, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN));
+		level.addPlayer(player2);
+
+		Player player3 = new Player(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
+		player3.addEntityComponent(new ControledDirectionsMovement(player3, 15, VK_A, VK_D, VK_W, VK_S));
+		level.addPlayer(player3);
+
+		Player player4 = new Player(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
+		player4.addEntityComponent(new ControledDirectionsMovement(player4, 15, VK_A, VK_D, VK_W, VK_S));
+		level.addPlayer(player4);
+		
+		Player player5 = new Player(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
+		player5.addEntityComponent(new ControledDirectionsMovement(player5, 15, VK_A, VK_D, VK_W, VK_S));
+		level.addPlayer(player5);
 	}
 
 	public boolean isRunning() {
@@ -145,15 +161,13 @@ public final class Game extends Canvas implements Runnable {
 		////////////////////////////////// RENDER PART
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 1920, 1080);
-		Renderer.renderEntity(level, entities, g);
+		Renderer.renderEntity(level, g);
 		//////////////////////////////////
 		bs.show();
 	}
 
 	private void tick() {
-		for (Entity e : entities)
-			e.update();
-		;
+		level.update();
 	}
 
 	/**
