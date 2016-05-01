@@ -5,13 +5,13 @@ import resources.Spritesheet;
 
 public class DynamicEntity extends Entity {
 
-	private double maxXSpeed;
-	private double maxYSpeed;
+	protected double maxXSpeed;
+	protected double maxYSpeed;
 
-	private double currentXSpeed;
-	private double currentYSpeed;
+	protected double currentXSpeed;
+	protected double currentYSpeed;
 
-	private int direction;
+	protected int direction;
 
 	/**
 	 * @param x

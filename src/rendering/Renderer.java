@@ -1,12 +1,9 @@
 package rendering;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.util.List;
 
 import entities.Entity;
-import entities.StaticEntity;
 import levels.Level;
 import main.Game;
 
