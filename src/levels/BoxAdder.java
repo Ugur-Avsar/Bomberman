@@ -8,12 +8,12 @@ import java.util.List;
 
 import toolbox.TimeManager;
 
-public class CoordinateSaver implements MouseListener {
+public class BoxAdder implements MouseListener {
 	private List<Integer> xCoords;
 	private List<Integer> yCoords;
 	private int countPointMax;
 
-	public CoordinateSaver(int maxPointCount) {
+	public BoxAdder(int maxPointCount) {
 		xCoords = new ArrayList<Integer>();
 		yCoords = new ArrayList<Integer>();
 		countPointMax = 0;
@@ -25,6 +25,7 @@ public class CoordinateSaver implements MouseListener {
 		if (xCoords.size() < countPointMax) {
 			xCoords.add(e.getX());
 			yCoords.add(e.getY());
+			LevelBuilder.repaintLevel(xCoords, yCoords);
 		}
 
 		if (xCoords.size() >= countPointMax) {
@@ -37,14 +38,14 @@ public class CoordinateSaver implements MouseListener {
 			}
 			Polygon p = new Polygon(xpoints, ypoints, xpoints.length);
 			LevelBuilder.addCollisionBox(p);
-			LevelBuilder.removeCoordSaver(this);
+			LevelBuilder.removeMouseListenerFromLevel(this);
 
 			System.out.println("---------------------------------------------");
 			System.out.println(TimeManager.getCurrentTime() + "... Collision box added to Level: ");
 			System.out.println(xCoords + "\n" + yCoords);
 			System.out.println("---------------------------------------------");
+			LevelBuilder.repaintLevel(null, null);
 		}
-		LevelBuilder.repaintLevel(xCoords, yCoords);
 	}
 
 	@Override

@@ -1,27 +1,41 @@
 package main;
 
-import static java.awt.event.KeyEvent.*;
+import static java.awt.event.KeyEvent.VK_A;
+import static java.awt.event.KeyEvent.VK_D;
+import static java.awt.event.KeyEvent.VK_DOWN;
+import static java.awt.event.KeyEvent.VK_G;
+import static java.awt.event.KeyEvent.VK_H;
+import static java.awt.event.KeyEvent.VK_J;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_NUMPAD4;
+import static java.awt.event.KeyEvent.VK_NUMPAD5;
+import static java.awt.event.KeyEvent.VK_NUMPAD6;
+import static java.awt.event.KeyEvent.VK_NUMPAD8;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_S;
+import static java.awt.event.KeyEvent.VK_UP;
+import static java.awt.event.KeyEvent.VK_W;
+import static java.awt.event.KeyEvent.VK_Z;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.JFrame;
 
-import entities.DynamicEntity;
-import entities.Entity;
 import entities.Player;
 import entityComponents.ControledDirectionsMovement;
 import exceptions.BadFrameSizeException;
-import exceptions.InvalidSpritesheetSizeException;
 import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import levels.Level;
 import rendering.Renderer;
-import resources.Spritesheet;
 
 public final class Game extends Canvas implements Runnable {
 
@@ -35,7 +49,6 @@ public final class Game extends Canvas implements Runnable {
 	// public static final int DESKTOP_HEIGHT = 720;
 	public static final float SCREEN_SCALING_FACTOR = (DESKTOP_WIDTH + DESKTOP_HEIGHT) / (1920f + 1080f);
 	public static final int FPS_TARGET = 60;
-	public static final float SPEED_SCALING_FACTOR = FPS_TARGET / 1000;
 
 	private BufferStrategy bs;
 	private Graphics2D g;
@@ -56,25 +69,24 @@ public final class Game extends Canvas implements Runnable {
 	private void initGameElements() {
 		level = new Level(new File("./levels/level.txt"));
 
-		Player player1 = new Player(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
+		final int playerW = 50;
+		final int playerH = 50;
+		Player player1 = new Player(0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3);
 		player1.addEntityComponent(new ControledDirectionsMovement(player1, 15, VK_A, VK_D, VK_W, VK_S));
 		level.addPlayer(player1);
 
-		Player player2 = new Player(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
+		Player player2 = new Player(0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3);
 		player2.addEntityComponent(new ControledDirectionsMovement(player2, 15, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN));
 		level.addPlayer(player2);
 
-		Player player3 = new Player(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
-		player3.addEntityComponent(new ControledDirectionsMovement(player3, 15, VK_A, VK_D, VK_W, VK_S));
+		Player player3 = new Player(0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3);
+		player3.addEntityComponent(new ControledDirectionsMovement(player3, 15, VK_G, VK_J, VK_Z, VK_H));
 		level.addPlayer(player3);
 
-		Player player4 = new Player(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
-		player4.addEntityComponent(new ControledDirectionsMovement(player4, 15, VK_A, VK_D, VK_W, VK_S));
+		Player player4 = new Player(0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3);
+		player4.addEntityComponent(
+				new ControledDirectionsMovement(player4, 15, VK_NUMPAD4, VK_NUMPAD6, VK_NUMPAD8, VK_NUMPAD5));
 		level.addPlayer(player4);
-		
-		Player player5 = new Player(700, 500, 80, 75, 0, "playerRed", 2, 2, 4, 3);
-		player5.addEntityComponent(new ControledDirectionsMovement(player5, 15, VK_A, VK_D, VK_W, VK_S));
-		level.addPlayer(player5);
 	}
 
 	public boolean isRunning() {

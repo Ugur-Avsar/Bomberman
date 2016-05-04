@@ -10,10 +10,13 @@ import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -42,8 +46,8 @@ public class LevelBuilder extends JPanel {
 	private static final File LEVEL_EXPORT_FOLDER = new File("./levels/");
 
 	private static final double FULLHD_SCLAING_FACTOR = 3000.0 / (WIDTH + HEIGHT);
+	private static final double HD_SCLAING_FACTOR = (WIDTH + HEIGHT) / 3000.0;
 
-	private static int playerCount;
 	private static Texture background;
 
 	private static JPanel levelField;
@@ -53,7 +57,7 @@ public class LevelBuilder extends JPanel {
 	private JButton addCollisionBox;
 	private JButton setPlayerSpawnPoint;
 	private JButton exportLevel;
-	private JButton reset;
+	private JButton openLevel;
 	private JButton delete;
 
 	private static List<Point> playerSpawns;
@@ -74,7 +78,7 @@ public class LevelBuilder extends JPanel {
 		addCollisionBox = new JButton("Add Collision-Box");
 		setPlayerSpawnPoint = new JButton("Add Spawn-Point");
 		exportLevel = new JButton("Export Level");
-		reset = new JButton("Reset Level");
+		openLevel = new JButton("Open Level");
 		delete = new JButton("Delete Collision Box");
 
 		Font f = new Font("Arial", Font.BOLD, 15);
@@ -82,14 +86,14 @@ public class LevelBuilder extends JPanel {
 		addCollisionBox.setFont(f);
 		setPlayerSpawnPoint.setFont(f);
 		exportLevel.setFont(f);
-		reset.setFont(f);
+		openLevel.setFont(f);
 		delete.setFont(f);
 
 		buttons.add(editBackground);
 		buttons.add(addCollisionBox);
 		buttons.add(setPlayerSpawnPoint);
 		buttons.add(exportLevel);
-		buttons.add(reset);
+		buttons.add(openLevel);
 		buttons.add(delete);
 
 		buttons.setBounds(0, 0, LevelBuilder.WIDTH, BUTTON_HEIGHT);
@@ -116,8 +120,8 @@ public class LevelBuilder extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					levelField.addMouseListener(
-							new CoordinateSaver(Integer.parseInt(JOptionPane.showInputDialog("Polygon-Point-Count:"))));
+					addMouseListenerToLevel(
+							new BoxAdder(Integer.parseInt(JOptionPane.showInputDialog("Polygon-Point-Count:"))));
 				} catch (NumberFormatException | HeadlessException e1) {
 					System.err.println(TimeManager.getCurrentTime() + "... Invalid Polygon-Point count entered!");
 				}
@@ -132,11 +136,11 @@ public class LevelBuilder extends JPanel {
 			}
 		});
 
-		reset.addActionListener(new ActionListener() {
+		openLevel.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				collisionBoxes.clear();
+				loadLevel(JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(getParent()), "Level-Name:"));
 				repaintLevel(null, null);
 			}
 		});
@@ -145,25 +149,7 @@ public class LevelBuilder extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-
-				Mouse.updateCoords();
-				for (int i = 0; i < collisionBoxes.size(); i++) {
-					if (collisionBoxes.get(i).contains(Mouse.getX(), Mouse.getY())) {
-						System.out.println("---------------------------------------------");
-						System.out.println(TimeManager.getCurrentTime() + "... Collision box deleted from Level: ");
-						System.out.println(ArrayListConverter.toList(collisionBoxes.get(i).xpoints).toString() + "\n"
-								+ ArrayListConverter.toList(collisionBoxes.get(i).ypoints).toString());
-						System.out.println("---------------------------------------------");
-						collisionBoxes.remove(i);
-					}
-				}
-
-				repaintLevel(null, null);
+				addMouseListenerToLevel(new BoxRemover());
 			}
 		});
 
@@ -171,16 +157,7 @@ public class LevelBuilder extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-
-				Mouse.updateCoords();
-				playerSpawns.add(new Point((int) Mouse.getX(), (int) Mouse.getY()));
-
-				repaintLevel(null, null);
+				addMouseListenerToLevel(new SpawnAdder());
 			}
 		});
 
@@ -201,8 +178,83 @@ public class LevelBuilder extends JPanel {
 		add(buttons);
 	}
 
-	public static void removeCoordSaver(CoordinateSaver c) {
+	public static void removeMouseListenerFromLevel(MouseListener c) {
 		levelField.removeMouseListener(c);
+	}
+
+	public static void addMouseListenerToLevel(MouseListener c) {
+		levelField.addMouseListener(c);
+	}
+
+	public static void addSpawn(int x, int y) {
+		playerSpawns.add(new Point(x, y));
+	}
+
+	public static void removeBox(int x, int y) {
+		for (Polygon polygon : collisionBoxes) {
+			if (polygon.contains(x, y)) {
+				collisionBoxes.remove(polygon);
+				break;
+			}
+		}
+	}
+
+	// HIER// HIER// HIER// HIER// HIER// HIER// HIER// HIER
+	public static void loadLevel(String levelName) {
+		File level = new File("./levels/" + levelName + ".txt");
+		if (level.isFile() && level.exists()) {
+			playerSpawns.clear();
+			collisionBoxes.clear();
+			background = null;
+			BufferedReader reader = null;
+			try {
+				reader = new BufferedReader(new FileReader(level));
+				reader.readLine();
+				reader.readLine();
+				background = new Texture(reader.readLine());
+
+				String[] data = null;
+				String[] xCoordsSArr = null;
+				String[] yCoordsSArr = null;
+
+				int[] xCoords = null;
+				int[] yCoords = null;
+
+				List<String> xCoordsSList = null;
+				List<String> yCoordsSList = null;
+				for (String line = reader.readLine(); line != null && !line.equals(""); line = reader.readLine()) {
+					data = line.split(";");
+					System.out.println(line);
+					xCoordsSArr = data[0].split(",");
+					yCoordsSArr = data[1].split(",");
+
+					xCoordsSList = ArrayListConverter.toList(xCoordsSArr);
+					yCoordsSList = ArrayListConverter.toList(yCoordsSArr);
+					xCoordsSList.remove(0);
+					yCoordsSList.remove(0);
+
+					xCoords = ArrayListConverter.stringArrayToIntArray(ArrayListConverter.toArray(xCoordsSList));
+					yCoords = ArrayListConverter.stringArrayToIntArray(ArrayListConverter.toArray(yCoordsSList));
+
+					xCoords = ArrayListConverter.calculate(xCoords, '*', HD_SCLAING_FACTOR);
+					yCoords = ArrayListConverter.calculate(yCoords, '*', HD_SCLAING_FACTOR);
+
+					collisionBoxes.add(new Polygon(xCoords, yCoords, Math.min(xCoords.length, yCoords.length)));
+				}
+
+				int x = 0;
+				int y = 0;
+				for (String line = reader.readLine(); line != null && !line.equals(""); line = reader.readLine()) {
+					playerSpawns.add(new Point((int) (Integer.parseInt(line.split("/")[0]) * HD_SCLAING_FACTOR),
+							(int) (Integer.parseInt(line.split("/")[1]) * HD_SCLAING_FACTOR)));
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
 	}
 
 	public static void repaintLevel(List<Integer> xCoords, List<Integer> yCoords) {
@@ -216,8 +268,13 @@ public class LevelBuilder extends JPanel {
 			background.render(g, 0, 0, WIDTH, HEIGHT);
 		}
 
+		g.setColor(Color.RED);
 		for (Polygon polygon : collisionBoxes) {
 			g.fillPolygon(polygon);
+		}
+		g.setColor(Color.YELLOW);
+		for (Point point : playerSpawns) {
+			g.fillOval((int) (point.getX() - 2), (int) (point.getY() - 2), 4, 4);
 		}
 
 		if (xCoords != null && yCoords != null)
@@ -289,13 +346,6 @@ public class LevelBuilder extends JPanel {
 		}
 
 		System.out.println(TimeManager.getCurrentTime() + "... Level exported to: ./levels/" + exportName + ".txt");
-	}
-
-	/**
-	 * @return the levelFields Mouse-Coordinates
-	 */
-	public static Point getLevelFieldMousePoint() {
-		return levelField.getMousePosition();
 	}
 
 	public static void main(String[] args) {

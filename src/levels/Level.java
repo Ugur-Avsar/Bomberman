@@ -2,21 +2,16 @@ package levels;
 
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import entities.DynamicEntity;
 import entities.Player;
-import entities.StaticEntity;
 import exceptions.UnvalidLevelFormatException;
-import main.Game;
 import resources.Texture;
 
 public class Level {
@@ -173,5 +168,9 @@ public class Level {
 
 	public List<Player> getPlayers() {
 		return players;
+	}
+
+	public List<Point> getSpawns() {
+		return playerSpawns;
 	}
 }

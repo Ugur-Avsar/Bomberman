@@ -1,6 +1,7 @@
 package rendering;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
 
 import entities.Entity;
@@ -32,6 +33,11 @@ public class Renderer {
 		for (Polygon box : Game.getLevel().getCollisionBoxes()) {
 			Graphics2D g1 = (Graphics2D) g.create();
 			g1.fillPolygon(box);
+		}
+
+		for (Point box : Game.getLevel().getSpawns()) {
+			Graphics2D g1 = (Graphics2D) g.create();
+			g1.fillOval((int) box.getX() - 2, (int) box.getY() - 2, 4, 4);
 		}
 	}
 }

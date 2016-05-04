@@ -6,8 +6,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import levels.LevelBuilder;
-
 public class Mouse implements MouseWheelListener, MouseListener, MouseMotionListener {
 	private static double x, y;
 	private static boolean[] buttonsPressed;
@@ -19,11 +17,6 @@ public class Mouse implements MouseWheelListener, MouseListener, MouseMotionList
 		x = 0;
 		y = 0;
 		buttonsPressed = new boolean[3];
-	}
-
-	public static void updateCoords() {
-		x = LevelBuilder.getLevelFieldMousePoint().getX();
-		y = LevelBuilder.getLevelFieldMousePoint().getY();
 	}
 
 	@Override
