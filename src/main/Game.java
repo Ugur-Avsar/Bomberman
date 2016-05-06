@@ -40,8 +40,7 @@ import rendering.Renderer;
 public final class Game extends Canvas implements Runnable {
 
 	private Thread thread;
-
-	public static final String TITLE = "GAME";
+	public static final String TITLE = "Bomberman HD - by Ugur A. & Kevin K.";
 
 	public static final int DESKTOP_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static final int DESKTOP_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -71,15 +70,15 @@ public final class Game extends Canvas implements Runnable {
 
 		final int playerW = 50;
 		final int playerH = 50;
-		Player player1 = new Player(0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3);
+		Player player1 = new Player(0, 0, playerW, playerH, 0, "playerBlue", 2, 2, 4, 3);
 		player1.addEntityComponent(new ControledDirectionsMovement(player1, 15, VK_A, VK_D, VK_W, VK_S));
 		level.addPlayer(player1);
 
-		Player player2 = new Player(0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3);
+		Player player2 = new Player(0, 0, playerW, playerH, 0, "playerYellow", 2, 2, 4, 3);
 		player2.addEntityComponent(new ControledDirectionsMovement(player2, 15, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN));
 		level.addPlayer(player2);
 
-		Player player3 = new Player(0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3);
+		Player player3 = new Player(0, 0, playerW, playerH, 0, "playerGreen", 2, 2, 4, 3);
 		player3.addEntityComponent(new ControledDirectionsMovement(player3, 15, VK_G, VK_J, VK_Z, VK_H));
 		level.addPlayer(player3);
 
@@ -190,7 +189,7 @@ public final class Game extends Canvas implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		JFrame f = new JFrame("Game");
+		JFrame f = new JFrame(TITLE);
 		Game g = new Game(f);
 
 		if (DESKTOP_WIDTH / DESKTOP_HEIGHT != 16 / 9)
