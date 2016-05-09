@@ -104,7 +104,7 @@ public final class Game extends Canvas implements Runnable {
 		if (running)
 			return;
 		running = true;
-		thread = new Thread(this, "POS-Projekt-Thread");
+		thread = new Thread(this, "BombermanHD - Thread");
 		thread.start();
 	}
 

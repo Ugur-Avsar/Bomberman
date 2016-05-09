@@ -3,6 +3,7 @@ package menue;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -28,12 +29,11 @@ public class menueAnimation extends JFrame{
     
    
 	public menueAnimation(){
-		
 		img1 = new ImageIcon(getClass().getResource("Bombe.png"));
 		img2 = new ImageIcon(getClass().getResource("Bomberman.png"));
 		setVisible(true);
 		setSize(9000,700);
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setTitle("Unser Programm");
 		setResizable(true);
@@ -72,7 +72,7 @@ public class menueAnimation extends JFrame{
 		
 	}
 	
-	private class Listener implements java.awt.event.ActionListener , MouseListener{
+	private class Listener implements ActionListener , MouseListener{
 
 		
 		

@@ -1,39 +1,33 @@
 package ugurMenueZumTesten;
 
-import java.awt.Button;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import sound.SoundPlayer;
-import sun.net.www.content.text.plain;
+import javax.swing.border.EmptyBorder;
 
 public class MainMenue extends JPanel {
+
+	public MainMenue() {
+		super(new GridLayout(4, 1, 10, 10));
+		this.setBorder(new EmptyBorder(10, 10, 10, 10));
+		Random r = new Random();
+		for (int i = 0; i < 4; i++) {
+			JPanel panel = new JPanel();
+			panel.setBackground(new Color(r.nextFloat(), r.nextFloat(), r.nextFloat()));
+			add(panel);
+		}
+	}
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Bomberman HD - Menü");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(400, 600);
+		frame.add(new MainMenue());
+		frame.setSize(300, 600);
+		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
-
-		SoundPlayer p1 = new SoundPlayer("mainmusic");
-		SoundPlayer p2 = new SoundPlayer("mainmusic");
-		SoundPlayer p3 = new SoundPlayer("mainmusic");
-
-		Button b = new Button("play");
-		b.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (p1.isPlaying()) {
-					p1.stop();
-				} else
-					p1.play();
-			}
-		});
-
-		frame.add(b);
 		frame.setVisible(true);
 	}
 
