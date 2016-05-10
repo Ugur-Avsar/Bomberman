@@ -13,6 +13,8 @@ public class DynamicEntity extends Entity {
 
 	protected int direction;
 
+	protected Game parent;
+
 	/**
 	 * @param x
 	 * @param y
@@ -21,11 +23,12 @@ public class DynamicEntity extends Entity {
 	 * @param rotation
 	 * @param texture
 	 */
-	public DynamicEntity(int x, int y, int width, int height, double rotation, String spriteSheet, double speedX,
-			double speedY, int rowCount, int colCount) {
+	public DynamicEntity(Game parent, int x, int y, int width, int height, double rotation, String spriteSheet,
+			double speedX, double speedY, int rowCount, int colCount) {
 
 		super(x, y, width, height, rotation, new Spritesheet(spriteSheet, rowCount, colCount));
 
+		this.parent = parent;
 		this.direction = 0;
 		this.setMaxXSpeed(speedX);
 		this.setMaxYSpeed(speedY);
@@ -34,7 +37,7 @@ public class DynamicEntity extends Entity {
 	@Override
 	public void update() {
 		super.update();
-		if (Game.getLevel().walkable(x + currentXSpeed, y + currentYSpeed, width, height)) {
+		if (parent.getLevel().walkable(x + currentXSpeed, y + currentYSpeed, width, height)) {
 			moveX(currentXSpeed);
 			moveY(currentYSpeed);
 		}

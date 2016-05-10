@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entities.Player;
-import exceptions.UnvalidLevelFormatException;
+import exceptions.InvalidLevelFormatException;
 import resources.Texture;
 
 public class Level {
@@ -30,7 +30,7 @@ public class Level {
 		players = new ArrayList<Player>();
 		try {
 			initLevel(levelFile);
-		} catch (UnvalidLevelFormatException e) {
+		} catch (InvalidLevelFormatException e) {
 			e.printStackTrace();
 		}
 	}
@@ -43,7 +43,7 @@ public class Level {
 		}
 	}
 
-	private void initLevel(File levelFile) throws UnvalidLevelFormatException {
+	private void initLevel(File levelFile) throws InvalidLevelFormatException {
 		BufferedReader reader = null;
 
 		try {
@@ -57,7 +57,7 @@ public class Level {
 			this.playerSpawns = new ArrayList<Point>(Integer.parseInt(reader.readLine()));
 			this.texture = new Texture(reader.readLine());
 		} catch (IOException | NumberFormatException e) {
-			throw new UnvalidLevelFormatException();
+			throw new InvalidLevelFormatException();
 		}
 
 		initCollisionBoxes(reader);
@@ -70,7 +70,7 @@ public class Level {
 		}
 	}
 
-	private void initCollisionBoxes(BufferedReader reader) throws UnvalidLevelFormatException {
+	private void initCollisionBoxes(BufferedReader reader) throws InvalidLevelFormatException {
 		try {
 			String line = reader.readLine();
 			String[] data = line.split(";");
@@ -110,11 +110,11 @@ public class Level {
 				yCoords.clear();
 			}
 		} catch (IOException | NumberFormatException e) {
-			throw new UnvalidLevelFormatException();
+			throw new InvalidLevelFormatException();
 		}
 	}
 
-	private void initPlayerSpawns(BufferedReader reader) throws UnvalidLevelFormatException {
+	private void initPlayerSpawns(BufferedReader reader) throws InvalidLevelFormatException {
 		try {
 			String line = reader.readLine();
 			String[] data = null;
@@ -126,7 +126,7 @@ public class Level {
 				line = reader.readLine();
 			}
 		} catch (IOException | NumberFormatException e) {
-			throw new UnvalidLevelFormatException();
+			throw new InvalidLevelFormatException();
 		}
 	}
 

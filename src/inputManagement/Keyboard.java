@@ -36,9 +36,6 @@ import java.util.Set;
 public class Keyboard implements KeyListener {
 
 	private static Map<Integer, Key> keys;
-	public static final int[] keyIDs = new int[] { VK_ESCAPE, VK_SPACE, VK_ENTER, VK_TAB, VK_SHIFT, VK_CONTROL, VK_ALT,
-			VK_RIGHT, VK_LEFT, VK_UP, VK_DOWN, VK_W, VK_A, VK_S, VK_D, VK_E, VK_Q, VK_G, VK_Z, VK_J, VK_H, VK_NUMPAD4,
-			VK_NUMPAD6, VK_NUMPAD5, VK_NUMPAD8 };
 
 	public Keyboard() {
 		keys = new HashMap<Integer, Key>();
@@ -46,6 +43,10 @@ public class Keyboard implements KeyListener {
 	}
 
 	private void initKeys() {
+		final int[] keyIDs = new int[] { VK_ESCAPE, VK_SPACE, VK_ENTER, VK_TAB, VK_SHIFT, VK_CONTROL, VK_ALT, VK_RIGHT,
+				VK_LEFT, VK_UP, VK_DOWN, VK_W, VK_A, VK_S, VK_D, VK_E, VK_Q, VK_G, VK_Z, VK_J, VK_H, VK_NUMPAD4,
+				VK_NUMPAD6, VK_NUMPAD5, VK_NUMPAD8 };
+
 		for (int id : keyIDs) {
 			keys.put(id, new Key(false));
 		}

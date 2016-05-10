@@ -64,4 +64,23 @@ public class SoundPlayer {
 			e.printStackTrace();
 		}
 	}
+
+	public static void main(String[] args) {
+		SoundPlayer player = new SoundPlayer("mainmusic");
+		try {
+			player.play();
+			Thread.sleep(3000);
+			player.pause();
+			Thread.sleep(1000);
+			player.play();
+			Thread.sleep(1000);
+			player.stop();
+			Thread.sleep(500);
+			player.restart();
+			Thread.sleep(5000);
+			player.stop();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }

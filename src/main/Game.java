@@ -20,6 +20,7 @@ import static java.awt.event.KeyEvent.VK_Z;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Menu;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
@@ -32,16 +33,19 @@ import javax.swing.JFrame;
 import entities.Player;
 import entityComponents.ControledDirectionsMovement;
 import exceptions.BadFrameSizeException;
+import ingameMenu.IngameMenue;
+import ingameMenu.OpenOnEscapeListener;
 import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import levels.Level;
 import rendering.Renderer;
+import resources.Spritesheet;
 
 public final class Game extends Canvas implements Runnable {
 
 	private Thread thread;
-	public static final String TITLE = "Bomberman HD - by Ugur A. & Kevin K.";
 
+	public static final String TITLE = "Bomberman HD - by Ugur A. & Kevin K.";
 	public static final int DESKTOP_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static final int DESKTOP_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	// public static final int DESKTOP_WIDTH = 1280;
@@ -51,18 +55,23 @@ public final class Game extends Canvas implements Runnable {
 
 	private BufferStrategy bs;
 	private Graphics2D g;
-	public static JFrame parentFrame;
+	public JFrame parentFrame;
 	private boolean running;
 	//////////////////////////////////////////////////////// GAME Elements
-	private static Level level;
+	private IngameMenue menu;
+	private Level level;
 
 	public Game(JFrame parentFrame) {
 		super();
-		Game.parentFrame = parentFrame;
+		this.menu = new IngameMenue(this);
+		this.parentFrame = parentFrame;
+		parentFrame.add(menu);
+		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(this, menu);
+		addKeyListener(ooESCListener);
+		menu.addKeyListener(ooESCListener);
 		this.setFocusable(true);
 		this.addKeyListener(new Keyboard());
 		this.addMouseListener(new Mouse());
-		initGameElements();
 	}
 
 	private void initGameElements() {
@@ -70,19 +79,19 @@ public final class Game extends Canvas implements Runnable {
 
 		final int playerW = 50;
 		final int playerH = 50;
-		Player player1 = new Player(0, 0, playerW, playerH, 0, "playerBlue", 2, 2, 4, 3);
+		Player player1 = new Player(this, 0, 0, playerW, playerH, 0, "playerBlue", 2, 2, 4, 3);
 		player1.addEntityComponent(new ControledDirectionsMovement(player1, 15, VK_A, VK_D, VK_W, VK_S));
 		level.addPlayer(player1);
 
-		Player player2 = new Player(0, 0, playerW, playerH, 0, "playerYellow", 2, 2, 4, 3);
+		Player player2 = new Player(this, 0, 0, playerW, playerH, 0, "playerYellow", 2, 2, 4, 3);
 		player2.addEntityComponent(new ControledDirectionsMovement(player2, 15, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN));
 		level.addPlayer(player2);
 
-		Player player3 = new Player(0, 0, playerW, playerH, 0, "playerGreen", 2, 2, 4, 3);
+		Player player3 = new Player(this, 0, 0, playerW, playerH, 0, "playerGreen", 2, 2, 4, 3);
 		player3.addEntityComponent(new ControledDirectionsMovement(player3, 15, VK_G, VK_J, VK_Z, VK_H));
 		level.addPlayer(player3);
 
-		Player player4 = new Player(0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3);
+		Player player4 = new Player(this, 0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3);
 		player4.addEntityComponent(
 				new ControledDirectionsMovement(player4, 15, VK_NUMPAD4, VK_NUMPAD6, VK_NUMPAD8, VK_NUMPAD5));
 		level.addPlayer(player4);
@@ -118,6 +127,7 @@ public final class Game extends Canvas implements Runnable {
 	@Override
 	public void run() {
 		System.err.println("Running...");
+		initGameElements();
 		createBufferStrategy(2);
 		bs = getBufferStrategy();
 		g = (Graphics2D) bs.getDrawGraphics();
@@ -137,7 +147,7 @@ public final class Game extends Canvas implements Runnable {
 			unprocessed += (now - lastTime) / nsPerTick;
 			lastTime = now;
 
-			if (unprocessed >= 1.0) {
+			if (unprocessed >= 1.0 && isEnabled()) {
 				tick();
 				unprocessed--;
 				tps++;
@@ -145,7 +155,7 @@ public final class Game extends Canvas implements Runnable {
 			} else
 				canRender = false;
 
-			if (canRender) {
+			if (canRender && isEnabled()) {
 				render();
 				fps++;
 			}
@@ -157,14 +167,6 @@ public final class Game extends Canvas implements Runnable {
 				tps = 0;
 				System.out.println("-----------------------------------------------------");
 			}
-			// String[] tex = new String[] { "Red", "Blue", "Green", "Yellow" };
-			// try {
-			// ((Spritesheet)
-			// entities.get(0).getTexture()).loadSpritesheet("player" + tex[new
-			// Random().nextInt(4)]);
-			// } catch (InvalidSpritesheetSizeException e) {
-			// e.printStackTrace();
-			// }
 		}
 	}
 
@@ -173,7 +175,7 @@ public final class Game extends Canvas implements Runnable {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 1920, 1080);
 		Renderer.renderEntity(level, g);
-		//////////////////////////////////
+		////////////////////////////////// RENDER PART
 		bs.show();
 	}
 
@@ -184,11 +186,15 @@ public final class Game extends Canvas implements Runnable {
 	/**
 	 * @return the level
 	 */
-	public static Level getLevel() {
+	public Level getLevel() {
 		return level;
 	}
 
 	public static void main(String[] args) {
+		Game.createNewGame();
+	}
+
+	public static Game createNewGame() {
 		JFrame f = new JFrame(TITLE);
 		Game g = new Game(f);
 
@@ -213,7 +219,7 @@ public final class Game extends Canvas implements Runnable {
 		f.add(g);
 		f.setResizable(false);
 		f.setVisible(true);
-		f.requestFocus();
 		g.start();
+		return g;
 	}
 }
