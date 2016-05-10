@@ -5,7 +5,6 @@ import java.awt.Polygon;
 import java.awt.geom.Area;
 
 import entities.Entity;
-import entities.Player;
 import levels.Level;
 import main.Game;
 

@@ -50,8 +50,8 @@ public class LevelBuilder extends JPanel {
 
 	private static Texture background;
 
-	private static JPanel levelField;
-	private static Graphics2D g;
+	private JPanel levelField;
+	private Graphics2D g;
 
 	private JButton editBackground;
 	private JButton addCollisionBox;
@@ -60,8 +60,8 @@ public class LevelBuilder extends JPanel {
 	private JButton openLevel;
 	private JButton delete;
 
-	private static List<Point> playerSpawns;
-	private static List<Polygon> collisionBoxes;
+	private List<Point> playerSpawns;
+	private List<Polygon> collisionBoxes;
 
 	public LevelBuilder() {
 		super(null);
@@ -70,6 +70,10 @@ public class LevelBuilder extends JPanel {
 		collisionBoxes = new ArrayList<Polygon>();
 		playerSpawns = new ArrayList<Point>();
 		background = new Texture("levels/black");
+	}
+
+	public LevelBuilder getThis() {
+		return this;
 	}
 
 	private void init() {
@@ -108,7 +112,7 @@ public class LevelBuilder extends JPanel {
 					levels[i] = levelFiles[i].getName();
 				}
 
-				String input = (String) JOptionPane.showInputDialog(getParent(), "Select Level-Background-Image:",
+				String input = (String) JOptionPane.showInputDialog(getThis(), "Select Level-Background-Image:",
 						"Level-Background Selection", JOptionPane.PLAIN_MESSAGE, null, levels, levels[0]);
 
 				if (input != null)
@@ -120,8 +124,8 @@ public class LevelBuilder extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					addMouseListenerToLevel(
-							new BoxAdder(Integer.parseInt(JOptionPane.showInputDialog("Polygon-Point-Count:"))));
+					addMouseListenerToLevel(new BoxAdder((LevelBuilder) getThis(),
+							Integer.parseInt(JOptionPane.showInputDialog("Polygon-Point-Count:"))));
 				} catch (NumberFormatException | HeadlessException e1) {
 					System.err.println(TimeManager.getCurrentTime() + "... Invalid Polygon-Point count entered!");
 				}
@@ -140,7 +144,7 @@ public class LevelBuilder extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				loadLevel(JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(getParent()), "Level-Name:"));
+				loadLevel(JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(getThis()), "Level-Name:"));
 				repaintLevel(null, null);
 			}
 		});
@@ -149,7 +153,7 @@ public class LevelBuilder extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addMouseListenerToLevel(new BoxRemover());
+				addMouseListenerToLevel(new BoxRemover((LevelBuilder) getThis()));
 			}
 		});
 
@@ -157,7 +161,7 @@ public class LevelBuilder extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addMouseListenerToLevel(new SpawnAdder());
+				addMouseListenerToLevel(new SpawnAdder((LevelBuilder) getThis()));
 			}
 		});
 
@@ -178,19 +182,19 @@ public class LevelBuilder extends JPanel {
 		add(buttons);
 	}
 
-	public static void removeMouseListenerFromLevel(MouseListener c) {
+	public void removeMouseListenerFromLevel(MouseListener c) {
 		levelField.removeMouseListener(c);
 	}
 
-	public static void addMouseListenerToLevel(MouseListener c) {
+	public void addMouseListenerToLevel(MouseListener c) {
 		levelField.addMouseListener(c);
 	}
 
-	public static void addSpawn(int x, int y) {
+	public void addSpawn(int x, int y) {
 		playerSpawns.add(new Point(x, y));
 	}
 
-	public static void removeBox(int x, int y) {
+	public void removeBox(int x, int y) {
 		for (Polygon polygon : collisionBoxes) {
 			if (polygon.contains(x, y)) {
 				collisionBoxes.remove(polygon);
@@ -200,7 +204,7 @@ public class LevelBuilder extends JPanel {
 	}
 
 	// HIER// HIER// HIER// HIER// HIER// HIER// HIER// HIER
-	public static void loadLevel(String levelName) {
+	public void loadLevel(String levelName) {
 		File level = new File("./levels/" + levelName + ".txt");
 		if (level.isFile() && level.exists()) {
 			playerSpawns.clear();
@@ -257,7 +261,7 @@ public class LevelBuilder extends JPanel {
 
 	}
 
-	public static void repaintLevel(List<Integer> xCoords, List<Integer> yCoords) {
+	public void repaintLevel(List<Integer> xCoords, List<Integer> yCoords) {
 		g = (Graphics2D) levelField.getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -292,11 +296,11 @@ public class LevelBuilder extends JPanel {
 		repaintLevel(null, null);
 	}
 
-	public static void addCollisionBox(Polygon box) {
+	public void addCollisionBox(Polygon box) {
 		collisionBoxes.add(box);
 	}
 
-	public static void exportLevel() {
+	public void exportLevel() {
 		String exportName = JOptionPane.showInputDialog(levelField.getParent(), "Enter Level-Name:");
 
 		if (exportName == null || StringUtils.containsSpecialChars(exportName)) {

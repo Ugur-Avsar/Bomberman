@@ -5,11 +5,17 @@ import java.awt.event.MouseListener;
 
 public class BoxRemover implements MouseListener {
 
+	private LevelBuilder lb;
+
+	public BoxRemover(LevelBuilder lb) {
+		this.lb = lb;
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		LevelBuilder.removeBox(e.getX(), e.getY());
-		LevelBuilder.removeMouseListenerFromLevel(this);
-		LevelBuilder.repaintLevel(null, null);
+		lb.removeBox(e.getX(), e.getY());
+		lb.removeMouseListenerFromLevel(this);
+		lb.repaintLevel(null, null);
 	}
 
 	@Override

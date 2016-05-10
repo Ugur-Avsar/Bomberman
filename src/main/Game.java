@@ -20,7 +20,6 @@ import static java.awt.event.KeyEvent.VK_Z;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Menu;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
@@ -39,7 +38,6 @@ import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import levels.Level;
 import rendering.Renderer;
-import resources.Spritesheet;
 
 public final class Game extends Canvas implements Runnable {
 

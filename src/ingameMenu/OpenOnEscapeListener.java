@@ -1,11 +1,8 @@
 package ingameMenu;
 
-import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
 
-import exceptions.InvalidHierachyException;
 import main.Game;
 
 public class OpenOnEscapeListener implements KeyListener {
@@ -17,6 +14,7 @@ public class OpenOnEscapeListener implements KeyListener {
 	public OpenOnEscapeListener(Game parent, IngameMenue child) {
 		this.parent = parent;
 		this.child = child;
+		parent.setEnabled(true);
 		child.setVisible(false);
 		child.setEnabled(false);
 		child.setSize(500, 500);
@@ -29,6 +27,7 @@ public class OpenOnEscapeListener implements KeyListener {
 			parent.setEnabled(false);
 			child.setEnabled(true);
 			child.setVisible(true);
+			child.requestFocusInWindow();
 			menueOpened = true;
 			System.out.println(menueOpened);
 		}
@@ -40,6 +39,7 @@ public class OpenOnEscapeListener implements KeyListener {
 			parent.setEnabled(true);
 			child.setEnabled(false);
 			child.setVisible(false);
+			parent.requestFocusInWindow();
 			menueOpened = false;
 			System.out.println(menueOpened);
 		}

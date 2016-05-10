@@ -12,12 +12,14 @@ public class BoxAdder implements MouseListener {
 	private List<Integer> xCoords;
 	private List<Integer> yCoords;
 	private int countPointMax;
+	private LevelBuilder lb;
 
-	public BoxAdder(int maxPointCount) {
+	public BoxAdder(LevelBuilder lb, int maxPointCount) {
+		this.lb = lb;
 		xCoords = new ArrayList<Integer>();
 		yCoords = new ArrayList<Integer>();
 		countPointMax = 0;
-		this.countPointMax = maxPointCount;
+		countPointMax = maxPointCount;
 	}
 
 	@Override
@@ -25,7 +27,7 @@ public class BoxAdder implements MouseListener {
 		if (xCoords.size() < countPointMax) {
 			xCoords.add(e.getX());
 			yCoords.add(e.getY());
-			LevelBuilder.repaintLevel(xCoords, yCoords);
+			lb.repaintLevel(xCoords, yCoords);
 		}
 
 		if (xCoords.size() >= countPointMax) {
@@ -37,14 +39,14 @@ public class BoxAdder implements MouseListener {
 				ypoints[i] = yCoords.get(i);
 			}
 			Polygon p = new Polygon(xpoints, ypoints, xpoints.length);
-			LevelBuilder.addCollisionBox(p);
-			LevelBuilder.removeMouseListenerFromLevel(this);
+			lb.addCollisionBox(p);
+			lb.removeMouseListenerFromLevel(this);
 
 			System.out.println("---------------------------------------------");
 			System.out.println(TimeManager.getCurrentTime() + "... Collision box added to Level: ");
 			System.out.println(xCoords + "\n" + yCoords);
 			System.out.println("---------------------------------------------");
-			LevelBuilder.repaintLevel(null, null);
+			lb.repaintLevel(null, null);
 		}
 	}
 

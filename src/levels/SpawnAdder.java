@@ -5,11 +5,17 @@ import java.awt.event.MouseListener;
 
 public class SpawnAdder implements MouseListener {
 
+	private LevelBuilder lb;
+
+	public SpawnAdder(LevelBuilder lb) {
+		this.lb = lb;
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		LevelBuilder.addSpawn(e.getX(), e.getY());
-		LevelBuilder.removeMouseListenerFromLevel(this);
-		LevelBuilder.repaintLevel(null, null);
+		lb.addSpawn(e.getX(), e.getY());
+		lb.removeMouseListenerFromLevel(this);
+		lb.repaintLevel(null, null);
 	}
 
 	@Override
