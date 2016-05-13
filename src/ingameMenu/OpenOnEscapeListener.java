@@ -15,9 +15,6 @@ public class OpenOnEscapeListener implements KeyListener {
 		this.parent = parent;
 		this.child = child;
 		parent.setEnabled(true);
-		child.setVisible(false);
-		child.setEnabled(false);
-		child.setSize(500, 500);
 		child.setLocation(1920 / 2 - child.getWidth() / 2, 1080 / 2 - child.getHeight() / 2);
 	}
 

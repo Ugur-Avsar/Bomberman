@@ -28,9 +28,9 @@ import java.awt.image.BufferStrategy;
 import java.io.File;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import entities.Player;
-import entityComponents.ControledDirectionsMovement;
 import exceptions.BadFrameSizeException;
 import ingameMenu.IngameMenue;
 import ingameMenu.OpenOnEscapeListener;
@@ -38,6 +38,7 @@ import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import levels.Level;
 import rendering.Renderer;
+import toolbox.TimeManager;
 
 public final class Game extends Canvas implements Runnable {
 
@@ -66,7 +67,6 @@ public final class Game extends Canvas implements Runnable {
 		parentFrame.add(menu);
 		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(this, menu);
 		addKeyListener(ooESCListener);
-		menu.addKeyListener(ooESCListener);
 		this.setFocusable(true);
 		this.addKeyListener(new Keyboard());
 		this.addMouseListener(new Mouse());
@@ -77,21 +77,18 @@ public final class Game extends Canvas implements Runnable {
 
 		final int playerW = 50;
 		final int playerH = 50;
-		Player player1 = new Player(this, 0, 0, playerW, playerH, 0, "playerBlue", 2, 2, 4, 3);
-		player1.addEntityComponent(new ControledDirectionsMovement(player1, 15, VK_A, VK_D, VK_W, VK_S));
+		Player player1 = new Player(this, 0, 0, playerW, playerH, 0, "playerBlue", 2, 2, 4, 3, VK_A, VK_D, VK_W, VK_S);
 		level.addPlayer(player1);
 
-		Player player2 = new Player(this, 0, 0, playerW, playerH, 0, "playerYellow", 2, 2, 4, 3);
-		player2.addEntityComponent(new ControledDirectionsMovement(player2, 15, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN));
+		Player player2 = new Player(this, 0, 0, playerW, playerH, 0, "playerYellow", 2, 2, 4, 3, VK_LEFT, VK_RIGHT,
+				VK_UP, VK_DOWN);
 		level.addPlayer(player2);
 
-		Player player3 = new Player(this, 0, 0, playerW, playerH, 0, "playerGreen", 2, 2, 4, 3);
-		player3.addEntityComponent(new ControledDirectionsMovement(player3, 15, VK_G, VK_J, VK_Z, VK_H));
+		Player player3 = new Player(this, 0, 0, playerW, playerH, 0, "playerGreen", 2, 2, 4, 3, VK_G, VK_J, VK_Z, VK_H);
 		level.addPlayer(player3);
 
-		Player player4 = new Player(this, 0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3);
-		player4.addEntityComponent(
-				new ControledDirectionsMovement(player4, 15, VK_NUMPAD4, VK_NUMPAD6, VK_NUMPAD8, VK_NUMPAD5));
+		Player player4 = new Player(this, 0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3, VK_NUMPAD4, VK_NUMPAD6,
+				VK_NUMPAD8, VK_NUMPAD5);
 		level.addPlayer(player4);
 	}
 
@@ -160,10 +157,15 @@ public final class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - 1000 > timer) {
 				timer += 1000;
-				System.out.printf("FPS: %d | TPS: %d\n", fps, tps);
+				System.out.printf(TimeManager.getCurrentTime() + "... FPS: %d | TPS: %d\n", fps, tps);
 				fps = 0;
 				tps = 0;
 				System.out.println("-----------------------------------------------------");
+			}
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -193,6 +195,12 @@ public final class Game extends Canvas implements Runnable {
 	}
 
 	public static Game createNewGame() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		JFrame f = new JFrame(TITLE);
 		Game g = new Game(f);
 

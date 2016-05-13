@@ -15,4 +15,16 @@ public class StringUtils {
 					return true;
 		return false;
 	}
+
+	public static boolean isInt(String text) {
+		if (text == null)
+			return false;
+
+		try {
+			Integer.parseInt(text);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 }
