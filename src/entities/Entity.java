@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entityComponents.EntityComponent;
-import rendering.Renderable;
+import graphics.Renderable;
 
 public abstract class Entity {
 	protected List<EntityComponent> components;

@@ -1,4 +1,4 @@
-package resources;
+package graphics;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import main.Game;
-import rendering.Renderable;
 
 public class Texture implements Renderable {
 	private static final Map<String, TextureManager> texMap = new HashMap<String, TextureManager>();

@@ -28,16 +28,18 @@ import java.awt.image.BufferStrategy;
 import java.io.File;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import entities.Player;
+import combat.Player;
 import exceptions.BadFrameSizeException;
+import graphics.Renderer;
 import ingameMenu.IngameMenue;
 import ingameMenu.OpenOnEscapeListener;
 import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import levels.Level;
-import rendering.Renderer;
+import settingsMenue.SettingsDialog;
 import toolbox.TimeManager;
 
 public final class Game extends Canvas implements Runnable {
@@ -54,16 +56,18 @@ public final class Game extends Canvas implements Runnable {
 
 	private BufferStrategy bs;
 	private Graphics2D g;
-	public JFrame parentFrame;
+	public JFrame topLevelFrame;
 	private boolean running;
 	//////////////////////////////////////////////////////// GAME Elements
 	private IngameMenue menu;
+	private SettingsDialog settings;
 	private Level level;
 
 	public Game(JFrame parentFrame) {
 		super();
-		this.menu = new IngameMenue(this);
-		this.parentFrame = parentFrame;
+		settings = new SettingsDialog();
+		this.menu = new IngameMenue(this, settings);
+		this.topLevelFrame = parentFrame;
 		parentFrame.add(menu);
 		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(this, menu);
 		addKeyListener(ooESCListener);
@@ -194,7 +198,7 @@ public final class Game extends Canvas implements Runnable {
 		Game.createNewGame();
 	}
 
-	public static Game createNewGame() {
+	public static void createNewGame() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
@@ -226,6 +230,5 @@ public final class Game extends Canvas implements Runnable {
 		f.setResizable(false);
 		f.setVisible(true);
 		g.start();
-		return g;
 	}
 }

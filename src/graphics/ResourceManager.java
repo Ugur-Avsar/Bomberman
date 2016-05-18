@@ -1,4 +1,4 @@
-package resources;
+package graphics;
 
 public class ResourceManager {
 

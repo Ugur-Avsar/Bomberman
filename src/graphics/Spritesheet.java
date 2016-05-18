@@ -1,4 +1,4 @@
-package resources;
+package graphics;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -7,7 +7,6 @@ import java.util.List;
 
 import exceptions.InvalidSpritesheetSizeException;
 import main.Game;
-import rendering.Renderable;
 
 public class Spritesheet implements Renderable {
 
@@ -22,9 +21,9 @@ public class Spritesheet implements Renderable {
 
 	private int selectedTexture;
 
-	public Spritesheet(String filename, int rowCount, int colCount) {
+	public Spritesheet(String filename, int rowCount, int colCount, int initialSprite) {
 		sprites = new ArrayList<BufferedImage>();
-		this.selectedTexture = 1;
+		this.selectedTexture = initialSprite;
 
 		this.rowCount = rowCount;
 		this.colCount = colCount;
@@ -46,8 +45,7 @@ public class Spritesheet implements Renderable {
 		Texture sheet = new Texture(filename);
 		spritesheetFilename = filename;
 
-		if (sheet.getWidth() == sheet.getHeight()
-				&& sheet.getWidth() / colCount - sheet.getWidth() / colCount == 0
+		if (sheet.getWidth() == sheet.getHeight() && sheet.getWidth() / colCount - sheet.getWidth() / colCount == 0
 				&& sheet.getHeight() / rowCount - sheet.getHeight() / rowCount == 0) {
 
 			this.rowHeight = sheet.getHeight() / rowCount;
@@ -77,10 +75,6 @@ public class Spritesheet implements Renderable {
 	@Override
 	public String toString() {
 		return sprites.size() + " Sprites from ./res/" + spritesheetFilename + ".png";
-	}
-
-	public static void main(String[] args) {
-		System.out.println(new Spritesheet("playerRed", 4, 3).toString());
 	}
 
 	public int getSeletedSprite() {

@@ -1,8 +1,8 @@
 package entityComponents;
 
 import entities.DynamicEntity;
+import graphics.Spritesheet;
 import inputManagement.Keyboard;
-import resources.Spritesheet;
 
 public class ControledDirectionsMovement implements EntityComponent {
 

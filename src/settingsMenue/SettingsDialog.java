@@ -32,12 +32,11 @@ public class SettingsDialog extends JPanel {
 
 		parentFrame = new JFrame("Settings");
 		parentFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(("./res/settingsIcon.png")));
-		parentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		parentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		parentFrame.setSize(600, 450);
 		parentFrame.setResizable(false);
 		parentFrame.setLocationRelativeTo(null);
 		parentFrame.add(this);
-		parentFrame.setVisible(true);
 	}
 
 	private void addComponents() {
@@ -65,16 +64,7 @@ public class SettingsDialog extends JPanel {
 		tabbedPane.addTab("Controls", controlsTable);
 	}
 
-	private JFrame getParentFrame() {
+	public JFrame getParentFrame() {
 		return parentFrame;
-	}
-
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		new SettingsDialog();
 	}
 }

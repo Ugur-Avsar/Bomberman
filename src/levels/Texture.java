@@ -9,8 +9,8 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import rendering.Renderable;
-import resources.TextureManager;
+import graphics.Renderable;
+import graphics.TextureManager;
 import toolbox.TimeManager;
 
 public class Texture implements Renderable {

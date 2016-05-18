@@ -10,9 +10,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.Player;
+import combat.Bomb;
+import combat.Player;
 import exceptions.InvalidLevelFormatException;
-import resources.Texture;
+import graphics.Texture;
 
 public class Level {
 	private Texture texture;

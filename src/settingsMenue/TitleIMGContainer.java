@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import resources.Texture;
+import graphics.Texture;
 
 public class TitleIMGContainer extends JPanel {
 	private Texture img;

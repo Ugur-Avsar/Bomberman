@@ -1,7 +1,7 @@
 package entities;
 
+import graphics.Spritesheet;
 import main.Game;
-import resources.Spritesheet;
 
 public class DynamicEntity extends Entity {
 
@@ -23,10 +23,10 @@ public class DynamicEntity extends Entity {
 	 * @param rotation
 	 * @param texture
 	 */
-	public DynamicEntity(Game parent, int x, int y, int width, int height, double rotation, String spriteSheet,
-			double speedX, double speedY, int rowCount, int colCount) {
+	public DynamicEntity(Game parent, int x, int y, int width, int height, double rotation, String texture,
+			double speedX, double speedY, int rowCount, int colCount, int initialSprite) {
 
-		super(x, y, width, height, rotation, new Spritesheet(spriteSheet, rowCount, colCount));
+		super(x, y, width, height, rotation, new Spritesheet(texture, rowCount, colCount, initialSprite));
 
 		this.parent = parent;
 		this.direction = 0;

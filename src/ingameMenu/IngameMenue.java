@@ -13,8 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
+import graphics.Texture;
 import main.Game;
-import resources.Texture;
+import settingsMenue.SettingsDialog;
 
 public class IngameMenue extends JPanel {
 
@@ -26,9 +27,9 @@ public class IngameMenue extends JPanel {
 
 	private MenueListener listener;
 
-	public IngameMenue(Game game) {
+	public IngameMenue(Game game, SettingsDialog settings) {
 		super(new CardLayout());
-		listener = new MenueListener(game, this);
+		listener = new MenueListener(game, this, settings);
 		background = new Texture("menueBG");
 		setVisible(false);
 		setEnabled(false);
@@ -50,7 +51,6 @@ public class IngameMenue extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		background.render((Graphics2D) g, 0, 0, this.getWidth(), this.getHeight());
-		System.out.println(this.getWidth() + "," + this.getHeight());
 	}
 
 	private void addActionListeners() {
