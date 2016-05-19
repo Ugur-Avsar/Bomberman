@@ -6,7 +6,7 @@ import graphics.Spritesheet;
 public class Bomb extends Entity {
 
 	private int frameCounter = 1;
-	private static final int LIFE_TIME = 300; // In Frames
+	private static final int LIFE_TIME = 150; // In Frames
 	private static final int SPRITE_COLS = 13;
 	private static final int CHANGE_FRQUENCY = LIFE_TIME / SPRITE_COLS;
 
@@ -20,13 +20,14 @@ public class Bomb extends Entity {
 	public void update() {
 		super.update();
 
-		if (frameCounter >= LIFE_TIME) {
+		frameCounter++;
+
+		if (frameCounter >= LIFE_TIME - 1) {
 			BombMaster.destroyBomb(this);
 			return;
 		}
 
-		frameCounter++;
-		if (frameCounter % CHANGE_FRQUENCY == 0) {
+		if (frameCounter % (CHANGE_FRQUENCY+1) == 0) {
 			((Spritesheet) texture).incSpriteIndex();
 		}
 	}

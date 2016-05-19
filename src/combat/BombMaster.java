@@ -13,10 +13,14 @@ public final class BombMaster {
 	}
 
 	public static boolean addBomb(Player p) {
-		return livingBombs.add(new Bomb(p.getX(), p.getY(), 100, 100, 300, "bomb"));
+		return livingBombs.add(new Bomb(p.getX(), p.getY()-5, 75, 100, 300, "bomb"));
 	}
 
 	public static boolean destroyBomb(Bomb b) {
 		return livingBombs.remove(b);
+	}
+
+	public static List<Bomb> getBombs() {
+		return livingBombs;
 	}
 }

@@ -1,24 +1,22 @@
 package graphics;
 
 import java.awt.Graphics2D;
-import java.awt.Polygon;
-import java.awt.geom.Area;
 
+import combat.Bomb;
 import entities.Entity;
 import levels.Level;
 import main.Game;
 
 public class Renderer {
-	public static void renderEntity(Level level, Graphics2D g) {
-
+	public static void render(Level level, Graphics2D g) {
 		level.getTexture().render(g, 0, 0, 1920, 1080);
 
 		int x = 0, y = 0, width = 0, height = 0;
 
-//		for (Player box : Game.getLevel().getPlayers()) {
-//			Graphics2D g1 = (Graphics2D) g.create();
-//			g1.fillRect((int) box.getX(), (int) box.getY(), (int) box.getWidth(), (int) box.getHeight());
-//		}
+		for (Bomb bomb : level.getBombs()) {
+			bomb.getTexture().render(g, (int) bomb.getX(), (int) bomb.getY(), (int) bomb.getWidth(),
+					(int) bomb.getHeight());
+		}
 
 		for (Entity entity : level.getPlayers()) {
 			Graphics2D g1 = (Graphics2D) g.create();
@@ -33,18 +31,6 @@ public class Renderer {
 					(int) (y * Game.SCREEN_SCALING_FACTOR) + (int) (height * Game.SCREEN_SCALING_FACTOR) / 2);
 
 			entity.getTexture().render(g1, x, y, width, height);
-			new Area(new Polygon());
 		}
-
-//		for (Polygon box : Game.getLevel().getCollisionBoxes()) {
-//			Graphics2D g1 = (Graphics2D) g.create();
-//			g1.fillPolygon(box);
-//		}
-
-		//
-		// for (Point box : Game.getLevel().getSpawns()) {
-		// Graphics2D g1 = (Graphics2D) g.create();
-		// g1.fillOval((int) box.getX() - 2, (int) box.getY() - 2, 4, 4);
-		// }
 	}
 }

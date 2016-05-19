@@ -45,20 +45,14 @@ public class Spritesheet implements Renderable {
 		Texture sheet = new Texture(filename);
 		spritesheetFilename = filename;
 
-		if (sheet.getWidth() == sheet.getHeight() && sheet.getWidth() / colCount - sheet.getWidth() / colCount == 0
-				&& sheet.getHeight() / rowCount - sheet.getHeight() / rowCount == 0) {
+		this.rowHeight = sheet.getHeight() / rowCount;
+		this.colWidth = sheet.getWidth() / colCount;
 
-			this.rowHeight = sheet.getHeight() / rowCount;
-			this.colWidth = sheet.getWidth() / colCount;
-
-			for (int y = 0; y < rowCount; y++) {
-				for (int x = 0; x < colCount; x++) {
-					sprites.add(sheet.grabSubTexture(x * colWidth, y * rowHeight, colWidth, rowHeight));
-				}
+		for (int y = 0; y < rowCount; y++) {
+			for (int x = 0; x < colCount; x++) {
+				sprites.add(sheet.grabSubTexture(x * colWidth, y * rowHeight, colWidth, rowHeight));
 			}
-
-		} else
-			throw new InvalidSpritesheetSizeException();
+		}
 	}
 
 	public void incSpriteIndex() {

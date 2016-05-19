@@ -1,7 +1,10 @@
 package combat;
 
+import java.awt.event.KeyEvent;
+
 import entities.DynamicEntity;
 import entityComponents.ControledDirectionsMovement;
+import inputManagement.Keyboard;
 import main.Game;
 
 public class Player extends DynamicEntity {
@@ -11,5 +14,12 @@ public class Player extends DynamicEntity {
 
 		super(parent, x, y, width, height, rotation, spriteSheet, speedX, speedY, rowCount, colCount, 1);
 		addEntityComponent(new ControledDirectionsMovement(this, 15, goLeft, goRight, goUp, goDown));
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		if (Keyboard.isKeyDown(KeyEvent.VK_E))
+			BombMaster.addBomb(this);
 	}
 }

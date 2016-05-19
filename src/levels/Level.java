@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import combat.Bomb;
+import combat.BombMaster;
 import combat.Player;
 import exceptions.InvalidLevelFormatException;
 import graphics.Texture;
@@ -162,6 +163,9 @@ public class Level {
 	}
 
 	public void update() {
+		for (int i = 0; i < getBombs().size(); i++) {
+			getBombs().get(i).update();
+		}
 		for (Player player : players) {
 			player.update();
 		}
@@ -173,5 +177,9 @@ public class Level {
 
 	public List<Point> getSpawns() {
 		return playerSpawns;
+	}
+
+	public List<Bomb> getBombs() {
+		return BombMaster.getBombs();
 	}
 }

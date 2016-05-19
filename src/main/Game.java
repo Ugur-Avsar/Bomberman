@@ -63,19 +63,6 @@ public final class Game extends Canvas implements Runnable {
 	private SettingsDialog settings;
 	private Level level;
 
-	public Game(JFrame parentFrame) {
-		super();
-		settings = new SettingsDialog();
-		this.menu = new IngameMenue(this, settings);
-		this.topLevelFrame = parentFrame;
-		parentFrame.add(menu);
-		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(this, menu);
-		addKeyListener(ooESCListener);
-		this.setFocusable(true);
-		this.addKeyListener(new Keyboard());
-		this.addMouseListener(new Mouse());
-	}
-
 	private void initGameElements() {
 		level = new Level(new File("./levels/level.txt"));
 
@@ -125,6 +112,18 @@ public final class Game extends Canvas implements Runnable {
 
 	@Override
 	public void run() {
+
+		settings = new SettingsDialog();
+		menu = new IngameMenue(this, settings);
+		topLevelFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(this, menu);
+
+		topLevelFrame.add(menu);
+		addKeyListener(ooESCListener);
+		this.setFocusable(true);
+		this.addKeyListener(new Keyboard());
+		this.addMouseListener(new Mouse());
+
 		System.err.println("Running...");
 		initGameElements();
 		createBufferStrategy(2);
@@ -178,7 +177,7 @@ public final class Game extends Canvas implements Runnable {
 		////////////////////////////////// RENDER PART
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 1920, 1080);
-		Renderer.renderEntity(level, g);
+		Renderer.render(level, g);
 		////////////////////////////////// RENDER PART
 		bs.show();
 	}
@@ -206,7 +205,7 @@ public final class Game extends Canvas implements Runnable {
 		}
 
 		JFrame f = new JFrame(TITLE);
-		Game g = new Game(f);
+		Game g = new Game();
 
 		if (DESKTOP_WIDTH / DESKTOP_HEIGHT != 16 / 9)
 			try {
