@@ -1,4 +1,4 @@
-package settingsMenue;
+package settings;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

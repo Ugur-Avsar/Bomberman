@@ -1,4 +1,4 @@
-package settingsMenue;
+package settings;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 public class SettingsDialog extends JPanel {
@@ -29,11 +30,12 @@ public class SettingsDialog extends JPanel {
 
 		parentFrame = new JFrame("Settings");
 		parentFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(("./res/settingsIcon.png")));
-		parentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		parentFrame.setSize(600, 450);
 		parentFrame.setResizable(false);
 		parentFrame.setLocationRelativeTo(null);
 		parentFrame.add(this);
+		
 	}
 
 	private void addComponents() {

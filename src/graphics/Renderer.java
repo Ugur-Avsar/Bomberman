@@ -1,5 +1,7 @@
 package graphics;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import combat.Bomb;
@@ -14,8 +16,17 @@ public class Renderer {
 		int x = 0, y = 0, width = 0, height = 0;
 
 		for (Bomb bomb : level.getBombs()) {
-			bomb.getTexture().render(g, (int) bomb.getX(), (int) bomb.getY(), (int) bomb.getWidth(),
-					(int) bomb.getHeight());
+			Graphics2D g1 = (Graphics2D) g.create();
+
+			g1.setStroke(new BasicStroke(10));
+			g1.setColor(new Color(255, 0, 0, (int) (0.5 * ((bomb.getFrameCounter() * (10 / 3)) / 4))));
+
+			g1.drawOval((int) (bomb.getX() - bomb.getExlosionRadius() / 2),
+					(int) (bomb.getY() - bomb.getExlosionRadius() / 2), (int) bomb.getExlosionRadius(),
+					(int) bomb.getExlosionRadius());
+
+			bomb.getTexture().render(g, (int) (bomb.getX() - bomb.getWidth() / 2),
+					(int) (bomb.getY() - bomb.getHeight() / 2), (int) bomb.getWidth(), (int) bomb.getHeight());
 		}
 
 		for (Entity entity : level.getPlayers()) {

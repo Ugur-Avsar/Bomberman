@@ -87,11 +87,9 @@ public class Level {
 				data = line.split(";");
 				for (String s : data[0].split(",")) {
 					xCoords.add(s);
-					System.out.println(s);
 				}
 				for (String s : data[1].split(",")) {
 					yCoords.add(s);
-					System.out.println(s);
 				}
 
 				xCoords.remove(0);

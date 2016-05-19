@@ -15,7 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import graphics.Texture;
 import main.Game;
-import settingsMenue.SettingsDialog;
+import settings.SettingsDialog;
 
 public class IngameMenue extends JPanel {
 
@@ -27,12 +27,10 @@ public class IngameMenue extends JPanel {
 
 	private MenueListener listener;
 
-	public IngameMenue(Game game, SettingsDialog settings) {
+	public IngameMenue(Game game) {
 		super(new CardLayout());
-		listener = new MenueListener(game, this, settings);
+		listener = new MenueListener(game, this, new SettingsDialog());
 		background = new Texture("menueBG");
-		setVisible(false);
-		setEnabled(false);
 		setSize(200, 300);
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.WHITE, Color.LIGHT_GRAY));
 		initButtons();
@@ -45,6 +43,8 @@ public class IngameMenue extends JPanel {
 		gapPanel.add(settings_BTN);
 		gapPanel.add(exit_BTN);
 		add(gapPanel);
+		setVisible(false);
+		setEnabled(false);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class IngameMenue extends JPanel {
 		this.play_BTN = new JButton("Play");
 		this.settings_BTN = new JButton("Settings");
 		this.exit_BTN = new JButton("Exit");
-		
+
 		this.play_BTN.setFont(new Font("Arial", Font.BOLD, 27));
 		this.play_BTN.setFont(new Font("Arial", 0, 23));
 		this.play_BTN.setFont(new Font("Arial", 0, 23));

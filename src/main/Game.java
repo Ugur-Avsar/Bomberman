@@ -39,18 +39,20 @@ import ingameMenu.OpenOnEscapeListener;
 import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import levels.Level;
-import settingsMenue.SettingsDialog;
+import settings.SettingsDialog;
 import toolbox.TimeManager;
 
+/**
+ * 
+ * @author Avsar Ugur & Kevin Kulcsar
+ *
+ */
 public final class Game extends Canvas implements Runnable {
-
 	private Thread thread;
 
 	public static final String TITLE = "Bomberman HD - by Ugur A. & Kevin K.";
 	public static final int DESKTOP_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static final int DESKTOP_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	// public static final int DESKTOP_WIDTH = 1280;
-	// public static final int DESKTOP_HEIGHT = 720;
 	public static final float SCREEN_SCALING_FACTOR = (DESKTOP_WIDTH + DESKTOP_HEIGHT) / (1920f + 1080f);
 	public static final int FPS_TARGET = 60;
 
@@ -60,11 +62,15 @@ public final class Game extends Canvas implements Runnable {
 	private boolean running;
 	//////////////////////////////////////////////////////// GAME Elements
 	private IngameMenue menu;
-	private SettingsDialog settings;
 	private Level level;
 
 	private void initGameElements() {
 		level = new Level(new File("./levels/level.txt"));
+		menu = new IngameMenue(this);
+		topLevelFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+		topLevelFrame.add(menu);
+		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(this, menu);
+		addKeyListener(ooESCListener);
 
 		final int playerW = 50;
 		final int playerH = 50;
@@ -112,14 +118,7 @@ public final class Game extends Canvas implements Runnable {
 
 	@Override
 	public void run() {
-
-		settings = new SettingsDialog();
-		menu = new IngameMenue(this, settings);
-		topLevelFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(this, menu);
-
-		topLevelFrame.add(menu);
-		addKeyListener(ooESCListener);
+		initGameElements();
 		this.setFocusable(true);
 		this.addKeyListener(new Keyboard());
 		this.addMouseListener(new Mouse());
@@ -141,34 +140,36 @@ public final class Game extends Canvas implements Runnable {
 
 		requestFocus();
 		while (running) {
-			long now = System.nanoTime();
-			unprocessed += (now - lastTime) / nsPerTick;
-			lastTime = now;
+			if (isEnabled()) {
+				long now = System.nanoTime();
+				unprocessed += (now - lastTime) / nsPerTick;
+				lastTime = now;
 
-			if (unprocessed >= 1.0 && isEnabled()) {
-				tick();
-				unprocessed--;
-				tps++;
-				canRender = true;
-			} else
-				canRender = false;
+				if (unprocessed >= 1.0) {
+					tick();
+					unprocessed--;
+					tps++;
+					canRender = true;
+				} else
+					canRender = false;
 
-			if (canRender && isEnabled()) {
-				render();
-				fps++;
-			}
+				if (canRender) {
+					render();
+					fps++;
+				}
 
-			if (System.currentTimeMillis() - 1000 > timer) {
-				timer += 1000;
-				System.out.printf(TimeManager.getCurrentTime() + "... FPS: %d | TPS: %d\n", fps, tps);
-				fps = 0;
-				tps = 0;
-				System.out.println("-----------------------------------------------------");
-			}
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+				if (System.currentTimeMillis() - 1000 > timer) {
+					timer += 1000;
+					System.out.printf(TimeManager.getCurrentTime() + "... FPS: %d | TPS: %d\n", fps, tps);
+					fps = 0;
+					tps = 0;
+					System.out.println("-----------------------------------------------------");
+				}
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

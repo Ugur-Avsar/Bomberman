@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import main.Game;
-import settingsMenue.SettingsDialog;
+import settings.SettingsDialog;
 import sound.SoundPlayer;
 
 public class MenueListener implements ActionListener {

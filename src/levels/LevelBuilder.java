@@ -124,7 +124,7 @@ public class LevelBuilder extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					addMouseListenerToLevel(new BoxAdder((LevelBuilder) getThis(),
+					addMouseListenerToLevel(new BoxAdder(getThis(),
 							Integer.parseInt(JOptionPane.showInputDialog("Polygon-Point-Count:"))));
 				} catch (NumberFormatException | HeadlessException e1) {
 					System.err.println(TimeManager.getCurrentTime() + "... Invalid Polygon-Point count entered!");
@@ -153,7 +153,7 @@ public class LevelBuilder extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addMouseListenerToLevel(new BoxRemover((LevelBuilder) getThis()));
+				addMouseListenerToLevel(new BoxRemover(getThis()));
 			}
 		});
 
@@ -161,7 +161,7 @@ public class LevelBuilder extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addMouseListenerToLevel(new SpawnAdder((LevelBuilder) getThis()));
+				addMouseListenerToLevel(new SpawnAdder(getThis()));
 			}
 		});
 

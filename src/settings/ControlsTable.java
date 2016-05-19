@@ -1,4 +1,4 @@
-package settingsMenue;
+package settings;
 
 import java.awt.CardLayout;
 import java.awt.Font;
