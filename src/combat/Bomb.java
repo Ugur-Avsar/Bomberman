@@ -6,15 +6,16 @@ import graphics.Spritesheet;
 public class Bomb extends Entity {
 
 	private int frameCounter = 1;
-	private static final int LIFE_TIME = 300; // In Frames
+	private static final int LIFE_TIME = 200; // In Frames
 	private static final int SPRITE_COLS = 13;
-	private static final int CHANGE_FRQUENCY = LIFE_TIME / SPRITE_COLS;
+	private static final int SPRITE_ROWS = 1;
+	private static final int CHANGE_FRQUENCY = LIFE_TIME / (SPRITE_COLS * SPRITE_ROWS);
 	private double explosionRadius;
 
 	private Player source;
 
 	public Bomb(double x, double y, int width, int height, double explosionRadius, String texture, Player player) {
-		super(x, y, width, height, 0, new Spritesheet(texture, 1, SPRITE_COLS, 0));
+		super(x, y, width, height, 0, new Spritesheet(texture, SPRITE_ROWS, SPRITE_COLS, 0));
 		this.setExplosionRadius(explosionRadius);
 		this.source = player;
 	}
@@ -24,7 +25,6 @@ public class Bomb extends Entity {
 		super.update();
 
 		frameCounter++;
-
 		if (frameCounter >= LIFE_TIME - 1) {
 			BombMaster.destroyBomb(this);
 			return;
