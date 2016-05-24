@@ -57,27 +57,20 @@ public final class Game extends Canvas implements Runnable {
 	public static final String TITLE = "Bomberman HD - by Ugur A. & Kevin K.";
 	public static final int DESKTOP_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static final int DESKTOP_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	public static final float SCREEN_SCALING_FACTOR = (DESKTOP_WIDTH + DESKTOP_HEIGHT) / (1920f + 1080f);
+	public static final double SCREEN_SCALING_FACTOR = (DESKTOP_WIDTH + DESKTOP_HEIGHT) / (1920f + 1080f);
 	public static final int FPS_TARGET = 60;
 
 	private BufferStrategy bs;
 	private Graphics2D g;
-	public JFrame topLevelFrame;
 	private boolean running;
 	//////////////////////////////////////////////////////// GAME Elements
-	private IngameMenue menu;
 	private Level level;
 
 	private void initGameElements() {
 		level = new Level(new File("./levels/level.txt"));
-		menu = new IngameMenue(this);
-		topLevelFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-		topLevelFrame.add(menu);
-		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(this, menu);
-		addKeyListener(ooESCListener);
 
-		final int playerW = 75;
-		final int playerH = 100;
+		final int playerW = 25;
+		final int playerH = 50;
 		Player player1 = new Player(this, 0, 0, playerW, playerH, 0, "golbez", 2, 2,
 				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S);
 		level.addPlayer(player1);
@@ -232,9 +225,13 @@ public final class Game extends Canvas implements Runnable {
 				g.stop();
 			}
 		});
-		f.add(g);
 		f.setResizable(false);
 		f.setVisible(true);
+		IngameMenue menu = new IngameMenue(g);
+		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(g, menu);
 		g.start();
+		g.addKeyListener(ooESCListener);
+		f.add(g);
+		f.add(menu);
 	}
 }

@@ -21,7 +21,7 @@ public class OpenOnEscapeListener implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE && !child.isVisible()) {
-			parent.setEnabled(true);
+			parent.setEnabled(false);
 			child.setEnabled(true);
 			child.setVisible(true);
 			child.requestFocusInWindow();
