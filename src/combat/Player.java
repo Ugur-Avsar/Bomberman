@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 
 import entities.DynamicEntity;
 import entityComponents.ControledDirectionsMovement;
+import graphics.MovingSpriteConfiguration;
 import inputManagement.Keyboard;
 import main.Game;
 
@@ -13,10 +14,12 @@ public class Player extends DynamicEntity {
 	private int bombsSet = 0;
 
 	public Player(Game parent, int x, int y, int width, int height, double rotation, String spriteSheet, double speedX,
-			double speedY, int rowCount, int colCount, int goLeft, int goRight, int goUp, int goDown) {
+			double speedY, MovingSpriteConfiguration config, int goLeft, int goRight, int goUp, int goDown) {
 
-		super(parent, x, y, width, height, rotation, spriteSheet, speedX, speedY, rowCount, colCount, 1);
-		addEntityComponent(new ControledDirectionsMovement(this, 15, goLeft, goRight, goUp, goDown));
+		super(parent, x, y, width, height, rotation, spriteSheet, speedX, speedY, config.getRowCount(),
+				config.getColCount(), 1);
+		addEntityComponent(new ControledDirectionsMovement(this, goLeft, goRight, goUp, goDown,
+				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4)));
 	}
 
 	@Override

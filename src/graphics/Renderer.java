@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import combat.Bomb;
 import combat.BombMaster;
 import entities.Entity;
+import entities.EntityMaster;
 import levels.Level;
 import main.Game;
 
@@ -29,7 +30,7 @@ public class Renderer {
 					(int) (bomb.getY() - bomb.getHeight() / 2), (int) bomb.getWidth(), (int) bomb.getHeight());
 		}
 
-		for (Entity entity : level.getPlayers()) {
+		for (Entity entity : EntityMaster.getEntities()) {
 			Graphics2D g1 = (Graphics2D) g.create();
 
 			x = (int) (entity.getX());

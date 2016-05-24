@@ -3,8 +3,6 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import combat.Bomb;
-
 public class EntityMaster {
 	private static List<Entity> entities = new ArrayList<Entity>();
 
@@ -21,7 +19,7 @@ public class EntityMaster {
 		return entities.remove(e);
 	}
 
-	public static List<Entity> getEntity() {
+	public static List<Entity> getEntities() {
 		return new ArrayList<Entity>(entities);
 	}
 }

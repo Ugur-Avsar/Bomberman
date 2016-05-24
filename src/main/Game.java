@@ -31,8 +31,12 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import combat.BombMaster;
 import combat.Player;
+import entities.Entity;
+import entities.EntityMaster;
 import exceptions.BadFrameSizeException;
+import graphics.MovingSpriteConfiguration;
 import graphics.Renderer;
 import ingameMenu.IngameMenue;
 import ingameMenu.OpenOnEscapeListener;
@@ -72,21 +76,22 @@ public final class Game extends Canvas implements Runnable {
 		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(this, menu);
 		addKeyListener(ooESCListener);
 
-		final int playerW = 50;
-		final int playerH = 50;
-		Player player1 = new Player(this, 0, 0, playerW, playerH, 0, "playerBlue", 2, 2, 4, 3, VK_A, VK_D, VK_W, VK_S);
+		final int playerW = 75;
+		final int playerH = 100;
+		Player player1 = new Player(this, 0, 0, playerW, playerH, 0, "golbez", 2, 2,
+				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S);
 		level.addPlayer(player1);
 
-		Player player2 = new Player(this, 0, 0, playerW, playerH, 0, "playerYellow", 2, 2, 4, 3, VK_LEFT, VK_RIGHT,
-				VK_UP, VK_DOWN);
-		level.addPlayer(player2);
-
-		Player player3 = new Player(this, 0, 0, playerW, playerH, 0, "playerGreen", 2, 2, 4, 3, VK_G, VK_J, VK_Z, VK_H);
-		level.addPlayer(player3);
-
-		Player player4 = new Player(this, 0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3, VK_NUMPAD4, VK_NUMPAD6,
-				VK_NUMPAD8, VK_NUMPAD5);
-		level.addPlayer(player4);
+//		Player player2 = new Player(this, 0, 0, playerW, playerH, 0, "playerYellow", 2, 2, 4, 3, VK_LEFT, VK_RIGHT,
+//				VK_UP, VK_DOWN);
+//		level.addPlayer(player2);
+//
+//		Player player3 = new Player(this, 0, 0, playerW, playerH, 0, "playerGreen", 2, 2, 4, 3, VK_G, VK_J, VK_Z, VK_H);
+//		level.addPlayer(player3);
+//
+//		Player player4 = new Player(this, 0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3, VK_NUMPAD4, VK_NUMPAD6,
+//				VK_NUMPAD8, VK_NUMPAD5);
+//		level.addPlayer(player4);
 	}
 
 	public boolean isRunning() {
@@ -184,7 +189,8 @@ public final class Game extends Canvas implements Runnable {
 	}
 
 	private void tick() {
-		level.update();
+		EntityMaster.update();
+		BombMaster.update();
 	}
 
 	/**

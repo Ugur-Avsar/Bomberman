@@ -7,8 +7,8 @@ public final class BombMaster {
 	private static List<Bomb> livingBombs = new ArrayList<Bomb>();
 
 	public static void update() {
-		for (Bomb bomb : livingBombs)
-			bomb.update();
+		for (int i = 0; i < livingBombs.size(); i++)
+			livingBombs.get(i).update();
 	}
 
 	public static boolean addBomb(Player p) {
@@ -22,6 +22,6 @@ public final class BombMaster {
 	}
 
 	public static List<Bomb> getBombs() {
-		return livingBombs;
+		return new ArrayList<>(livingBombs);
 	}
 }
