@@ -1,6 +1,7 @@
 package menue;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 
 public class menueAnimation extends JFrame{
@@ -22,13 +24,26 @@ public class menueAnimation extends JFrame{
 	JLabel text;
 	JButton button;
 	JButton lvlEditor;
+	JButton options;
+	JButton exit;
 	JLabel background;
+	JLabel firstLabel;
 	JLabel  pic;
+	JLabel secoundLabel;
+	JLabel mainLabel;
+	JPanel mainPanel;
+	JPanel topPanel;
+	JPanel bottomPanel;
     Icon img1;
     Icon img2;
     
+    private Listener l;
+    
    
-	public menueAnimation(){
+	public menueAnimation(Listener listener){
+		l=listener;
+		
+		listener = new Listener(this);
 		img1 = new ImageIcon(getClass().getResource("Bombe.png"));
 		img2 = new ImageIcon(getClass().getResource("Bomberman.png"));
 		setVisible(true);
@@ -37,42 +52,137 @@ public class menueAnimation extends JFrame{
 		setLocationRelativeTo(null);
 		setTitle("Unser Programm");
 		setResizable(true);
-		setLayout(new BorderLayout());
+		
 		//setLayout(null);
 		
 		
 		
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new GridLayout(3,1));
+		
+		topPanel = new JPanel();
+		topPanel.setLayout(new GridLayout(4,1));
+		
+		bottomPanel = new JPanel();
+		bottomPanel.setLayout(new GridLayout(4,1));
 		
 		button = new JButton ("Klick mich");
-		button.setBounds(560,80,200,25);
-		button.addActionListener(new Listener());
-		button.addMouseListener(new Listener());
-		button.setLayout(new GridLayout());
-		add(button);
+		button.addMouseListener(listener);
+		
+		
+		
 		
 		lvlEditor = new JButton ("lvlEditor");
-		lvlEditor.setBounds(560,160,200,25);
-		lvlEditor.addActionListener(new Listener());
-		lvlEditor.addMouseListener(new Listener());
-		add(lvlEditor);
+		lvlEditor.addMouseListener(listener);
 		
-		pic = new JLabel(img1);
-		pic.setBounds(640, 0, 60, 60);
-		add(pic);
+		options = new JButton("Options");
+		options.addMouseListener(listener);
+		
+		exit = new JButton("Exit");
+		exit.addMouseListener(listener);
+		
+		firstLabel = new JLabel();
+		
+		pic = new JLabel();
+	   
+		secoundLabel = new JLabel();
+		
+		mainLabel = new JLabel();
+		
+		
+		
+		
 		
 		background = new JLabel(img2);
-		background.setBounds(0, 0, 500, 300);
-		add(background);
 		
+		
+		add(mainPanel);
+		mainPanel.add(topPanel,BorderLayout.NORTH);
+		mainPanel.add(bottomPanel, BorderLayout.CENTER);
+		topPanel.add(firstLabel);
+		topPanel.add(button);
+		topPanel.add(pic);
+		topPanel.add(lvlEditor);
+		bottomPanel.add(secoundLabel);
+		bottomPanel.add(options);
+		bottomPanel.add(mainLabel);
+		bottomPanel.add(exit);
 		
 		
 		
 		addWindowListener(new WindowHandler());
 		
 		
+		
+		
 	}
 	
-	private class Listener implements ActionListener , MouseListener{
+	private void ActionListener()
+	{
+		button.addMouseListener(l);
+		lvlEditor.addMouseListener(l);
+		
+	}
+	
+	public void setJIcon(Icon i)
+	{
+		this.img1=i;
+	}
+	
+	public Icon getJIcon()
+	{
+		return img1;
+	}
+	public void setJLpic(JLabel i)
+	{
+		this.pic= i;
+	}
+	
+	public JLabel getJLpic()
+	{
+		return pic;
+	}
+	
+	public void setButton(JButton b)
+	{
+		this.button=b;
+	}
+	
+	
+	public JButton getButton()
+	{
+		return button;
+	}
+	
+	//-----------------------------
+	public void setlvlEditor(JButton b)
+	{
+		this.lvlEditor=b;
+	}
+	
+	
+	public JButton getlvlEditor()
+	{
+		return lvlEditor;
+	}
+	//---------------------------------
+	public void setoption(JButton b)
+	{
+		this.options=b;
+	}
+	
+	
+	public JButton getoption()
+	{
+		return options;
+	}
+	//--------------------------------
+	
+	
+	
+
+	
+	/*private class Listener implements ActionListener , MouseListener{
 
 		
 		
@@ -117,7 +227,7 @@ public class menueAnimation extends JFrame{
 
 		
 		
-	}
+	}*/
 	
 	private class WindowHandler implements WindowListener{
 
