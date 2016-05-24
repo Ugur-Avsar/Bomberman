@@ -1,6 +1,7 @@
 package entityComponents;
 
 import entities.DynamicEntity;
+import graphics.MovingSpriteConfiguration;
 import graphics.Spritesheet;
 import inputManagement.Keyboard;
 
@@ -19,12 +20,37 @@ public class ControledDirectionsMovement implements EntityComponent {
 	private static final int DOWN = 3;
 
 	// Spritesheet Indexes
-	private static final int LEFT_BEGIN_INDEX = 3;
-	private static final int RIGHT_BEGIN_INDEX = 6;
-	private static final int UP_BEGIN_INDEX = 9;
-	private static final int DOWN_BEGIN_INDEX = 0;
+	private int leftIndex;
+	private int rightIndex;
+	private int upIndex;
+	private int downIndex;
+	private MovingSpriteConfiguration config;
 
-	private static final int SPRITE_COUNT = 3 - 1;
+	private int spritesPerAction;
+
+	/**
+	 * @param target
+	 * @param left
+	 * @param right
+	 * @param up
+	 * @param down
+	 */
+	public ControledDirectionsMovement(DynamicEntity target, int left, int right, int up, int down,
+			MovingSpriteConfiguration config) {
+		frameCounter = 0;
+		this.changeTime = config.getChangeTime();
+		this.target = target;
+		keys = new int[4];
+		keys[LEFT] = left;
+		keys[RIGHT] = right;
+		keys[UP] = up;
+		keys[DOWN] = down;
+		left = config.getLeftIndex();
+		right = config.getRightIndex();
+		up = config.getUpIndex();
+		down = config.getDownIndex();
+		this.config = config;
+	}
 
 	/**
 	 * @param target
@@ -51,7 +77,16 @@ public class ControledDirectionsMovement implements EntityComponent {
 		boolean down = Keyboard.isKeyDown(keys[DOWN]);
 		boolean left = Keyboard.isKeyDown(keys[LEFT]);
 		boolean right = Keyboard.isKeyDown(keys[RIGHT]);
-		
+
+		if (config != null) {
+			leftIndex = config.getLeftIndex();
+			rightIndex = config.getRightIndex();
+			upIndex = config.getUpIndex();
+			downIndex = config.getDownIndex();
+			spritesPerAction = config.getSpritesPerAction();
+			changeTime = config.getChangeTime();
+		}
+
 		Spritesheet s = (Spritesheet) target.getTexture();
 
 		int selectedSprite = s.getSeletedSprite();
@@ -60,27 +95,25 @@ public class ControledDirectionsMovement implements EntityComponent {
 		if (left) {
 			if (target.getCurrentXSpeed() < 0) {
 				if (frameCounter % changeTime == 0) {
-					if (selectedSprite < LEFT_BEGIN_INDEX + SPRITE_COUNT) {
+					if (selectedSprite < leftIndex + spritesPerAction - 1) {
 						s.incSpriteIndex();
 					} else
-						s.selectSprite(LEFT_BEGIN_INDEX);
+						s.selectSprite(leftIndex);
 				}
 			} else
-				s.selectSprite(LEFT_BEGIN_INDEX);
+				s.selectSprite(leftIndex);
 
 			target.goLeft();
-		}
-
-		if (right) {
+		} else if (right) {
 			if (target.getCurrentXSpeed() > 0) {
 				if (frameCounter % changeTime == 0) {
-					if (selectedSprite < RIGHT_BEGIN_INDEX + SPRITE_COUNT) {
+					if (selectedSprite < rightIndex + spritesPerAction - 1) {
 						s.incSpriteIndex();
 					} else
-						s.selectSprite(RIGHT_BEGIN_INDEX);
+						s.selectSprite(rightIndex);
 				}
 			} else
-				s.selectSprite(RIGHT_BEGIN_INDEX);
+				s.selectSprite(rightIndex);
 
 			target.goRight();
 		}
@@ -88,27 +121,25 @@ public class ControledDirectionsMovement implements EntityComponent {
 		if (up) {
 			if (target.getCurrentYSpeed() < 0) {
 				if (frameCounter % changeTime == 0) {
-					if (selectedSprite < UP_BEGIN_INDEX + SPRITE_COUNT) {
+					if (selectedSprite < upIndex + spritesPerAction - 1) {
 						s.incSpriteIndex();
 					} else
-						s.selectSprite(UP_BEGIN_INDEX);
+						s.selectSprite(upIndex);
 				}
 			} else
-				s.selectSprite(UP_BEGIN_INDEX);
+				s.selectSprite(upIndex);
 
 			target.goUp();
-		}
-
-		if (down) {
+		} else if (down) {
 			if (target.getCurrentYSpeed() > 0) {
 				if (frameCounter % changeTime == 0) {
-					if (selectedSprite < DOWN_BEGIN_INDEX + SPRITE_COUNT) {
+					if (selectedSprite < downIndex + spritesPerAction - 1) {
 						s.incSpriteIndex();
 					} else
-						s.selectSprite(DOWN_BEGIN_INDEX);
+						s.selectSprite(downIndex);
 				}
 			} else
-				s.selectSprite(DOWN_BEGIN_INDEX);
+				s.selectSprite(downIndex);
 
 			target.goDown();
 		}
@@ -120,16 +151,17 @@ public class ControledDirectionsMovement implements EntityComponent {
 
 			switch (target.getDirection()) {
 			case 0:
-				s.selectSprite(10);
+				s.selectSprite(upIndex);
 				break;
 			case 1:
-				s.selectSprite(7);
+				s.selectSprite(rightIndex);
 				break;
 			case 3:
-				s.selectSprite(4);
+				s.selectSprite(downIndex);
 				break;
-			default:
-				s.selectSprite(1);
+			case 4:
+				s.selectSprite(leftIndex);
+				break;
 			}
 		} else if (!left && !right) {
 			target.stayX();
@@ -137,6 +169,7 @@ public class ControledDirectionsMovement implements EntityComponent {
 			target.stayY();
 		}
 
+		System.out.println(target.getDirection());
 		frameCounter++;
 	}
 }

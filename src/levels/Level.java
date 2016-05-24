@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import combat.Bomb;
 import combat.BombMaster;
 import combat.Player;
+import entities.EntityMaster;
 import exceptions.InvalidLevelFormatException;
 import graphics.Texture;
 
@@ -23,13 +23,11 @@ public class Level {
 
 	private List<Polygon> collisionBoxes;
 	private List<Point> playerSpawns;
-
-	private List<Player> players;
+	private int playersAdded;
 
 	public Level(File levelFile) {
 		playerSpawns = new ArrayList<Point>();
 		collisionBoxes = new ArrayList<Polygon>();
-		players = new ArrayList<Player>();
 		try {
 			initLevel(levelFile);
 		} catch (InvalidLevelFormatException e) {
@@ -38,10 +36,11 @@ public class Level {
 	}
 
 	public void addPlayer(Player player) {
-		if (players.size() < playerSpawns.size()) {
-			player.setX(playerSpawns.get(players.size()).getX() - player.getWidth() / 2);
-			player.setY(playerSpawns.get(players.size()).getY() - player.getHeight() / 2);
-			players.add(player);
+		if (playersAdded < playerSpawns.size()) {
+			player.setX(playerSpawns.get(playersAdded).getX() - player.getWidth() / 2);
+			player.setY(playerSpawns.get(playersAdded).getY() - player.getHeight() / 2);
+			EntityMaster.addEntity(player);
+			playersAdded++;
 		}
 	}
 
@@ -160,24 +159,7 @@ public class Level {
 		return true;
 	}
 
-	public void update() {
-		for (int i = 0; i < getBombs().size(); i++) {
-			getBombs().get(i).update();
-		}
-		for (Player player : players) {
-			player.update();
-		}
-	}
-
-	public List<Player> getPlayers() {
-		return players;
-	}
-
 	public List<Point> getSpawns() {
 		return playerSpawns;
-	}
-
-	public List<Bomb> getBombs() {
-		return BombMaster.getBombs();
 	}
 }
