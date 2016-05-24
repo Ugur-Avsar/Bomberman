@@ -62,12 +62,19 @@ public final class Game extends Canvas implements Runnable {
 
 	private BufferStrategy bs;
 	private Graphics2D g;
+	public JFrame topLevelFrame;
 	private boolean running;
 	//////////////////////////////////////////////////////// GAME Elements
+	private IngameMenue menu;
 	private Level level;
 
 	private void initGameElements() {
 		level = new Level(new File("./levels/level.txt"));
+		menu = new IngameMenue(this);
+		topLevelFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+		topLevelFrame.add(menu);
+		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(this, menu);
+		addKeyListener(ooESCListener);
 
 		final int playerW = 25;
 		final int playerH = 50;
@@ -225,13 +232,9 @@ public final class Game extends Canvas implements Runnable {
 				g.stop();
 			}
 		});
+		f.add(g);
 		f.setResizable(false);
 		f.setVisible(true);
-		IngameMenue menu = new IngameMenue(g);
-		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(g, menu);
 		g.start();
-		g.addKeyListener(ooESCListener);
-		f.add(g);
-		f.add(menu);
 	}
 }
