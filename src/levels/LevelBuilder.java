@@ -30,6 +30,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.sun.org.apache.regexp.internal.recompile;
+
 import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import toolbox.ArrayListConverter;
@@ -39,8 +41,8 @@ import toolbox.TimeManager;
 public class LevelBuilder extends JPanel {
 	public static final String TITLE = "LevelBuilder v1.0";
 	public static final int BUTTON_HEIGHT = 100;
-	public static final int WIDTH = 1280;
-	public static final int HEIGHT = 720;
+	public static final int WIDTH = 1024;
+	public static final int HEIGHT = 576;
 
 	private static final File LEVEL_BACKGROUND_FOLDER = new File("./res/levels/");
 	private static final File LEVEL_EXPORT_FOLDER = new File("./levels/");
@@ -74,6 +76,36 @@ public class LevelBuilder extends JPanel {
 
 	public LevelBuilder getThis() {
 		return this;
+	}
+
+	public JFrame createNewLevelBuilderFrame() {
+		JFrame f = new JFrame();
+
+		f.setTitle(LevelBuilder.TITLE);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setSize(LevelBuilder.WIDTH + 6, LevelBuilder.BUTTON_HEIGHT + LevelBuilder.HEIGHT + 35);
+		f.setLocationRelativeTo(null);
+		f.setResizable(false);
+		f.add(this);
+
+		f.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				System.err.println("---------------------------------------------");
+				System.err.println("Levelbuilder v1.0 \nBy:	Ugur Avsar\n  	Kevin Kulcsar");
+				System.err.println("---------------------------------------------");
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.err.println("---------------------------------------------");
+				System.err.println("Exits...");
+				System.err.println("---------------------------------------------");
+			}
+		});
+
+		f.setVisible(true);
+		return f;
 	}
 
 	private void init() {
