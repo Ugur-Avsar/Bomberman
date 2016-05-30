@@ -33,8 +33,10 @@ import javax.swing.UIManager;
 
 import combat.BombMaster;
 import combat.Player;
+import entities.DynamicEntity;
 import entities.Entity;
 import entities.EntityMaster;
+import entityComponents.SinusMovement;
 import exceptions.BadFrameSizeException;
 import graphics.MovingSpriteConfiguration;
 import graphics.Renderer;
@@ -44,6 +46,7 @@ import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import levels.Level;
 import settings.SettingsDialog;
+import toolbox.Ticker;
 import toolbox.TimeManager;
 
 /**
@@ -55,8 +58,12 @@ public final class Game extends Canvas implements Runnable {
 	private Thread thread;
 
 	public static final String TITLE = "Bomberman HD - by Ugur A. & Kevin K.";
-	public static final int DESKTOP_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final int DESKTOP_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	// public static final int DESKTOP_WIDTH = (int)
+	// Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	// public static final int DESKTOP_HEIGHT = (int)
+	// Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static final int DESKTOP_WIDTH = 1280;
+	public static final int DESKTOP_HEIGHT = 720;
 	public static final double SCREEN_SCALING_FACTOR = (DESKTOP_WIDTH + DESKTOP_HEIGHT) / (1920f + 1080f);
 	public static final int FPS_TARGET = 60;
 
@@ -65,48 +72,53 @@ public final class Game extends Canvas implements Runnable {
 	public JFrame topLevelFrame;
 	private boolean running;
 	//////////////////////////////////////////////////////// GAME Elements
-	private IngameMenue menu;
 	private Level level;
+	private Ticker ticker;
+	private SinusMovement s;
 
 	private void initGameElements() {
 		level = new Level(new File("./levels/level.txt"));
-		menu = new IngameMenue(this);
 		topLevelFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-		topLevelFrame.add(menu);
-		OpenOnEscapeListener ooESCListener = new OpenOnEscapeListener(this, menu);
-		addKeyListener(ooESCListener);
 
-		final int playerW = 25;
-		final int playerH = 50;
-		Player player1 = new Player(this, 0, 0, playerW, playerH, 0, "golbez", 2, 2,
+		final int playerW = 90;
+		final int playerH = 110;
+
+		Player player1 = new Player(this, playerW, playerH, 0, "sora", 2, 2,
 				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S);
 		level.addPlayer(player1);
 
-//		Player player2 = new Player(this, 0, 0, playerW, playerH, 0, "playerYellow", 2, 2, 4, 3, VK_LEFT, VK_RIGHT,
-//				VK_UP, VK_DOWN);
-//		level.addPlayer(player2);
-//
-//		Player player3 = new Player(this, 0, 0, playerW, playerH, 0, "playerGreen", 2, 2, 4, 3, VK_G, VK_J, VK_Z, VK_H);
-//		level.addPlayer(player3);
-//
-//		Player player4 = new Player(this, 0, 0, playerW, playerH, 0, "playerRed", 2, 2, 4, 3, VK_NUMPAD4, VK_NUMPAD6,
-//				VK_NUMPAD8, VK_NUMPAD5);
-//		level.addPlayer(player4);
+		Player player2 = new Player(this, playerW, playerH, 0, "sora", 2, 2,
+				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S);
+		level.addPlayer(player2);
+
+		Player player3 = new Player(this, playerW, playerH, 0, "sora", 2, 2,
+				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S);
+		level.addPlayer(player3);
+
+		Player player4 = new Player(this, playerW, playerH, 0, "sora", 2, 2,
+				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S);
+		level.addPlayer(player4);
+
+		DynamicEntity e1 = new DynamicEntity(this, 0, 0, 100, 15, 0, "levels/white", 1, 1, 1, 1, 0);
+		s = new SinusMovement(e1, 64, 0, 4, 4, 0, 0, 0, 0);
+		e1.addEntityComponent(s);
+		EntityMaster.addEntity(e1);
+
+		DynamicEntity e2 = new DynamicEntity(this, 1820, 1065, 100, 15, 0, "levels/white", 1, 1, 1, 1, 0);
+		s = new SinusMovement(e2, -64, 0, 4, 4, 0, 0, 0, 0);
+		e2.addEntityComponent(s);
+		EntityMaster.addEntity(e2);
 	}
 
 	public boolean isRunning() {
 		return running;
 	}
 
-	public void setRunning(boolean running) {
-		this.running = running;
-	}
-
 	public Graphics2D getGraphics2D() {
 		return g;
 	}
 
-	private void start() {
+	public void start() {
 		if (running)
 			return;
 		running = true;
@@ -114,7 +126,7 @@ public final class Game extends Canvas implements Runnable {
 		thread.start();
 	}
 
-	private void stop() {
+	public void stop() {
 		if (!running)
 			return;
 		running = false;
@@ -142,6 +154,8 @@ public final class Game extends Canvas implements Runnable {
 		int tps = 0;
 		boolean canRender = false;
 		long lastTime = System.nanoTime();
+
+		ticker = new Ticker();
 
 		requestFocus();
 		while (running) {
@@ -183,7 +197,7 @@ public final class Game extends Canvas implements Runnable {
 		////////////////////////////////// RENDER PART
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 1920, 1080);
-		Renderer.render(level, g);
+		Renderer.render(this, level, g);
 		////////////////////////////////// RENDER PART
 		bs.show();
 	}
@@ -191,6 +205,9 @@ public final class Game extends Canvas implements Runnable {
 	private void tick() {
 		EntityMaster.update();
 		BombMaster.update();
+		Ticker.tick();
+		if (ticker.getI() % 60 == 0)
+			s.setyCos(!s.isyCos());
 	}
 
 	/**
@@ -198,6 +215,13 @@ public final class Game extends Canvas implements Runnable {
 	 */
 	public Level getLevel() {
 		return level;
+	}
+
+	/**
+	 * @return the topLevelFrame
+	 */
+	public JFrame getTopLevelFrame() {
+		return topLevelFrame;
 	}
 
 	public static void main(String[] args) {
@@ -214,17 +238,14 @@ public final class Game extends Canvas implements Runnable {
 		JFrame f = new JFrame(TITLE);
 		Game g = new Game();
 
-		if (DESKTOP_WIDTH / DESKTOP_HEIGHT != 16 / 9)
-			try {
-				throw new BadFrameSizeException();
-			} catch (BadFrameSizeException e1) {
-				e1.printStackTrace();
-			}
-
+		f.setLayout(null);
 		f.setSize(DESKTOP_WIDTH, DESKTOP_HEIGHT);
 		f.setLocationRelativeTo(null);
-		f.setUndecorated(true);
+		f.setUndecorated(false);
 		f.setFocusable(true);
+
+		g.setSize(DESKTOP_WIDTH, DESKTOP_HEIGHT);
+		g.setLocation(0, 0);
 		f.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -232,9 +253,9 @@ public final class Game extends Canvas implements Runnable {
 				g.stop();
 			}
 		});
-		f.add(g);
+		g.start();f.add(g);
+
 		f.setResizable(false);
 		f.setVisible(true);
-		g.start();
 	}
 }

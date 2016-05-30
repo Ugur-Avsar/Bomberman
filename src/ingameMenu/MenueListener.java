@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import main.Game;
 import settings.SettingsDialog;
+import sound.DefaultSounds;
 import sound.SoundPlayer;
 
 public class MenueListener implements ActionListener {
@@ -18,23 +19,33 @@ public class MenueListener implements ActionListener {
 		this.game = game;
 		this.menue = menue;
 		this.settings = settings;
+		
+		game.setEnabled(true);
+		game.setVisible(true);
+		
+		menue.setEnabled(false);
+		menue.setVisible(false);
+		
+		settings.setEnabled(false);
+		settings.setVisible(false);
+		
 		this.player = new SoundPlayer("buttonHover");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (player.isPlaying())
-			player.stop();
-		player.restart();
+		player.play();
 
 		switch (e.getActionCommand()) {
 		case "play":
-			menue.setVisible(false);
-			menue.setEnabled(false);
 			settings.setVisible(false);
 			settings.setEnabled(false);
 			game.setEnabled(true);
+			game.setVisible(true);
 			game.requestFocusInWindow();
+			menue.setVisible(false);
+			menue.setEnabled(false);
+			DefaultSounds.MAIN_MUSIC.stop();
 			break;
 		case "openSettings":
 			settings.getParentFrame().setVisible(true);

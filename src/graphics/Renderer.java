@@ -2,6 +2,7 @@ package graphics;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 
 import combat.Bomb;
@@ -12,7 +13,7 @@ import levels.Level;
 import main.Game;
 
 public class Renderer {
-	public static void render(Level level, Graphics2D g) {
+	public static void render(Game game, Level level, Graphics2D g) {
 		level.getTexture().render(g, 0, 0, 1920, 1080);
 
 		int x = 0, y = 0, width = 0, height = 0;
@@ -43,6 +44,10 @@ public class Renderer {
 					(int) (y * Game.SCREEN_SCALING_FACTOR) + (int) (height * Game.SCREEN_SCALING_FACTOR) / 2);
 
 			entity.getTexture().render(g1, x, y, width, height);
+		}
+
+		if (!game.getTopLevelFrame().isUndecorated()) {
+			game.getTopLevelFrame().setSize(new Dimension(Game.DESKTOP_WIDTH, Game.DESKTOP_HEIGHT + 35));
 		}
 	}
 }

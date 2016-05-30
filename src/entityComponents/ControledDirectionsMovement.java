@@ -169,7 +169,6 @@ public class ControledDirectionsMovement implements EntityComponent {
 			target.stayY();
 		}
 
-		System.out.println(target.getDirection());
 		frameCounter++;
 	}
 }

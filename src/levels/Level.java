@@ -15,6 +15,7 @@ import combat.Player;
 import entities.EntityMaster;
 import exceptions.InvalidLevelFormatException;
 import graphics.Texture;
+import toolbox.TimeManager;
 
 public class Level {
 	private Texture texture;
@@ -23,7 +24,7 @@ public class Level {
 
 	private List<Polygon> collisionBoxes;
 	private List<Point> playerSpawns;
-	private int playersAdded;
+	private int playersAdded = 0;
 
 	public Level(File levelFile) {
 		playerSpawns = new ArrayList<Point>();
@@ -41,6 +42,11 @@ public class Level {
 			player.setY(playerSpawns.get(playersAdded).getY() - player.getHeight() / 2);
 			EntityMaster.addEntity(player);
 			playersAdded++;
+		} else {
+			System.err.println(
+					TimeManager.getCurrentTime() +
+					"... Can't add any more players to level! (Player-Cap: " +
+							playerSpawns.size() + ")");
 		}
 	}
 
