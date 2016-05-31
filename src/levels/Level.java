@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import combat.BombMaster;
 import combat.Player;
 import entities.EntityMaster;
 import exceptions.InvalidLevelFormatException;

@@ -30,8 +30,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.sun.org.apache.regexp.internal.recompile;
-
 import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import toolbox.ArrayListConverter;
