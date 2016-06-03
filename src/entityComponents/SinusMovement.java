@@ -2,9 +2,7 @@ package entityComponents;
 
 import entities.DynamicEntity;
 
-public class SinusMovement implements EntityComponent {
-
-	private DynamicEntity parent;
+public class SinusMovement extends EntityComponent {
 	private int angle;
 	private double amplitudeX;
 	private double amplitudeY;
@@ -32,7 +30,7 @@ public class SinusMovement implements EntityComponent {
 	 */
 	public SinusMovement(DynamicEntity parent, double amplitudeX, double amplitudeY, double frequencyX,
 			double frequencyY, double xoffsetX, double yoffsetX, double xoffsetY, double yoffsetY) {
-		this.parent = parent;
+		super(parent);
 		this.amplitudeX = amplitudeX;
 		this.amplitudeY = amplitudeY;
 		this.frequencyX = frequencyX;
@@ -47,8 +45,8 @@ public class SinusMovement implements EntityComponent {
 		angle++;
 		double sinX = Math.toRadians(angle * frequencyX + xoffsetX);
 		double sinY = Math.toRadians(angle * frequencyY + yoffsetX);
-		parent.moveX(amplitudeX * (xCos ? Math.cos(sinX) : Math.sin(sinX) + xoffsetY));
-		parent.moveY(amplitudeY * (yCos ? Math.cos(sinY) : Math.sin(sinY) + yoffsetY));
+		((DynamicEntity) parent).moveX(amplitudeX * (xCos ? Math.cos(sinX) : Math.sin(sinX) + xoffsetY));
+		((DynamicEntity) parent).moveY(amplitudeY * (yCos ? Math.cos(sinY) : Math.sin(sinY) + yoffsetY));
 	}
 
 	/**

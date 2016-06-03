@@ -1,9 +1,6 @@
 package main;
 
-import static java.awt.event.KeyEvent.VK_A;
-import static java.awt.event.KeyEvent.VK_D;
-import static java.awt.event.KeyEvent.VK_S;
-import static java.awt.event.KeyEvent.VK_W;
+import static java.awt.event.KeyEvent.*;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -20,9 +17,7 @@ import javax.swing.UIManager;
 
 import combat.BombMaster;
 import combat.Player;
-import entities.DynamicEntity;
 import entities.EntityMaster;
-import entityComponents.SinusMovement;
 import graphics.MovingSpriteConfiguration;
 import graphics.Renderer;
 import inputManagement.Keyboard;
@@ -56,40 +51,30 @@ public final class Game extends Canvas implements Runnable {
 	//////////////////////////////////////////////////////// GAME Elements
 	private Level level;
 	private Ticker ticker;
-	private SinusMovement s;
 
 	private void initGameElements() {
 		level = new Level(new File("./levels/level.txt"));
 		topLevelFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 
-		final int playerW = 90;
-		final int playerH = 110;
+		final int playerW = 50;
+		final int playerH = 70;
 
-		Player player1 = new Player(this, playerW, playerH, 0, "sora", 2, 2,
-				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S);
+		Player player1 = new Player(this, playerW, playerH, 0, "whiteknight", 5, 5,
+				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S, VK_E);
 		level.addPlayer(player1);
 
 		Player player2 = new Player(this, playerW, playerH, 0, "sora", 2, 2,
-				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S);
+				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_G, VK_J, VK_Z, VK_H, VK_T);
 		level.addPlayer(player2);
 
 		Player player3 = new Player(this, playerW, playerH, 0, "sora", 2, 2,
-				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S);
+				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_CONTROL);
 		level.addPlayer(player3);
 
 		Player player4 = new Player(this, playerW, playerH, 0, "sora", 2, 2,
-				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S);
+				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_NUMPAD4, VK_NUMPAD6, VK_NUMPAD8, VK_NUMPAD5,
+				VK_NUMPAD7);
 		level.addPlayer(player4);
-
-		DynamicEntity e1 = new DynamicEntity(this, 0, 0, 100, 15, 0, "levels/white", 1, 1, 1, 1, 0);
-		s = new SinusMovement(e1, 64, 0, 4, 4, 0, 0, 0, 0);
-		e1.addEntityComponent(s);
-		EntityMaster.addEntity(e1);
-
-		DynamicEntity e2 = new DynamicEntity(this, 1820, 1065, 100, 15, 0, "levels/white", 1, 1, 1, 1, 0);
-		s = new SinusMovement(e2, -64, 0, 4, 4, 0, 0, 0, 0);
-		e2.addEntityComponent(s);
-		EntityMaster.addEntity(e2);
 	}
 
 	public boolean isRunning() {
@@ -139,7 +124,7 @@ public final class Game extends Canvas implements Runnable {
 
 		ticker = new Ticker();
 
-		requestFocus();
+		requestFocusInWindow();
 		while (running) {
 			if (isEnabled()) {
 				long now = System.nanoTime();
@@ -162,9 +147,9 @@ public final class Game extends Canvas implements Runnable {
 				if (System.currentTimeMillis() - 1000 > timer) {
 					timer += 1000;
 					System.out.printf(TimeManager.getCurrentTime() + "... FPS: %d | TPS: %d\n", fps, tps);
+					System.out.println("-----------------------------------------------------");
 					fps = 0;
 					tps = 0;
-					System.out.println("-----------------------------------------------------");
 				}
 				try {
 					Thread.sleep(1);
@@ -185,11 +170,9 @@ public final class Game extends Canvas implements Runnable {
 	}
 
 	private void tick() {
+		Ticker.tick();
 		EntityMaster.update();
 		BombMaster.update();
-		Ticker.tick();
-		if (ticker.getI() % 60 == 0)
-			s.setyCos(!s.isyCos());
 	}
 
 	/**
@@ -235,7 +218,8 @@ public final class Game extends Canvas implements Runnable {
 				g.stop();
 			}
 		});
-		g.start();f.add(g);
+		g.start();
+		f.add(g);
 
 		f.setResizable(false);
 		f.setVisible(true);

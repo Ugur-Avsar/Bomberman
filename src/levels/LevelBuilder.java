@@ -1,5 +1,6 @@
 package levels;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -45,8 +46,8 @@ public class LevelBuilder extends JPanel {
 	private static final File LEVEL_BACKGROUND_FOLDER = new File("./res/levels/");
 	private static final File LEVEL_EXPORT_FOLDER = new File("./levels/");
 
-	private static final double FULLHD_SCLAING_FACTOR = 3000.0 / (WIDTH + HEIGHT);
-	private static final double HD_SCLAING_FACTOR = (WIDTH + HEIGHT) / 3000.0;
+	private static final double FULLHD_SCALING_FACTOR = 3000.0 / (WIDTH + HEIGHT);
+	private static final double HD_SCALING_FACTOR = (WIDTH + HEIGHT) / 3000.0;
 
 	private static Texture background;
 
@@ -90,7 +91,7 @@ public class LevelBuilder extends JPanel {
 			@Override
 			public void windowOpened(WindowEvent e) {
 				System.err.println("---------------------------------------------");
-				System.err.println("Levelbuilder v1.0 \nBy:	Ugur Avsar\n  	Kevin Kulcsar");
+				System.err.println("Levelbuilder v1.0 \nBy:\n	Ugur Avsar\n  	Kevin Kulcsar");
 				System.err.println("---------------------------------------------");
 			}
 
@@ -270,8 +271,8 @@ public class LevelBuilder extends JPanel {
 					xCoords = ArrayListConverter.stringArrayToIntArray(ArrayListConverter.toArray(xCoordsSList));
 					yCoords = ArrayListConverter.stringArrayToIntArray(ArrayListConverter.toArray(yCoordsSList));
 
-					xCoords = ArrayListConverter.calculate(xCoords, '*', HD_SCLAING_FACTOR);
-					yCoords = ArrayListConverter.calculate(yCoords, '*', HD_SCLAING_FACTOR);
+					xCoords = ArrayListConverter.calculate(xCoords, '*', HD_SCALING_FACTOR);
+					yCoords = ArrayListConverter.calculate(yCoords, '*', HD_SCALING_FACTOR);
 
 					collisionBoxes.add(new Polygon(xCoords, yCoords, Math.min(xCoords.length, yCoords.length)));
 				}
@@ -279,8 +280,8 @@ public class LevelBuilder extends JPanel {
 				int x = 0;
 				int y = 0;
 				for (String line = reader.readLine(); line != null && !line.equals(""); line = reader.readLine()) {
-					playerSpawns.add(new Point((int) (Integer.parseInt(line.split("/")[0]) * HD_SCLAING_FACTOR),
-							(int) (Integer.parseInt(line.split("/")[1]) * HD_SCLAING_FACTOR)));
+					playerSpawns.add(new Point((int) (Integer.parseInt(line.split("/")[0]) * HD_SCALING_FACTOR),
+							(int) (Integer.parseInt(line.split("/")[1]) * HD_SCALING_FACTOR)));
 				}
 
 			} catch (IOException e) {
@@ -302,10 +303,17 @@ public class LevelBuilder extends JPanel {
 			background.render(g, 0, 0, WIDTH, HEIGHT);
 		}
 
-		g.setColor(Color.RED);
+		g.setColor(new Color(0, 0, 0, 150));
 		for (Polygon polygon : collisionBoxes) {
 			g.fillPolygon(polygon);
 		}
+		g.setStroke(new BasicStroke(2));
+		g.setColor(new Color(255, 255, 255, 150));
+		for (Polygon polygon : collisionBoxes) {
+			g.drawPolygon(polygon);
+		}
+		
+		g.setStroke(new BasicStroke());
 		g.setColor(Color.YELLOW);
 		for (Point point : playerSpawns) {
 			g.fillOval((int) (point.getX() - 2), (int) (point.getY() - 2), 4, 4);
@@ -356,11 +364,11 @@ public class LevelBuilder extends JPanel {
 				yCoords = polygon.ypoints;
 
 				for (int i : xCoords) {
-					writer.write("," + (int) (i * FULLHD_SCLAING_FACTOR));
+					writer.write("," + (int) (i * FULLHD_SCALING_FACTOR));
 				}
 				writer.write(';');
 				for (int i : yCoords) {
-					writer.write("," + (int) (i * FULLHD_SCLAING_FACTOR));
+					writer.write("," + (int) (i * FULLHD_SCALING_FACTOR));
 				}
 				writer.newLine();
 			}
@@ -369,9 +377,9 @@ public class LevelBuilder extends JPanel {
 				int x = (int) point.getX();
 				int y = (int) point.getY();
 
-				writer.write("" + ((int) (x * FULLHD_SCLAING_FACTOR)));
+				writer.write("" + ((int) (x * FULLHD_SCALING_FACTOR)));
 				writer.write('/');
-				writer.write("" + ((int) (y * FULLHD_SCLAING_FACTOR)));
+				writer.write("" + ((int) (y * FULLHD_SCALING_FACTOR)));
 				writer.newLine();
 			}
 			writer.close();

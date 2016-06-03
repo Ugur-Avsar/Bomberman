@@ -3,10 +3,11 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import combat.Bomb;
 import entityComponents.EntityComponent;
 import graphics.Renderable;
 
-public abstract class Entity {
+public class Entity {
 	protected List<EntityComponent> components;
 
 	protected Renderable texture;

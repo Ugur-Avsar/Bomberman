@@ -26,6 +26,10 @@ public class Ticker {
 		i--;
 	}
 
+	public boolean isTicking() {
+		return tickers.contains(this);
+	}
+
 	public void start() {
 		if (!tickers.contains(this))
 			tickers.add(this);
@@ -43,5 +47,9 @@ public class Ticker {
 		for (Ticker ticker : tickers) {
 			ticker.incI();
 		}
+	}
+
+	public void reset() {
+		i = 1;
 	}
 }

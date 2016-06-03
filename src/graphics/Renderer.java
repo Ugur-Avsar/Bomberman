@@ -21,11 +21,20 @@ public class Renderer {
 		for (Bomb bomb : BombMaster.getBombs()) {
 			Graphics2D g1 = (Graphics2D) g.create();
 
-			g1.setStroke(new BasicStroke(10));
-			g1.setColor(new Color(255, 0, 0, (int) (0.5 * ((bomb.getFrameCounter() * (10 / 3)) / 4))));
+			g1.setColor(new Color(255, 0, 0, (int) ((bomb.getFrameCounter() * (10 / 3)) * 0.03)));
 
-			g1.drawOval((int) (bomb.getX() - bomb.getExlosionRadius()), (int) (bomb.getY() - bomb.getExlosionRadius()),
-					(int) bomb.getExlosionRadius() * 2, (int) bomb.getExlosionRadius() * 2);
+			g1.fillOval((int) ((bomb.getX() - bomb.getExlosionRadius()) * Game.SCREEN_SCALING_FACTOR),
+					(int) ((bomb.getY() - bomb.getExlosionRadius()) * Game.SCREEN_SCALING_FACTOR),
+					(int) ((bomb.getExlosionRadius() * 2) * Game.SCREEN_SCALING_FACTOR),
+					(int) ((bomb.getExlosionRadius() * 2) * Game.SCREEN_SCALING_FACTOR));
+
+			g1.setStroke(new BasicStroke(4.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f,
+					new float[] { 10.0f }, 0.0f));
+			g1.setColor(new Color(255, 0, 0, (int) ((bomb.getFrameCounter() * (10 / 3)) / 4)));
+			g1.drawOval((int) ((bomb.getX() - bomb.getExlosionRadius()) * Game.SCREEN_SCALING_FACTOR),
+					(int) ((bomb.getY() - bomb.getExlosionRadius()) * Game.SCREEN_SCALING_FACTOR),
+					(int) ((bomb.getExlosionRadius() * 2) * Game.SCREEN_SCALING_FACTOR),
+					(int) ((bomb.getExlosionRadius() * 2) * Game.SCREEN_SCALING_FACTOR));
 
 			bomb.getTexture().render(g, (int) (bomb.getX() - bomb.getWidth() / 2),
 					(int) (bomb.getY() - bomb.getHeight() / 2), (int) bomb.getWidth(), (int) bomb.getHeight());
