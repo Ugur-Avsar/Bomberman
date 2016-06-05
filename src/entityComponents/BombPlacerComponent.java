@@ -8,11 +8,9 @@ import sound.SoundPlayer;
 
 public class BombPlacerComponent extends EntityComponent {
 
-	private static final int CAP = 2;
+	private static final int CAP = 1;
 	private int bombKey;
 	private int bombsSet;
-
-	
 
 	public BombPlacerComponent(Entity parent, int bombKey) {
 		super(parent);
