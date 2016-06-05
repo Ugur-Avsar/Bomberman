@@ -26,17 +26,17 @@ import static java.awt.event.KeyEvent.VK_UP;
 import static java.awt.event.KeyEvent.VK_W;
 import static java.awt.event.KeyEvent.VK_Z;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.swing.Timer;
+import toolbox.TimeManager;
 
 public class Keyboard implements KeyListener {
 
@@ -48,13 +48,27 @@ public class Keyboard implements KeyListener {
 	}
 
 	private void initKeys() {
-		final int[] keyIDs = new int[] { VK_ESCAPE, VK_SPACE, VK_ENTER, VK_TAB, VK_SHIFT, VK_CONTROL, VK_ALT, VK_RIGHT,
-				VK_LEFT, VK_UP, VK_DOWN, VK_W, VK_A, VK_S, VK_D, VK_E, VK_Q, VK_G, VK_Z, VK_J, VK_H, VK_NUMPAD4,
-				VK_NUMPAD6, VK_NUMPAD5, VK_NUMPAD8 };
-
-		for (int id : keyIDs) {
+		System.out.println("-----------------------------------------------------");
+		System.err.println(TimeManager.getCurrentTime() + "... Loading Keyboard-Values");
+		Field[] fields = KeyEvent.class.getFields();
+		List<Integer> keysList = new ArrayList<Integer>();
+		for (Field field : fields) {
+			if (field.getName().startsWith("VK_")) {
+				try {
+					keysList.add(field.getInt(null));
+					System.out.print(field.getName() + " ");
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		for (int id : keysList) {
 			keys.put(id, new Key(false, false));
 		}
+		System.out.println();
+		System.out.println("-----------------------------------------------------");
 	}
 
 	/**

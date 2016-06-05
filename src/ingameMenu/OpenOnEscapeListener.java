@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import main.Game;
+import sound.DefaultSounds;
+import toolbox.TimeManager;
 
 public class OpenOnEscapeListener implements KeyListener {
 
@@ -14,36 +16,34 @@ public class OpenOnEscapeListener implements KeyListener {
 	public OpenOnEscapeListener(Game parent, IngameMenue child) {
 		this.parent = parent;
 		this.child = child;
-		parent.setEnabled(true);
 		child.setLocation(1920 / 2 - child.getWidth() / 2, 1080 / 2 - child.getHeight() / 2);
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE && !child.isVisible()) {
-			parent.setEnabled(false);
 			child.setEnabled(true);
 			child.setVisible(true);
 			child.requestFocusInWindow();
+			parent.setEnabled(false);
 			menueOpened = true;
-			System.out.println(menueOpened);
+			DefaultSounds.MAIN_MUSIC.play();
+			System.out.println(TimeManager.getCurrentTime() + "... Menue opened!");
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			parent.setEnabled(true);
-			child.setEnabled(false);
-			child.setVisible(false);
-			parent.requestFocusInWindow();
-			menueOpened = false;
-			System.out.println(menueOpened);
-		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+	}
 
+	/**
+	 * @return the menueOpened
+	 */
+	public boolean isMenueOpened() {
+		return menueOpened;
 	}
 }

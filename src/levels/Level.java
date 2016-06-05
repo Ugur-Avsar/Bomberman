@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import combat.BombMaster;
 import combat.Player;
-import entities.EntityMaster;
+import combat.PlayerMaster;
 import exceptions.InvalidLevelFormatException;
 import graphics.Texture;
+import toolbox.TimeManager;
 
 public class Level {
 	private Texture texture;
@@ -23,7 +23,7 @@ public class Level {
 
 	private List<Polygon> collisionBoxes;
 	private List<Point> playerSpawns;
-	private int playersAdded;
+	private int playersAdded = 0;
 
 	public Level(File levelFile) {
 		playerSpawns = new ArrayList<Point>();
@@ -39,8 +39,11 @@ public class Level {
 		if (playersAdded < playerSpawns.size()) {
 			player.setX(playerSpawns.get(playersAdded).getX() - player.getWidth() / 2);
 			player.setY(playerSpawns.get(playersAdded).getY() - player.getHeight() / 2);
-			EntityMaster.addEntity(player);
+			PlayerMaster.addPlayer(player);
 			playersAdded++;
+		} else {
+			System.err.println(TimeManager.getCurrentTime() + "... Can't add any more players to level! (Player-Cap: "
+					+ playerSpawns.size() + ")");
 		}
 	}
 

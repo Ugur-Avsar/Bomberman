@@ -47,10 +47,11 @@ public class Texture implements Renderable {
 
 	@Override
 	public void render(Graphics2D g, int x, int y, int width, int height) {
-		if (manager != null)
+		if (manager != null) {
 			g.drawImage(manager.getImage(), (int) (x * Game.SCREEN_SCALING_FACTOR),
 					(int) (y * Game.SCREEN_SCALING_FACTOR), (int) (width * Game.SCREEN_SCALING_FACTOR),
 					(int) (height * Game.SCREEN_SCALING_FACTOR), null);
+		}
 	}
 
 	public BufferedImage grabSubTexture(int x, int y, int width, int height) {

@@ -30,7 +30,7 @@ public class SettingsDialog extends JPanel {
 
 		parentFrame = new JFrame("Settings");
 		parentFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(("./res/settingsIcon.png")));
-		parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		parentFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		parentFrame.setSize(600, 450);
 		parentFrame.setResizable(false);
 		parentFrame.setLocationRelativeTo(null);

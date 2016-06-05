@@ -29,7 +29,7 @@ public final class BombMaster {
 		return new ArrayList<>(livingBombs);
 	}
 	
-	public  void soundRe()
+	/*public  void soundRe()
 	{
 		soundPlaying =true;
 		
@@ -37,5 +37,5 @@ public final class BombMaster {
 		{
 			soundPlayer.restart();
 		}
-	}
+	}*/
 }

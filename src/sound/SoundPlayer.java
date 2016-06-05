@@ -15,13 +15,6 @@ public class SoundPlayer {
 
 	public SoundPlayer(String soundName) {
 		source = soundName;
-		try {
-			stream = new AudioStream(new FileInputStream("./res/sounds/" + soundName + ".wav"));
-			System.out.println(soundName + ".wav ... Sound loaded");
-		} catch (IOException e) {
-			System.err.println("Sound-File: '" + soundName + ".wav' not found");
-			e.printStackTrace();
-		}
 	}
 
 	public boolean isPlaying() {
@@ -29,22 +22,16 @@ public class SoundPlayer {
 	}
 
 	public void play() {
-		if (!playing) {
-			System.out.println(TimeManager.getCurrentTime() + "... Audio '" + source + "' playing.");
-			player.start(stream);
-			playing = true;
-		}
-	}
 
-	public void restart() {
-		try {
-			System.out.println(TimeManager.getCurrentTime() + "... Audio '" + source + "' restarting...");
-			player.stop(stream);
-			stream.close();
-			stream = new AudioStream(new FileInputStream("./res/sounds/" + source + ".wav"));
-			play();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (!playing) {
+			try {
+				stream = new AudioStream(new FileInputStream("./res/sounds/" + source + ".wav"));
+				System.out.println(TimeManager.getCurrentTime() + "... Audio '" + source + "' playing.");
+				player.start(stream);
+				playing = true;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -62,25 +49,6 @@ public class SoundPlayer {
 			stream.close();
 			playing = false;
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void main(String[] args) {
-		SoundPlayer player = new SoundPlayer("mainmusic");
-		try {
-			player.play();
-			Thread.sleep(3000);
-			player.pause();
-			Thread.sleep(1000);
-			player.play();
-			Thread.sleep(1000);
-			player.stop();
-			Thread.sleep(500);
-			player.restart();
-			Thread.sleep(5000);
-			player.stop();
-		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}

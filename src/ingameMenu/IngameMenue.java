@@ -31,11 +31,11 @@ public class IngameMenue extends JPanel {
 		super(new CardLayout());
 		listener = new MenueListener(game, this, new SettingsDialog());
 		background = new Texture("menueBG");
-		setSize(200, 300);
-		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.WHITE, Color.LIGHT_GRAY));
+		
 		initButtons();
 		initActionCommands();
 		addActionListeners();
+		
 		JPanel gapPanel = new JPanel(new GridLayout(3, 1, 20, 20));
 		gapPanel.setOpaque(false);
 		gapPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -43,8 +43,8 @@ public class IngameMenue extends JPanel {
 		gapPanel.add(settings_BTN);
 		gapPanel.add(exit_BTN);
 		add(gapPanel);
-		setVisible(false);
-		setEnabled(false);
+		setSize(200, 300);
+		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.WHITE, Color.LIGHT_GRAY));
 	}
 
 	@Override
