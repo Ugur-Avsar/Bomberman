@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import sound.DefaultSounds;
+
 public class menue {
 
 	public static void main(String args[]) {
@@ -20,5 +22,6 @@ public class menue {
 		}
 		Listener l = new Listener(null);
 		JFrame frame = new menueAnimation(l);
+		DefaultSounds.MAIN_MUSIC.play();
 	}
 }
