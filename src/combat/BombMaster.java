@@ -3,8 +3,12 @@ package combat;
 import java.util.ArrayList;
 import java.util.List;
 
+import sound.SoundPlayer;
+
 public final class BombMaster {
 	private static List<Bomb> livingBombs = new ArrayList<Bomb>();
+	private SoundPlayer soundPlayer;
+	private static boolean soundPlaying= true;
 
 	public static void update() {
 		for (int i = 0; i < livingBombs.size(); i++)
@@ -23,5 +27,15 @@ public final class BombMaster {
 
 	public static List<Bomb> getBombs() {
 		return new ArrayList<>(livingBombs);
+	}
+	
+	public  void soundRe()
+	{
+		soundPlaying =true;
+		
+		if(!soundPlayer.isPlaying())
+		{
+			soundPlayer.restart();
+		}
 	}
 }

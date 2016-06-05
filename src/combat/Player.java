@@ -16,6 +16,7 @@ public class Player extends DynamicEntity {
 	private int bombsSet = 0;
 	private int HP;
     private SoundPlayer bombSound;
+  
     
 	public Player(Game parent, int x, int y, int width, int height, double rotation, String spriteSheet, double speedX,
 			double speedY, MovingSpriteConfiguration config, int goLeft, int goRight, int goUp, int goDown) {
@@ -35,10 +36,10 @@ public class Player extends DynamicEntity {
 			BombMaster.addBomb(this);
 			bombsSet++;
 			
-			if(!bombSound.isPlaying())
+		/*	if(!bombSound.isPlaying())
 			{
 				bombSound.play();
-			}
+			}*/
 			
 		}
 	}
