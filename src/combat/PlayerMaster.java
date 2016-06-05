@@ -9,8 +9,13 @@ public class PlayerMaster {
 	private static List<Player> players = new ArrayList<Player>();
 
 	public static boolean addPlayer(Player p) {
-		EntityMaster.addEntity(p);
 		return players.add(p);
+	}
+
+	public static void update() {
+		for (Player player : players) {
+			player.update();
+		}
 	}
 
 	public static boolean removePlayer(Player p) {

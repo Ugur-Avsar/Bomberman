@@ -17,6 +17,7 @@ import javax.swing.UIManager;
 
 import combat.BombMaster;
 import combat.Player;
+import combat.PlayerMaster;
 import entities.EntityMaster;
 import graphics.MovingSpriteConfiguration;
 import graphics.Renderer;
@@ -172,6 +173,7 @@ public final class Game extends Canvas implements Runnable {
 	private void tick() {
 		Ticker.tick();
 		EntityMaster.update();
+		PlayerMaster.update();
 		BombMaster.update();
 	}
 

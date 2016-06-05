@@ -8,6 +8,7 @@ import entities.Entity;
 import graphics.Spritesheet;
 import sound.SoundPlayer;
 import toolbox.Ticker;
+import toolbox.TimeManager;
 
 public class Bomb extends Entity {
 
@@ -47,9 +48,16 @@ public class Bomb extends Entity {
 
 		if (ticker.getI() >= (LIFE_TIME / 100) * DEAD_LINE) {
 			bombSound.play();
+			for (Player p : PlayerMaster.getPlayers()) {
+				Ellipse2D kreis = new Ellipse2D.Double(x - explosionRadius - width / 2,
+						y - explosionRadius - height / 2, explosionRadius * 2, explosionRadius * 2);
+				if (kreis.intersects(p.getX(), p.getY(), p.getWidth(), p.getHeight())) {
+					p.damage();
+				}
+			}
 		}
 
-		if (ticker.getI() % (CHANGE_FRQUENCY+1) == 0) {
+		if (ticker.getI() % (CHANGE_FRQUENCY + 1) == 0) {
 			((Spritesheet) texture).incSpriteIndex();
 		}
 	}

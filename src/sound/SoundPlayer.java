@@ -22,16 +22,14 @@ public class SoundPlayer {
 	}
 
 	public void play() {
-
-		if (!playing) {
-			try {
-				stream = new AudioStream(new FileInputStream("./res/sounds/" + source + ".wav"));
-				System.out.println(TimeManager.getCurrentTime() + "... Audio '" + source + "' playing.");
-				player.start(stream);
-				playing = true;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			player.stop(stream);
+			stream = new AudioStream(new FileInputStream("./res/sounds/" + source + ".wav"));
+			System.out.println(TimeManager.getCurrentTime() + "... Audio '" + source + "' playing.");
+			player.start(stream);
+			playing = true;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

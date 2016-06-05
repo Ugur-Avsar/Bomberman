@@ -15,10 +15,8 @@ public class Player extends DynamicEntity {
 	private static int nextPlayerID;
 	private int playerID;
 
-	private static final int maxHP = 500;
 	private static final int BOMB_CAP = 2;
 	private int bombsSet = 0;
-	private int HP;
 	private SoundPlayer bombSound;
 
 	private DamageableComponent dmgComponent;
@@ -29,26 +27,12 @@ public class Player extends DynamicEntity {
 		super(parent, 0, 0, width, height, rotation, spriteSheet, speedX, speedY, config.getRowCount(),
 				config.getColCount(), 1);
 		playerID = nextPlayerID;
-		dmgComponent = new DamageableComponent(this, 10, 10);
+		dmgComponent = new DamageableComponent(this, 1, 1);
 		bombComponent = new BombPlacerComponent(this, bombKey);
 		nextPlayerID++;
 		addEntityComponent(new ControledDirectionsMovement(this, goLeft, goRight, goUp, goDown, config));
 		addEntityComponent(dmgComponent);
 		addEntityComponent(bombComponent);
-	}
-
-	@Override
-	public void update() {
-		super.update();
-		if (Keyboard.isKeyDown(KeyEvent.VK_E) && bombsSet < BOMB_CAP) {
-			BombMaster.addBomb(this);
-			bombsSet++;
-		}
-
-		/*
-		 * if(!bombSound.isPlaying()) { bombSound.play(); }
-		 */
-
 	}
 
 	public void damage() {
@@ -68,5 +52,15 @@ public class Player extends DynamicEntity {
 
 	public int getHP() {
 		return dmgComponent.getHp();
+	}
+
+	@Override
+	public String toString() {
+		return "Player [playerID=" + playerID + ", bombsSet=" + bombsSet + ", "
+				+ (bombSound != null ? "bombSound=" + bombSound + ", " : "")
+				+ (dmgComponent != null ? "dmgComponent=" + dmgComponent + ", " : "")
+				+ (bombComponent != null ? "bombComponent=" + bombComponent + ", " : "")
+				+ (texture != null ? "texture=" + texture + ", " : "") + "x=" + x + ", y=" + y + ", width=" + width
+				+ ", height=" + height + ", rotation=" + rotation + "]";
 	}
 }
