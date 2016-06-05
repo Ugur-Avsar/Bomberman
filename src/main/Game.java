@@ -127,6 +127,11 @@ public final class Game extends Canvas implements Runnable {
 
 		requestFocusInWindow();
 		while (running) {
+			if (!PlayerMaster.someoneAlive()) { // Wenn alle tot sind
+				this.setVisible(false);
+				
+			}
+
 			if (isEnabled()) {
 				long now = System.nanoTime();
 				unprocessed += (now - lastTime) / nsPerTick;

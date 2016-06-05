@@ -18,6 +18,14 @@ public class PlayerMaster {
 		}
 	}
 
+	public static boolean someoneAlive() {
+		for (Player player : players) {
+			if (player.getHP() > 0)
+				return true;
+		}
+		return false;
+	}
+
 	public static boolean removePlayer(Player p) {
 		EntityMaster.removeEntity(p);
 		return players.remove(p);
