@@ -12,7 +12,7 @@ import toolbox.Ticker;
 public class Bomb extends Entity {
 
 	private Ticker ticker;
-	private static final int LIFE_TIME = 200; // In Frames
+	public static final int LIFE_TIME = 255; // In Frames
 	private static final int DEAD_LINE = 70; // Gibt an ab wieviel Prozent der
 												// Animation, Spieler im Radius
 												// Schaden bekommen
@@ -37,18 +37,21 @@ public class Bomb extends Entity {
 		if (!ticker.isTicking()) {
 			ticker.start();
 		}
+
 		ticker.incI();
+
 		if (ticker.getI() >= LIFE_TIME) {
 			BombMaster.destroyBomb(this);
 			return;
 		}
 
-		if (ticker.getI() >= (LIFE_TIME / 100) * DEAD_LINE)
+		if (ticker.getI() >= (LIFE_TIME / 100) * DEAD_LINE) {
 			bombSound.play();
+		}
 
-			if (ticker.getI() % (CHANGE_FRQUENCY + 1) == 0) {
-				((Spritesheet) texture).incSpriteIndex();
-			}
+		if (ticker.getI() % (CHANGE_FRQUENCY+1) == 0) {
+			((Spritesheet) texture).incSpriteIndex();
+		}
 	}
 
 	public double getExlosionRadius() {
