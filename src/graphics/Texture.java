@@ -82,4 +82,11 @@ public class Texture implements Renderable {
 	public void setResponsive(boolean responsive) {
 		this.responsive = responsive;
 	}
+	
+	/**
+	 * @return the responsive
+	 */
+	public boolean isResponsive() {
+		return responsive;
+	}
 }

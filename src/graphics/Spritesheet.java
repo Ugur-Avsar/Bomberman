@@ -57,7 +57,8 @@ public class Spritesheet implements Renderable {
 	}
 
 	public void incSpriteIndex() {
-		this.selectedTexture++;
+		if (selectedTexture < sprites.size() - 1)
+			this.selectedTexture++;
 	}
 
 	@Override
@@ -82,5 +83,9 @@ public class Spritesheet implements Renderable {
 	@Override
 	public void setResponsive(boolean responsive) {
 		this.responsive = responsive;
+	}
+
+	public int getSpriteCount() {
+		return sprites.size();
 	}
 }

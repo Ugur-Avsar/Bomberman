@@ -25,7 +25,7 @@ import graphics.TextureDisplay;
 import sound.DefaultSounds;
 import toolbox.Ticker;
 
-public class MenueAnimation extends JFrame {
+public class Menue extends JFrame {
 
 	private BombenButton start;
 	private BombenButton lvlEditor;
@@ -34,7 +34,7 @@ public class MenueAnimation extends JFrame {
 
 	private Listener l;
 
-	public MenueAnimation() {
+	public Menue() {
 		super("Bomberman HD - Main Menu");
 		DefaultSounds.MAIN_MUSIC.play();
 		addElements();
@@ -43,7 +43,7 @@ public class MenueAnimation extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				int nummber = JOptionPane.showConfirmDialog(MenueAnimation.this, "Wollen sie beenden..?", "Beenden?",
+				int nummber = JOptionPane.showConfirmDialog(Menue.this, "Wollen sie beenden..?", "Beenden?",
 						JOptionPane.YES_NO_OPTION);
 				if (nummber == JOptionPane.YES_OPTION) {
 					System.exit(0);
@@ -145,6 +145,6 @@ public class MenueAnimation extends JFrame {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		new MenueAnimation();
+		new Menue();
 	}
 }

@@ -12,13 +12,13 @@ import toolbox.TimeManager;
 
 public class Bomb extends Entity {
 	private Ticker ticker;
-	public static final int LIFE_TIME = 255; // In Frames
-	private static final int DEAD_LINE = 70; // Gibt an ab wieviel Prozent der
+	public static final int LIFE_TIME = 195; // In Frames
+	private static final int DEAD_LINE = 55; // Gibt an ab wieviel Prozent der
 												// Animation, Spieler im Radius
 												// Schaden bekommen
 	private static final int SPRITE_COLS = 13;
 	private static final int SPRITE_ROWS = 1;
-	private static final int CHANGE_FRQUENCY = LIFE_TIME / (SPRITE_COLS * SPRITE_ROWS);
+	private static final int CHANGE_FRQUENCY = (LIFE_TIME / (SPRITE_COLS * SPRITE_ROWS))/2;
 	private double explosionRadius;
 	private SoundPlayer bombSound;
 	private Player source;
@@ -27,37 +27,35 @@ public class Bomb extends Entity {
 		super(x, y, width, height, 0, new Spritesheet(texture, SPRITE_ROWS, SPRITE_COLS, 0));
 		this.setExplosionRadius(explosionRadius);
 		this.source = player;
-		ticker = new Ticker(false, 1);
+		ticker = new Ticker(true, 0);
 		bombSound = new SoundPlayer("bombSound");
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		if (!ticker.isTicking()) {
-			ticker.start();
-		}
 
-		ticker.incI();
+		if (ticker.getI() % CHANGE_FRQUENCY == 0) {
+			((Spritesheet) texture).incSpriteIndex();
+		}
 
 		if (ticker.getI() >= LIFE_TIME) {
 			BombMaster.destroyBomb(this);
 			return;
 		}
 
-		if (ticker.getI() >= (LIFE_TIME / 100) * DEAD_LINE) {
-			bombSound.play();
+		if (ticker.getI() >= LIFE_TIME - DEAD_LINE) {
+			if (!bombSound.isPlaying())
+				bombSound.play();
+
 			for (Player p : PlayerMaster.getPlayers()) {
-				Ellipse2D kreis = new Ellipse2D.Double(x - explosionRadius - width / 2,
-						y - explosionRadius - height / 2, explosionRadius * 2, explosionRadius * 2);
-				if (kreis.intersects(p.getX(), p.getY(), p.getWidth(), p.getHeight())) {
+				Ellipse2D kreis = new Ellipse2D.Double(x - explosionRadius, y - explosionRadius, explosionRadius * 2,
+						explosionRadius * 2);
+				if (kreis.intersects(p.getX() - p.getWidth() / 2, p.getY() - p.getHeight() / 2, p.getWidth(),
+						p.getHeight())) {
 					p.damage();
 				}
 			}
-		}
-
-		if (ticker.getI() % (CHANGE_FRQUENCY + 1) == 0) {
-			((Spritesheet) texture).incSpriteIndex();
 		}
 	}
 

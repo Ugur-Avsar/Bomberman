@@ -19,11 +19,11 @@ import toolbox.TimeManager;
 
 public class Listener implements MouseListener, ActionListener {
 
-	private MenueAnimation m;
+	private Menue m;
 	private Game g;
 	private LevelBuilder lvl;
 
-	public Listener(MenueAnimation m) {
+	public Listener(Menue m) {
 		this.lvl = new LevelBuilder();
 		this.m = m;
 	}

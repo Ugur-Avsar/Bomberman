@@ -47,8 +47,8 @@ public class LevelBuilder extends JPanel {
 	private static final File LEVEL_BACKGROUND_FOLDER = new File("./res/levels/");
 	private static final File LEVEL_EXPORT_FOLDER = new File("./levels/");
 
-	private static final double FULLHD_SCALING_FACTOR = 3000.0 / (WIDTH + HEIGHT);
-	private static final double HD_SCALING_FACTOR = (WIDTH + HEIGHT) / 3000.0;
+	private static final double FULLHD_SCALING_FACTOR = (1920f + 1080f) / (WIDTH + HEIGHT);
+	private static final double HD_SCALING_FACTOR = (WIDTH + HEIGHT) / (1920f + 1080f);
 
 	private static Texture background;
 
@@ -278,8 +278,6 @@ public class LevelBuilder extends JPanel {
 					collisionBoxes.add(new Polygon(xCoords, yCoords, Math.min(xCoords.length, yCoords.length)));
 				}
 
-				int x = 0;
-				int y = 0;
 				for (String line = reader.readLine(); line != null && !line.equals(""); line = reader.readLine()) {
 					playerSpawns.add(new Point((int) (Integer.parseInt(line.split("/")[0]) * HD_SCALING_FACTOR),
 							(int) (Integer.parseInt(line.split("/")[1]) * HD_SCALING_FACTOR)));
@@ -294,6 +292,7 @@ public class LevelBuilder extends JPanel {
 	}
 
 	public void repaintLevel(List<Integer> xCoords, List<Integer> yCoords) {
+		background.setResponsive(false);
 		g = (Graphics2D) levelField.getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -315,7 +314,7 @@ public class LevelBuilder extends JPanel {
 		}
 
 		g.setStroke(new BasicStroke());
-		g.setColor(Color.YELLOW);
+		g.setColor(Color.WHITE);
 		for (Point point : playerSpawns) {
 			g.fillOval((int) (point.getX() - 2), (int) (point.getY() - 2), 4, 4);
 		}

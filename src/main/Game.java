@@ -37,10 +37,10 @@ public final class Game extends Canvas implements Runnable {
 	private Thread thread;
 
 	public static final String TITLE = "Bomberman HD - by Ugur A. & Kevin K.";
-//	 public static final int DESKTOP_WIDTH = (int)
-//	 Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-//	 public static final int DESKTOP_HEIGHT = (int)
-//	 Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	// public static final int DESKTOP_WIDTH = (int)
+	// Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	// public static final int DESKTOP_HEIGHT = (int)
+	// Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static final int DESKTOP_WIDTH = 1280;
 	public static final int DESKTOP_HEIGHT = 720;
 	public static final double SCREEN_SCALING_FACTOR = (DESKTOP_WIDTH + DESKTOP_HEIGHT) / (1920f + 1080f);
@@ -172,10 +172,10 @@ public final class Game extends Canvas implements Runnable {
 	}
 
 	private void tick() {
-		Ticker.tick();
 		EntityMaster.update();
 		PlayerMaster.update();
 		BombMaster.update();
+		Ticker.tick();
 	}
 
 	/**
