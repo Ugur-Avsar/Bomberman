@@ -22,4 +22,8 @@ public class EntityMaster {
 	public static List<Entity> getEntities() {
 		return new ArrayList<Entity>(entities);
 	}
+
+	public static void reset() {
+		entities.clear();
+	}
 }

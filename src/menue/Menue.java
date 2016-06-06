@@ -27,6 +27,8 @@ import toolbox.Ticker;
 
 public class Menue extends JFrame {
 
+	private Timer t;
+
 	private BombenButton start;
 	private BombenButton lvlEditor;
 	private BombenButton options;
@@ -72,7 +74,7 @@ public class Menue extends JFrame {
 				config.getRightIndex());
 		FigureAnimation runningRight = new FigureAnimation(Direction.LEFT, figureRight, config, 0, 0);
 
-		new Timer(15, new ActionListener() {
+		t = new Timer(15, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Ticker.tick();
@@ -81,7 +83,8 @@ public class Menue extends JFrame {
 				runningLeft.repaint();
 				runningRight.repaint();
 			}
-		}).start();
+		});
+		t.start();
 
 		JPanel middle = new JPanel(new BorderLayout());
 
@@ -146,5 +149,9 @@ public class Menue extends JFrame {
 			e.printStackTrace();
 		}
 		new Menue();
+	}
+
+	public void stopTimer() {
+		t.stop();
 	}
 }

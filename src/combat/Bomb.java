@@ -13,12 +13,12 @@ import toolbox.TimeManager;
 public class Bomb extends Entity {
 	private Ticker ticker;
 	public static final int LIFE_TIME = 195; // In Frames
-	private static final int DEAD_LINE = 55; // Gibt an ab wieviel Prozent der
+	private static final int DEAD_LINE = 80; // Gibt an ab wieviel Prozent der
 												// Animation, Spieler im Radius
 												// Schaden bekommen
 	private static final int SPRITE_COLS = 13;
 	private static final int SPRITE_ROWS = 1;
-	private static final int CHANGE_FRQUENCY = (LIFE_TIME / (SPRITE_COLS * SPRITE_ROWS))/2;
+	private static final int CHANGE_FRQUENCY = LIFE_TIME / (SPRITE_COLS * SPRITE_ROWS);
 	private double explosionRadius;
 	private SoundPlayer bombSound;
 	private Player source;
@@ -39,11 +39,6 @@ public class Bomb extends Entity {
 			((Spritesheet) texture).incSpriteIndex();
 		}
 
-		if (ticker.getI() >= LIFE_TIME) {
-			BombMaster.destroyBomb(this);
-			return;
-		}
-
 		if (ticker.getI() >= LIFE_TIME - DEAD_LINE) {
 			if (!bombSound.isPlaying())
 				bombSound.play();
@@ -56,6 +51,11 @@ public class Bomb extends Entity {
 					p.damage();
 				}
 			}
+		}
+
+		if (ticker.getI() >= LIFE_TIME) {
+			BombMaster.destroyBomb(this);
+			return;
 		}
 	}
 

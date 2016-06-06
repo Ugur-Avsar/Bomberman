@@ -54,10 +54,6 @@ public final class Game extends Canvas implements Runnable {
 	private boolean running;
 	//////////////////////////////////////////////////////// GAME Elements
 	private Level level;
-	private Ticker ticker;
-
-	private PlayerMaster playerM;
-	private SimpleFrame sFrame;
 
 	private void initGameElements() {
 		level = new Level(new File("./levels/level.txt"));
@@ -66,22 +62,28 @@ public final class Game extends Canvas implements Runnable {
 		final int playerW = 50;
 		final int playerH = 70;
 
-		Player player1 = new Player(this, playerW, playerH, 0, "whiteknight", 5, 5,
+		Player player1 = new Player(this, "Ugur", playerW, playerH, 0, "whiteknight", 10, 10,
 				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S, VK_E);
 		level.addPlayer(player1);
 
-		Player player2 = new Player(this, playerW, playerH, 0, "sora", 2, 2,
+		Player player2 = new Player(this, "Kevin", playerW, playerH, 0, "sora", 2, 2,
 				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_G, VK_J, VK_Z, VK_H, VK_T);
 		level.addPlayer(player2);
 
-		Player player3 = new Player(this, playerW, playerH, 0, "sora", 2, 2,
+		Player player3 = new Player(this, "Benjamin", playerW, playerH, 0, "sora", 2, 2,
 				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_CONTROL);
 		level.addPlayer(player3);
 
-		Player player4 = new Player(this, playerW, playerH, 0, "sora", 2, 2,
+		Player player4 = new Player(this, "Taca", playerW, playerH, 0, "sora", 2, 2,
 				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_NUMPAD4, VK_NUMPAD6, VK_NUMPAD8, VK_NUMPAD5,
 				VK_NUMPAD7);
 		level.addPlayer(player4);
+	}
+
+	public static void reset() {
+		PlayerMaster.reset();
+		BombMaster.reset();
+		EntityMaster.reset();
 	}
 
 	public boolean isRunning() {
@@ -90,7 +92,12 @@ public final class Game extends Canvas implements Runnable {
 
 	public void winningScreen() {
 		try {
-			SimpleFrame s = new SimpleFrame();
+			if (PlayerMaster.someoneAlive()) {
+				Player winner = PlayerMaster.getPlayers().get(0);
+				SimpleFrame s = new SimpleFrame(winner);
+			} else {
+				System.err.println("KEIN GEWINNER");
+			}
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
@@ -137,8 +144,6 @@ public final class Game extends Canvas implements Runnable {
 		boolean canRender = false;
 		long lastTime = System.nanoTime();
 
-		ticker = new Ticker();
-
 		requestFocusInWindow();
 		while (running && !PlayerMaster.winnerFound()) {
 
@@ -177,7 +182,7 @@ public final class Game extends Canvas implements Runnable {
 		}
 
 		// EINER HAT GEWONNEN:
-
+		winningScreen();
 	}
 
 	private void render() {
@@ -210,17 +215,13 @@ public final class Game extends Canvas implements Runnable {
 		return topLevelFrame;
 	}
 
-	public static void main(String[] args) {
-		Game.createNewGame();
-	}
-
-	public static void createNewGame() {
+	public static Game createNewGame() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		reset();
 		JFrame f = new JFrame(TITLE);
 		Game g = new Game();
 
@@ -244,5 +245,6 @@ public final class Game extends Canvas implements Runnable {
 
 		f.setResizable(false);
 		f.setVisible(true);
+		return g;
 	}
 }

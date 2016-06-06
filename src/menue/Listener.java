@@ -66,6 +66,7 @@ public class Listener implements MouseListener, ActionListener {
 		switch (e.getActionCommand()) {
 		case "start":
 			Game.createNewGame();
+			m.stopTimer();
 			break;
 		case "levelEditor":
 			lvl.createNewLevelBuilderFrame();

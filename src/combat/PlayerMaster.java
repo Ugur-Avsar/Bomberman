@@ -20,10 +20,8 @@ public class PlayerMaster {
 	}
 
 	public static boolean someoneAlive() {
-		for (Player player : players) {
-			if (player.getHP() > 0)
-				return true;
-		}
+		if (players.size() > 0)
+			return true;
 		return false;
 	}
 
@@ -37,6 +35,10 @@ public class PlayerMaster {
 	public static boolean removePlayer(Player p) {
 		EntityMaster.removeEntity(p);
 		return players.remove(p);
+	}
+
+	public static void reset() {
+		players.clear();
 	}
 
 	public static List<Player> getPlayers() {

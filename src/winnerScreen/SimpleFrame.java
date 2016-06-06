@@ -2,9 +2,13 @@ package winnerScreen;
 
 import javax.swing.*;
 
+import combat.Player;
+import javafx.scene.image.Image;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.Locale;
 
 /**
@@ -19,58 +23,16 @@ public class SimpleFrame extends JFrame {
 	 * 
 	 * @throws UnsupportedLookAndFeelException
 	 */
-	public SimpleFrame() throws UnsupportedLookAndFeelException {
-		UIManager.setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
-		setTitle("Winning-Screen");
-		setSize(800, 400);
+	public SimpleFrame(Player p) throws UnsupportedLookAndFeelException {
+		super.setIconImage(new ImageIcon("./res/winnerIcon.png").getImage());
+		setTitle("THE WINNER TAKES IT ALL!");
+		setSize(800, 350);
 
-		// *****************************************************************************
-		// Menu
-		JMenuBar menuBar = new JMenuBar();
-		JMenu fileMenu = new JMenu("File");
-		menuBar.add(fileMenu);
-		JMenuItem saveItem = new JMenuItem("Save");
-		JMenuItem exitItem = new JMenuItem("Exit");
-		fileMenu.add(saveItem);
-		saveItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("saved ...");
-			}
-		});
-
-		fileMenu.add(exitItem);
-		// anonymous actionlistener to close the frame
-		exitItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.setDefaultLocale(Locale.ENGLISH);
-				int exit = JOptionPane.showConfirmDialog(getParent(), "Exit the application?", "Exit ...",
-						JOptionPane.YES_NO_OPTION);
-				if (exit == JOptionPane.OK_OPTION)
-					System.exit(1);
-			}
-		});
-		// add menu to the frame
-		setJMenuBar(menuBar);
-		// *****************************************************************************
-
-		// panel for gui components
-		SimplePanel panel = new SimplePanel(this);
-
-		// add JTextFieldPanel to the frame
+		SimplePanel panel = new SimplePanel(this, p);
 		add(panel);
 
-		// Groessenaenderung
 		this.setResizable(false);
-
-		// center the frame
-		setLocationRelativeTo(this);
-
-		// sichtbar machen
+		setLocationRelativeTo(null);
 		setVisible(true);
-
 	}
-
 }
