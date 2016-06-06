@@ -11,7 +11,6 @@ import toolbox.Ticker;
 import toolbox.TimeManager;
 
 public class Bomb extends Entity {
-
 	private Ticker ticker;
 	public static final int LIFE_TIME = 255; // In Frames
 	private static final int DEAD_LINE = 70; // Gibt an ab wieviel Prozent der
