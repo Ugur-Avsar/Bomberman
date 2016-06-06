@@ -44,8 +44,8 @@ public class LevelBuilder extends JPanel {
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 576;
 
-	private static final File LEVEL_BACKGROUND_FOLDER = new File("./res/levels/");
-	private static final File LEVEL_EXPORT_FOLDER = new File("./levels/");
+	public static final File LEVEL_BACKGROUND_FOLDER = new File("./res/levels/");
+	public static final File LEVEL_EXPORT_FOLDER = new File("./levels/");
 
 	private static final double FULLHD_SCALING_FACTOR = (1920f + 1080f) / (WIDTH + HEIGHT);
 	private static final double HD_SCALING_FACTOR = (WIDTH + HEIGHT) / (1920f + 1080f);
@@ -72,10 +72,6 @@ public class LevelBuilder extends JPanel {
 		collisionBoxes = new ArrayList<Polygon>();
 		playerSpawns = new ArrayList<Point>();
 		background = new Texture("levels/black");
-	}
-
-	public LevelBuilder getThis() {
-		return this;
 	}
 
 	public JFrame createNewLevelBuilderFrame() {
@@ -109,6 +105,8 @@ public class LevelBuilder extends JPanel {
 	}
 
 	private void init() {
+		Listener listener = new Listener(this);
+
 		JPanel buttons = new JPanel(new GridLayout(2, 3));
 		editBackground = new JButton("Edit Background");
 		addCollisionBox = new JButton("Add Collision-Box");
@@ -134,78 +132,27 @@ public class LevelBuilder extends JPanel {
 
 		buttons.setBounds(0, 0, LevelBuilder.WIDTH, BUTTON_HEIGHT);
 
-		editBackground.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				File[] levelFiles = LEVEL_BACKGROUND_FOLDER.listFiles();
-				String[] levels = new String[levelFiles.length];
+		editBackground.setActionCommand("editBackground");
+		editBackground.addActionListener(listener);
 
-				for (int i = 0; i < levelFiles.length; i++) {
-					levels[i] = levelFiles[i].getName();
-				}
+		addCollisionBox.setActionCommand("addCollisionBox");
+		addCollisionBox.addActionListener(listener);
 
-				String input = (String) JOptionPane.showInputDialog(getThis(), "Select Level-Background-Image:",
-						"Level-Background Selection", JOptionPane.PLAIN_MESSAGE, null, levels, levels[0]);
+		exportLevel.setActionCommand("exportLevel");
+		exportLevel.addActionListener(listener);
 
-				if (input != null)
-					setBG(new Texture("levels/" + input.substring(0, input.length() - 4)));
-			}
-		});
+		openLevel.setActionCommand("openLevel");
+		openLevel.addActionListener(listener);
 
-		addCollisionBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					addMouseListenerToLevel(new BoxAdder(getThis(),
-							Integer.parseInt(JOptionPane.showInputDialog("Polygon-Point-Count:"))));
-				} catch (NumberFormatException | HeadlessException e1) {
-					System.err.println(TimeManager.getCurrentTime() + "... Invalid Polygon-Point count entered!");
-				}
-			}
-		});
+		delete.setActionCommand("delete");
+		delete.addActionListener(listener);
 
-		exportLevel.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				exportLevel();
-			}
-		});
-
-		openLevel.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				loadLevel(JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(getThis()), "Level-Name:"));
-				repaintLevel(null, null);
-			}
-		});
-
-		delete.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				addMouseListenerToLevel(new BoxRemover(getThis()));
-			}
-		});
-
-		setPlayerSpawnPoint.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				addMouseListenerToLevel(new SpawnAdder(getThis()));
-			}
-		});
+		setPlayerSpawnPoint.setActionCommand("setPlayerSpawnPoint");
+		setPlayerSpawnPoint.addActionListener(listener);
 
 		levelField = new JPanel(null);
 		levelField.setBackground(Color.BLACK);
 		levelField.setBounds(0, BUTTON_HEIGHT, WIDTH, HEIGHT);
-
-		Mouse m = new Mouse();
-		levelField.addKeyListener(new Keyboard());
-		levelField.addMouseListener(m);
-		levelField.addMouseMotionListener(m);
-		levelField.addMouseWheelListener(m);
 
 		levelField.setFocusable(true);
 		levelField.requestFocus();
@@ -235,7 +182,6 @@ public class LevelBuilder extends JPanel {
 		}
 	}
 
-	// HIER// HIER// HIER// HIER// HIER// HIER// HIER// HIER
 	public void loadLevel(String levelName) {
 		File level = new File("./levels/" + levelName + ".txt");
 		if (level.isFile() && level.exists()) {
@@ -282,13 +228,10 @@ public class LevelBuilder extends JPanel {
 					playerSpawns.add(new Point((int) (Integer.parseInt(line.split("/")[0]) * HD_SCALING_FACTOR),
 							(int) (Integer.parseInt(line.split("/")[1]) * HD_SCALING_FACTOR)));
 				}
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		}
-
 	}
 
 	public void repaintLevel(List<Integer> xCoords, List<Integer> yCoords) {
@@ -388,46 +331,5 @@ public class LevelBuilder extends JPanel {
 		}
 
 		System.out.println(TimeManager.getCurrentTime() + "... Level exported to: ./levels/" + exportName + ".txt");
-	}
-
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-		JFrame f = new JFrame();
-
-		f.setTitle(LevelBuilder.TITLE);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setSize(LevelBuilder.WIDTH + 6, LevelBuilder.BUTTON_HEIGHT + LevelBuilder.HEIGHT + 35);
-		f.setLocationRelativeTo(null);
-		f.setResizable(false);
-		LevelBuilder l = new LevelBuilder();
-		f.add(l);
-
-		f.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-				System.err.println("---------------------------------------------");
-				System.err.println("Levelbuilder v1.0 \nBy:	Ugur Avsar\n  	Kevin Kulcsar");
-				System.err.println("---------------------------------------------");
-			}
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-				System.err.println("---------------------------------------------");
-				System.err.println("Exits...");
-				System.err.println("---------------------------------------------");
-			}
-		});
-
-		f.setVisible(true);
 	}
 }

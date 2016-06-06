@@ -13,6 +13,7 @@ import javax.swing.JButton;
 
 import levels.LevelBuilder;
 import main.Game;
+import settings.SettingsDialog;
 import sound.DefaultSounds;
 import sound.SoundPlayer;
 import toolbox.TimeManager;
@@ -22,9 +23,11 @@ public class Listener implements MouseListener, ActionListener {
 	private Menue m;
 	private Game g;
 	private LevelBuilder lvl;
+	private SettingsDialog options;
 
 	public Listener(Menue m) {
 		this.lvl = new LevelBuilder();
+		this.options = new SettingsDialog();
 		this.m = m;
 	}
 
@@ -70,6 +73,9 @@ public class Listener implements MouseListener, ActionListener {
 			break;
 		case "levelEditor":
 			lvl.createNewLevelBuilderFrame();
+			break;
+		case "options":
+			options.setVisible(true);
 			break;
 		case "exit":
 			System.out.println(TimeManager.getCurrentTime() + "... Programm wurde beendet.");

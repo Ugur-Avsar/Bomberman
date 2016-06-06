@@ -10,6 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import graphics.Texture;
+import graphics.TextureDisplay;
 import toolbox.IOTool;
 
 public class GeneralDescription extends JPanel {
@@ -30,8 +32,8 @@ public class GeneralDescription extends JPanel {
 		add(scrollPaneText, BorderLayout.CENTER);
 		scrollPaneText.setPreferredSize(new Dimension(350, 0));
 
-		TitleIMGContainer img = new TitleIMGContainer();
-		img.setPreferredSize(new Dimension(250, 0));
+		TextureDisplay img = new TextureDisplay(new Texture("titleIMG"), 0, 0);
+		img.setPreferredSize(new Dimension(200, 0));
 		add(img, BorderLayout.EAST);
 	}
 }

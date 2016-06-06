@@ -39,12 +39,8 @@ public final class Game extends Canvas implements Runnable {
 	private Thread thread;
 
 	public static final String TITLE = "Bomberman HD - by Ugur A. & Kevin K.";
-	// public static final int DESKTOP_WIDTH = (int)
-	// Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	// public static final int DESKTOP_HEIGHT = (int)
-	// Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	public static final int DESKTOP_WIDTH = 1280;
-	public static final int DESKTOP_HEIGHT = 720;
+	public static final int DESKTOP_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static final int DESKTOP_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static final double SCREEN_SCALING_FACTOR = (DESKTOP_WIDTH + DESKTOP_HEIGHT) / (1920f + 1080f);
 	public static final int FPS_TARGET = 60;
 
@@ -62,19 +58,19 @@ public final class Game extends Canvas implements Runnable {
 		final int playerW = 50;
 		final int playerH = 70;
 
-		Player player1 = new Player(this, "Ugur", playerW, playerH, 0, "whiteknight", 10, 10,
+		Player player1 = new Player(this, "Ugur", playerW, playerH, 0, "whiteknight", 7, 7,
 				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_A, VK_D, VK_W, VK_S, VK_E);
 		level.addPlayer(player1);
 
-		Player player2 = new Player(this, "Kevin", playerW, playerH, 0, "sora", 2, 2,
+		Player player2 = new Player(this, "Kevin", playerW, playerH, 0, "ryuk", 7, 7,
 				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_G, VK_J, VK_Z, VK_H, VK_T);
 		level.addPlayer(player2);
 
-		Player player3 = new Player(this, "Benjamin", playerW, playerH, 0, "sora", 2, 2,
+		Player player3 = new Player(this, "Benjamin", playerW, playerH, 0, "golbez", 7, 7,
 				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_CONTROL);
 		level.addPlayer(player3);
 
-		Player player4 = new Player(this, "Taca", playerW, playerH, 0, "sora", 2, 2,
+		Player player4 = new Player(this, "Taca", playerW, playerH, 0, "ramuh", 7, 7,
 				new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4), VK_NUMPAD4, VK_NUMPAD6, VK_NUMPAD8, VK_NUMPAD5,
 				VK_NUMPAD7);
 		level.addPlayer(player4);
@@ -228,11 +224,12 @@ public final class Game extends Canvas implements Runnable {
 		f.setLayout(null);
 		f.setSize(DESKTOP_WIDTH, DESKTOP_HEIGHT);
 		f.setLocationRelativeTo(null);
-		f.setUndecorated(false);
-		f.setFocusable(true);
+		f.setUndecorated(true);
+		f.setFocusable(false);
 
 		g.setSize(DESKTOP_WIDTH, DESKTOP_HEIGHT);
 		g.setLocation(0, 0);
+		g.setFocusable(true);
 		f.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

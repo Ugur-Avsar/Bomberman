@@ -30,12 +30,13 @@ public class SettingsDialog extends JPanel {
 
 		parentFrame = new JFrame("Settings");
 		parentFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(("./res/settingsIcon.png")));
-		parentFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		parentFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		parentFrame.setSize(600, 450);
 		parentFrame.setResizable(false);
 		parentFrame.setLocationRelativeTo(null);
 		parentFrame.add(this);
-		
+		parentFrame.setVisible(false);
+
 	}
 
 	private void addComponents() {
@@ -65,5 +66,9 @@ public class SettingsDialog extends JPanel {
 
 	public JFrame getParentFrame() {
 		return parentFrame;
+	}
+
+	public void setVisible(boolean show) {
+		parentFrame.setVisible(show);
 	}
 }

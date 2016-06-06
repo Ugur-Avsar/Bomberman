@@ -66,11 +66,11 @@ public class Menue extends JFrame {
 
 		MovingSpriteConfiguration config = new MovingSpriteConfiguration(4, 4, 15, 4, 8, 12, 0, 4);
 
-		Spritesheet figureLeft = new Spritesheet("lama", config.getRowCount(), config.getColCount(),
+		Spritesheet figureLeft = new Spritesheet("golbez", config.getRowCount(), config.getColCount(),
 				config.getLeftIndex());
 		FigureAnimation runningLeft = new FigureAnimation(Direction.RIGHT, figureLeft, config, 0, 0);
 
-		Spritesheet figureRight = new Spritesheet("lama", config.getRowCount(), config.getColCount(),
+		Spritesheet figureRight = new Spritesheet("whiteknight", config.getRowCount(), config.getColCount(),
 				config.getRightIndex());
 		FigureAnimation runningRight = new FigureAnimation(Direction.LEFT, figureRight, config, 0, 0);
 
@@ -136,6 +136,10 @@ public class Menue extends JFrame {
 		exit.setActionCommand("exit");
 	}
 
+	public void stopTimer() {
+		t.stop();
+	}
+
 	public static void main(String args[]) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -149,9 +153,5 @@ public class Menue extends JFrame {
 			e.printStackTrace();
 		}
 		new Menue();
-	}
-
-	public void stopTimer() {
-		t.stop();
 	}
 }
