@@ -15,6 +15,7 @@ import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import combat.BombMaster;
 import combat.Player;
@@ -27,6 +28,7 @@ import inputManagement.Mouse;
 import levels.Level;
 import toolbox.Ticker;
 import toolbox.TimeManager;
+import winnerScreen.SimpleFrame;
 
 /**
  * 
@@ -37,10 +39,10 @@ public final class Game extends Canvas implements Runnable {
 	private Thread thread;
 
 	public static final String TITLE = "Bomberman HD - by Ugur A. & Kevin K.";
-//	 public static final int DESKTOP_WIDTH = (int)
-//	 Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-//	 public static final int DESKTOP_HEIGHT = (int)
-//	 Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	// public static final int DESKTOP_WIDTH = (int)
+	// Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	// public static final int DESKTOP_HEIGHT = (int)
+	// Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static final int DESKTOP_WIDTH = 1280;
 	public static final int DESKTOP_HEIGHT = 720;
 	public static final double SCREEN_SCALING_FACTOR = (DESKTOP_WIDTH + DESKTOP_HEIGHT) / (1920f + 1080f);
@@ -53,6 +55,9 @@ public final class Game extends Canvas implements Runnable {
 	//////////////////////////////////////////////////////// GAME Elements
 	private Level level;
 	private Ticker ticker;
+
+	private PlayerMaster playerM;
+	private SimpleFrame sFrame;
 
 	private void initGameElements() {
 		level = new Level(new File("./levels/level.txt"));
@@ -83,6 +88,14 @@ public final class Game extends Canvas implements Runnable {
 		return running;
 	}
 
+	public void winningScreen() {
+		try {
+			SimpleFrame s = new SimpleFrame();
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Graphics2D getGraphics2D() {
 		return g;
 	}
@@ -110,7 +123,7 @@ public final class Game extends Canvas implements Runnable {
 		this.addMouseListener(new Mouse());
 
 		System.err.println("Running...");
-		initGameElements();
+
 		createBufferStrategy(2);
 		bs = getBufferStrategy();
 		g = (Graphics2D) bs.getDrawGraphics();
@@ -127,7 +140,8 @@ public final class Game extends Canvas implements Runnable {
 		ticker = new Ticker();
 
 		requestFocusInWindow();
-		while (running) {
+		while (running && !PlayerMaster.winnerFound()) {
+
 			if (isEnabled()) {
 				long now = System.nanoTime();
 				unprocessed += (now - lastTime) / nsPerTick;
@@ -153,6 +167,7 @@ public final class Game extends Canvas implements Runnable {
 					fps = 0;
 					tps = 0;
 				}
+
 				try {
 					Thread.sleep(1);
 				} catch (InterruptedException e) {
@@ -160,6 +175,9 @@ public final class Game extends Canvas implements Runnable {
 				}
 			}
 		}
+
+		// EINER HAT GEWONNEN:
+
 	}
 
 	private void render() {

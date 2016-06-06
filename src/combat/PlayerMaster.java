@@ -13,6 +13,7 @@ public class PlayerMaster {
 	}
 
 	public static void update() {
+
 		for (Player player : players) {
 			player.update();
 		}
@@ -22,6 +23,13 @@ public class PlayerMaster {
 		for (Player player : players) {
 			if (player.getHP() > 0)
 				return true;
+		}
+		return false;
+	}
+
+	public static boolean winnerFound() {
+		if (players.size() <= 1) {
+			return true;
 		}
 		return false;
 	}
