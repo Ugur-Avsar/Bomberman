@@ -31,6 +31,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import graphics.Texture;
 import inputManagement.Keyboard;
 import inputManagement.Mouse;
 import toolbox.ArrayListConverter;
@@ -312,7 +313,7 @@ public class LevelBuilder extends JPanel {
 		for (Polygon polygon : collisionBoxes) {
 			g.drawPolygon(polygon);
 		}
-		
+
 		g.setStroke(new BasicStroke());
 		g.setColor(Color.YELLOW);
 		for (Point point : playerSpawns) {

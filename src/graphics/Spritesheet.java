@@ -20,11 +20,12 @@ public class Spritesheet implements Renderable {
 	private List<BufferedImage> sprites;
 
 	private int selectedTexture;
+	private boolean responsive;
 
 	public Spritesheet(String filename, int rowCount, int colCount, int initialSprite) {
 		sprites = new ArrayList<BufferedImage>();
 		this.selectedTexture = initialSprite;
-
+		setResponsive(true);
 		this.rowCount = rowCount;
 		this.colCount = colCount;
 
@@ -61,9 +62,12 @@ public class Spritesheet implements Renderable {
 
 	@Override
 	public void render(Graphics2D g, int x, int y, int breite, int hoehe) {
-		g.drawImage(sprites.get(selectedTexture), (int) (x * Game.SCREEN_SCALING_FACTOR),
-				(int) (y * Game.SCREEN_SCALING_FACTOR), (int) (breite * Game.SCREEN_SCALING_FACTOR),
-				(int) (hoehe * Game.SCREEN_SCALING_FACTOR), null);
+		if (responsive)
+			g.drawImage(sprites.get(selectedTexture), (int) (x * Game.SCREEN_SCALING_FACTOR),
+					(int) (y * Game.SCREEN_SCALING_FACTOR), (int) (breite * Game.SCREEN_SCALING_FACTOR),
+					(int) (hoehe * Game.SCREEN_SCALING_FACTOR), null);
+		else
+			g.drawImage(sprites.get(selectedTexture), x, y, breite, hoehe, null);
 	}
 
 	@Override
@@ -73,5 +77,10 @@ public class Spritesheet implements Renderable {
 
 	public int getSeletedSprite() {
 		return selectedTexture;
+	}
+
+	@Override
+	public void setResponsive(boolean responsive) {
+		this.responsive = responsive;
 	}
 }

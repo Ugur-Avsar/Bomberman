@@ -18,6 +18,12 @@ public class Ticker {
 		start();
 	}
 
+	public static void tick() {
+		for (Ticker ticker : tickers) {
+			ticker.incI();
+		}
+	}
+
 	public void incI() {
 		i++;
 	}
@@ -41,12 +47,6 @@ public class Ticker {
 
 	public int getI() {
 		return i;
-	}
-
-	public static void tick() {
-		for (Ticker ticker : tickers) {
-			ticker.incI();
-		}
 	}
 
 	public void reset() {
