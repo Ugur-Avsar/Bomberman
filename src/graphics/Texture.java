@@ -15,6 +15,7 @@ public class Texture implements Renderable {
 	private static final Map<String, TextureManager> texMap = new HashMap<String, TextureManager>();
 	private TextureManager manager;
 	private String filename;
+	private boolean responsive;
 
 	/**
 	 * 
@@ -22,6 +23,7 @@ public class Texture implements Renderable {
 	 */
 	public Texture(String filename) {
 		this.filename = filename;
+		setResponsive(true);
 		TextureManager oldTexture = texMap.get(filename);
 		if (oldTexture != null) {
 			manager = oldTexture;
@@ -33,7 +35,6 @@ public class Texture implements Renderable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 			System.out.println(filename + ".png ... Texture loaded");
 		}
 	}
@@ -48,9 +49,12 @@ public class Texture implements Renderable {
 	@Override
 	public void render(Graphics2D g, int x, int y, int width, int height) {
 		if (manager != null) {
-			g.drawImage(manager.getImage(), (int) (x * Game.SCREEN_SCALING_FACTOR),
-					(int) (y * Game.SCREEN_SCALING_FACTOR), (int) (width * Game.SCREEN_SCALING_FACTOR),
-					(int) (height * Game.SCREEN_SCALING_FACTOR), null);
+			if (responsive)
+				g.drawImage(manager.getImage(), (int) (x * Game.SCREEN_SCALING_FACTOR),
+						(int) (y * Game.SCREEN_SCALING_FACTOR), (int) (width * Game.SCREEN_SCALING_FACTOR),
+						(int) (height * Game.SCREEN_SCALING_FACTOR), null);
+			else
+				g.drawImage(manager.getImage(), x, y, width, height, null);
 		}
 	}
 
@@ -68,5 +72,14 @@ public class Texture implements Renderable {
 
 	public int getWidth() {
 		return manager.getImage().getWidth();
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	@Override
+	public void setResponsive(boolean responsive) {
+		this.responsive = responsive;
 	}
 }
