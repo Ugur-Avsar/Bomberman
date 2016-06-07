@@ -1,14 +1,11 @@
 package combat;
 
 import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import entities.Entity;
 import graphics.Spritesheet;
 import sound.SoundPlayer;
 import toolbox.Ticker;
-import toolbox.TimeManager;
 
 public class Bomb extends Entity {
 	private Ticker ticker;

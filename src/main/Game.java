@@ -1,6 +1,25 @@
 package main;
 
-import static java.awt.event.KeyEvent.*;
+import static java.awt.event.KeyEvent.VK_A;
+import static java.awt.event.KeyEvent.VK_CONTROL;
+import static java.awt.event.KeyEvent.VK_D;
+import static java.awt.event.KeyEvent.VK_DOWN;
+import static java.awt.event.KeyEvent.VK_E;
+import static java.awt.event.KeyEvent.VK_G;
+import static java.awt.event.KeyEvent.VK_H;
+import static java.awt.event.KeyEvent.VK_J;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_NUMPAD4;
+import static java.awt.event.KeyEvent.VK_NUMPAD5;
+import static java.awt.event.KeyEvent.VK_NUMPAD6;
+import static java.awt.event.KeyEvent.VK_NUMPAD7;
+import static java.awt.event.KeyEvent.VK_NUMPAD8;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_S;
+import static java.awt.event.KeyEvent.VK_T;
+import static java.awt.event.KeyEvent.VK_UP;
+import static java.awt.event.KeyEvent.VK_W;
+import static java.awt.event.KeyEvent.VK_Z;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -28,7 +47,7 @@ import inputManagement.Mouse;
 import levels.Level;
 import toolbox.Ticker;
 import toolbox.TimeManager;
-import winnerScreen.SimpleFrame;
+import winnerScreen.WinnerFrame;
 
 /**
  * 
@@ -90,7 +109,7 @@ public final class Game extends Canvas implements Runnable {
 		try {
 			if (PlayerMaster.someoneAlive()) {
 				Player winner = PlayerMaster.getPlayers().get(0);
-				SimpleFrame s = new SimpleFrame(winner);
+				WinnerFrame s = new WinnerFrame(winner);
 			} else {
 				System.err.println("KEIN GEWINNER");
 			}

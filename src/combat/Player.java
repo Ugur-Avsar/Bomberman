@@ -1,13 +1,10 @@
 package combat;
 
-import java.awt.event.KeyEvent;
-
 import entities.DynamicEntity;
 import entityComponents.BombPlacerComponent;
 import entityComponents.ControledDirectionsMovement;
 import entityComponents.DamageableComponent;
 import graphics.MovingSpriteConfiguration;
-import inputManagement.Keyboard;
 import main.Game;
 import sound.SoundPlayer;
 

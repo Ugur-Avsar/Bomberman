@@ -4,7 +4,6 @@ import combat.BombMaster;
 import combat.Player;
 import entities.Entity;
 import inputManagement.Keyboard;
-import sound.SoundPlayer;
 
 public class BombPlacerComponent extends EntityComponent {
 

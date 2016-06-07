@@ -2,9 +2,6 @@ package winnerScreen;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
-
-import javax.swing.*;
 
 import main.Game;
 
@@ -13,16 +10,15 @@ import main.Game;
  * JTextFieldListener
  *
  */
-public class SimpleListener implements ActionListener {
-	private SimplePanel panel;
+public class WinnerListener implements ActionListener {
+	private WinnerScreen panel;
 
 	/**
 	 * 
 	 * @param p
 	 */
-	public SimpleListener(SimplePanel p) {
+	public WinnerListener(WinnerScreen p) {
 		panel = p;
-
 	}
 
 	/**

@@ -3,7 +3,6 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import combat.Bomb;
 import entityComponents.EntityComponent;
 import graphics.Renderable;
 

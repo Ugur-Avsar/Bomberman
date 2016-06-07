@@ -1,42 +1,46 @@
 package winnerScreen;
 
-import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.util.Random;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import combat.Player;
 import graphics.Spritesheet;
 import graphics.TextureDisplay;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Random;
-
 /**
  * JTextFieldPanel
  * 
  *
  */
-class SimplePanel extends JPanel {
+class WinnerScreen extends JPanel {
 
-	private SimpleFrame parentFrame;
+	private WinnerFrame parentFrame;
 
 	private JButton reset;
 	private JButton close;
 
 	private JTextField winner_TF;
-	private SimpleListener simpleListener;
+	private WinnerListener listener;
 	private JLabel winnerLabel;
 
 	/**
 	 * constructor
 	 */
-	public SimplePanel(SimpleFrame simpleFrame, Player winner) {
+	public WinnerScreen(WinnerFrame simpleFrame, Player winner) {
 		super(new GridLayout(1, 3, 10, 10));
 		super.setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.parentFrame = simpleFrame;
-		simpleListener = new SimpleListener(this);
+		listener = new WinnerListener(this);
 
 		// ****************************************************************
 		Font font = new Font("Arial", Font.BOLD + Font.ITALIC, 26);
@@ -47,8 +51,8 @@ class SimplePanel extends JPanel {
 		Font fontWinner = new Font("Arial", Font.BOLD, 45);
 		winnerLabel = new JLabel("UNSER GEWINNER:");
 		winnerLabel.setFont(font);
+
 		winner_TF = new JTextField(winner.getName());
-		// winner_TF.setEditable(false);
 		winner_TF.setFont(fontWinner);
 		winner_TF.setHorizontalAlignment(SwingUtilities.CENTER);
 		winner_TF.setEnabled(false);
@@ -91,7 +95,6 @@ class SimplePanel extends JPanel {
 		mitte.add(winnerLabel, BorderLayout.NORTH);
 		mitte.add(winner_TF, BorderLayout.CENTER);
 		mitte.add(buttons, BorderLayout.SOUTH);
-		System.out.println(winner.getName());
 		add(mitte);
 		add(pokal2);
 
@@ -102,8 +105,8 @@ class SimplePanel extends JPanel {
 	 * add actionListeners
 	 */
 	private void addActionListeners() {
-		reset.addActionListener(simpleListener);
-		close.addActionListener(simpleListener);
+		reset.addActionListener(listener);
+		close.addActionListener(listener);
 	}
 
 	/**
@@ -158,7 +161,7 @@ class SimplePanel extends JPanel {
 	/**
 	 * @return the simpleFrame
 	 */
-	public SimpleFrame getSimpleFrame() {
+	public WinnerFrame getSimpleFrame() {
 		return parentFrame;
 	}
 
