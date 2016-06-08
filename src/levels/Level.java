@@ -150,7 +150,7 @@ public class Level {
 	/**
 	 * @return the collisionBoxes
 	 */
-	public List<Polygon> getCollisionBoxes() {
+	List<Polygon> getCollisionBoxes() {
 		return collisionBoxes;
 	}
 

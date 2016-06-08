@@ -23,11 +23,10 @@ public class DynamicEntity extends Entity {
 	 * @param rotation
 	 * @param texture
 	 */
-	public DynamicEntity(Game parent, int x, int y, int width, int height, double rotation, String texture,
+	public DynamicEntity(Game parent, double x, double y, int width, int height, double rotation, String texture,
 			double speedX, double speedY, int rowCount, int colCount, int initialSprite) {
 
 		super(x, y, width, height, rotation, new Spritesheet(texture, rowCount, colCount, initialSprite));
-
 		this.parent = parent;
 		this.direction = 0;
 		this.setMaxXSpeed(speedX);
@@ -43,11 +42,11 @@ public class DynamicEntity extends Entity {
 		}
 	}
 
-	public void moveX(double dX) {
+	private void moveX(double dX) {
 		x += dX;
 	}
 
-	public void moveY(double dY) {
+	private void moveY(double dY) {
 		y += dY;
 	}
 
