@@ -28,8 +28,8 @@ public class SettingsDialog extends JPanel {
 		initComponents();
 		addComponents();
 
-		parentFrame = new JFrame("Settings");
-		parentFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(("./res/settingsIcon.png")));
+		parentFrame = new JFrame("Settings - IN DEVELOPMENT");
+		parentFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(("./lib/res/settingsIcon.png")));
 		parentFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		parentFrame.setSize(600, 450);
 		parentFrame.setResizable(false);

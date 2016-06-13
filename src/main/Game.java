@@ -44,7 +44,7 @@ import graphics.MovingSpriteConfiguration;
 import graphics.Renderer;
 import inputManagement.Keyboard;
 import inputManagement.Mouse;
-import levels.Level;
+import levelBuilding.Level;
 import toolbox.Ticker;
 import toolbox.TimeManager;
 import winnerScreen.WinnerFrame;
@@ -60,8 +60,7 @@ public final class Game extends Canvas implements Runnable {
 	public static final String TITLE = "Bomberman HD - by Ugur A. & Kevin K.";
 	public static final int DESKTOP_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static final int DESKTOP_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	
-	
+
 	public static final double SCREEN_SCALING_FACTOR = (DESKTOP_WIDTH + DESKTOP_HEIGHT) / (1920f + 1080f);
 	public static final int FPS_TARGET = 60;
 
@@ -72,8 +71,11 @@ public final class Game extends Canvas implements Runnable {
 	//////////////////////////////////////////////////////// GAME Elements
 	private Level level;
 
+	public Game(Level level) {
+		this.level = level;
+	}
+
 	private void initGameElements() {
-		level = new Level(new File("./levels/level.txt"));
 		topLevelFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 
 		final int playerW = 50;
@@ -109,9 +111,10 @@ public final class Game extends Canvas implements Runnable {
 
 	public void winningScreen() {
 		try {
-			if (PlayerMaster.someoneAlive()) {
+			int s = PlayerMaster.getPlayers().size();
+			if (s == 1) {
 				Player winner = PlayerMaster.getPlayers().get(0);
-				WinnerFrame s = new WinnerFrame(winner);
+				new WinnerFrame(this, winner);
 			} else {
 				System.err.println("KEIN GEWINNER");
 			}
@@ -129,6 +132,7 @@ public final class Game extends Canvas implements Runnable {
 			return;
 		running = true;
 		thread = new Thread(this, "BombermanHD - Thread");
+		setVisible(true);
 		thread.start();
 	}
 
@@ -136,7 +140,8 @@ public final class Game extends Canvas implements Runnable {
 		if (!running)
 			return;
 		running = false;
-		System.exit(0);
+		topLevelFrame.setVisible(false);
+		topLevelFrame.setEnabled(false);
 	}
 
 	@Override
@@ -232,7 +237,7 @@ public final class Game extends Canvas implements Runnable {
 		return topLevelFrame;
 	}
 
-	public static Game createNewGame() {
+	public static Game createNewGame(Level level) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
@@ -240,7 +245,7 @@ public final class Game extends Canvas implements Runnable {
 		}
 		reset();
 		JFrame f = new JFrame(TITLE);
-		Game g = new Game();
+		Game g = new Game(level);
 
 		f.setLayout(null);
 		f.setSize(DESKTOP_WIDTH, DESKTOP_HEIGHT);

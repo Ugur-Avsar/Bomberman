@@ -13,23 +13,9 @@ public class PlayerMaster {
 	}
 
 	public static void update() {
-
 		for (Player player : players) {
 			player.update();
 		}
-	}
-
-	public static boolean someoneAlive() {
-		if (players.size() > 0)
-			return true;
-		return false;
-	}
-
-	public static boolean winnerFound() {
-		if (players.size() <= 1) {
-			return true;
-		}
-		return false;
 	}
 
 	public static boolean removePlayer(Player p) {
@@ -43,5 +29,9 @@ public class PlayerMaster {
 
 	public static List<Player> getPlayers() {
 		return new ArrayList<Player>(players);
+	}
+
+	public static boolean winnerFound() {
+		return players.size() < 2;
 	}
 }

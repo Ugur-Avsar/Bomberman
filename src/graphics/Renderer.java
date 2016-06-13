@@ -11,7 +11,7 @@ import combat.Player;
 import combat.PlayerMaster;
 import entities.Entity;
 import entities.EntityMaster;
-import levels.Level;
+import levelBuilding.Level;
 import main.Game;
 
 public class Renderer {

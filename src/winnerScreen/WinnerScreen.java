@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import combat.Player;
 import graphics.Spritesheet;
 import graphics.TextureDisplay;
+import main.Game;
 
 /**
  * JTextFieldPanel
@@ -36,11 +37,11 @@ class WinnerScreen extends JPanel {
 	/**
 	 * constructor
 	 */
-	public WinnerScreen(WinnerFrame simpleFrame, Player winner) {
+	public WinnerScreen(Game g, WinnerFrame simpleFrame, Player winner) {
 		super(new GridLayout(1, 3, 10, 10));
 		super.setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.parentFrame = simpleFrame;
-		listener = new WinnerListener(this);
+		listener = new WinnerListener(g, this);
 
 		// ****************************************************************
 		Font font = new Font("Arial", Font.BOLD + Font.ITALIC, 26);

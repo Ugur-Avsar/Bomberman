@@ -1,4 +1,4 @@
-package levels;
+package levelBuilding;
 
 import java.awt.Point;
 import java.awt.Polygon;

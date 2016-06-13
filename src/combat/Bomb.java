@@ -5,6 +5,7 @@ import java.awt.geom.Ellipse2D;
 import entities.Entity;
 import graphics.Spritesheet;
 import sound.SoundPlayer;
+import sound.Sounds;
 import toolbox.Ticker;
 
 public class Bomb extends Entity {
@@ -17,7 +18,6 @@ public class Bomb extends Entity {
 	private static final int SPRITE_ROWS = 1;
 	private static final int CHANGE_FRQUENCY = LIFE_TIME / (SPRITE_COLS * SPRITE_ROWS);
 	private double explosionRadius;
-	private SoundPlayer bombSound;
 	private Player source;
 
 	public Bomb(double x, double y, int width, int height, double explosionRadius, String texture, Player player) {
@@ -25,7 +25,6 @@ public class Bomb extends Entity {
 		this.setExplosionRadius(explosionRadius);
 		this.source = player;
 		ticker = new Ticker(true, 0);
-		bombSound = new SoundPlayer("bombSound");
 	}
 
 	@Override
@@ -37,8 +36,8 @@ public class Bomb extends Entity {
 		}
 
 		if (ticker.getI() >= LIFE_TIME - DEAD_LINE) {
-			if (!bombSound.isPlaying())
-				bombSound.play();
+			if (!Sounds.BOMB_SOUND.isPlaying())
+				Sounds.BOMB_SOUND.play();
 
 			for (Player p : PlayerMaster.getPlayers()) {
 				Ellipse2D kreis = new Ellipse2D.Double(x - explosionRadius, y - explosionRadius, explosionRadius * 2,

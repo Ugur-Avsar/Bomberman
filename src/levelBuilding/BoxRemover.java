@@ -1,19 +1,19 @@
-package levels;
+package levelBuilding;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class SpawnAdder implements MouseListener {
+public class BoxRemover implements MouseListener {
 
 	private LevelBuilder lb;
 
-	public SpawnAdder(LevelBuilder lb) {
+	public BoxRemover(LevelBuilder lb) {
 		this.lb = lb;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		lb.addSpawn(e.getX(), e.getY());
+		lb.removeBox(e.getX(), e.getY());
 		lb.removeMouseListenerFromLevel(this);
 		lb.repaintLevel(null, null);
 	}

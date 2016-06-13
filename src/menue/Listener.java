@@ -4,11 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
-import levels.LevelBuilder;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+import levelBuilding.Level;
+import levelBuilding.LevelBuilder;
 import main.Game;
 import settings.SettingsDialog;
-import sound.DefaultSounds;
+import sound.Sounds;
 import toolbox.TimeManager;
 
 public class Listener implements MouseListener, ActionListener {
@@ -44,7 +49,7 @@ public class Listener implements MouseListener, ActionListener {
 	public void mouseEntered(MouseEvent e) {
 		if (e.getSource() instanceof BombenButton) {
 			((BombenButton) e.getSource()).toggleBomb();
-			DefaultSounds.CLICKSOUND.play();
+			Sounds.CLICKSOUND.play();
 		}
 	}
 
@@ -61,8 +66,17 @@ public class Listener implements MouseListener, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "start":
-			Game.createNewGame();
-			m.stopTimer();
+			File[] levelFiles = LevelBuilder.LEVEL_EXPORT_FOLDER.listFiles();
+			String[] levels = new String[levelFiles.length];
+			for (int i = 0; i < levelFiles.length; i++)
+				levels[i] = levelFiles[i].getName();
+
+			String level = (String) JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(m), "Select Level",
+					"Level - Selection", JOptionPane.PLAIN_MESSAGE, null, levels, "Select");
+			if (level != null) {
+				m.stopTimer();
+				Game.createNewGame(new Level(new File(LevelBuilder.LEVEL_EXPORT_FOLDER + "/" + level)));
+			}
 			break;
 		case "levelEditor":
 			lvl.createNewLevelBuilderFrame();

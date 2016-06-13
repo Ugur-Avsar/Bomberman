@@ -18,11 +18,6 @@ public class DamageableComponent extends EntityComponent {
 		setHp(initialHP);
 	}
 
-	@Override
-	public void update() {
-
-	}
-
 	public void damage() {
 		hp--;
 		if (hp < 1) {
@@ -63,4 +58,7 @@ public class DamageableComponent extends EntityComponent {
 			this.hp = Math.min(hp, maxHP);
 	}
 
+	@Override
+	public void update() {
+	}
 }

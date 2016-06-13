@@ -1,4 +1,4 @@
-package levels;
+package levelBuilding;
 
 import java.awt.Polygon;
 import java.awt.event.MouseEvent;

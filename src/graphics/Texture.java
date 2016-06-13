@@ -30,7 +30,7 @@ public class Texture implements Renderable {
 			manager.addReference();
 		} else {
 			try {
-				manager = new TextureManager(ImageIO.read(new File("./res/" + filename + ".png")));
+				manager = new TextureManager(ImageIO.read(new File("./lib/res/" + filename + ".png")));
 				texMap.put(filename, manager);
 			} catch (IOException e) {
 				e.printStackTrace();

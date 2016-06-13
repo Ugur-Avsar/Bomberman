@@ -53,32 +53,6 @@ public class ControledDirectionsMovement extends EntityComponent {
 		changeTime = config.getChangeTime();
 	}
 
-	/**
-	 * @param ((DynamicEntity)
-	 *            parent)
-	 * @param left
-	 * @param right
-	 * @param up
-	 * @param down
-	 */
-	public ControledDirectionsMovement(DynamicEntity parent, int spriteChangeTime, int left, int right, int up,
-			int down) {
-		super(parent);
-		frameCounter = new Ticker(true, 1);
-		changeTime = spriteChangeTime;
-		keys = new int[4];
-		keys[LEFT] = left;
-		keys[RIGHT] = right;
-		keys[UP] = up;
-		keys[DOWN] = down;
-		leftIndex = 4;
-		rightIndex = 8;
-		upIndex = 12;
-		downIndex = 0;
-		spritesPerAction = 4;
-		changeTime = 15;
-	}
-
 	@Override
 	public void update() {
 		boolean up = Keyboard.isKeyDown(keys[UP]);

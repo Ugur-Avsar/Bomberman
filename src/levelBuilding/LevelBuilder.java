@@ -1,4 +1,4 @@
-package levels;
+package levelBuilding;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -36,8 +36,8 @@ public class LevelBuilder extends JPanel {
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 576;
 
-	public static final File LEVEL_BACKGROUND_FOLDER = new File("./res/levels/");
-	public static final File LEVEL_EXPORT_FOLDER = new File("./levels/");
+	public static final File LEVEL_BACKGROUND_FOLDER = new File("./lib/res/levels/");
+	public static final File LEVEL_EXPORT_FOLDER = new File("./lib/levels/");
 
 	private static final double FULLHD_SCALING_FACTOR = (1920f + 1080f) / (WIDTH + HEIGHT);
 	private static final double HD_SCALING_FACTOR = (WIDTH + HEIGHT) / (1920f + 1080f);
@@ -322,6 +322,6 @@ public class LevelBuilder extends JPanel {
 			e.printStackTrace();
 		}
 
-		System.out.println(TimeManager.getCurrentTime() + "... Level exported to: ./levels/" + exportName + ".txt");
+		System.out.println(TimeManager.getCurrentTime() + "... Level exported to: ./lib/levels/" + exportName + ".txt");
 	}
 }

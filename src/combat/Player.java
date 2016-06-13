@@ -14,7 +14,6 @@ public class Player extends DynamicEntity {
 	private int playerID;
 
 	private int bombsSet = 0;
-	private SoundPlayer bombSound;
 
 	private DamageableComponent dmgComponent;
 	private BombPlacerComponent bombComponent;
@@ -55,12 +54,11 @@ public class Player extends DynamicEntity {
 
 	@Override
 	public String toString() {
-		return "Player [playerID=" + playerID + ", bombsSet=" + bombsSet + ", "
-				+ (bombSound != null ? "bombSound=" + bombSound + ", " : "")
-				+ (dmgComponent != null ? "dmgComponent=" + dmgComponent + ", " : "")
-				+ (bombComponent != null ? "bombComponent=" + bombComponent + ", " : "")
-				+ (texture != null ? "texture=" + texture + ", " : "") + "x=" + x + ", y=" + y + ", width=" + width
-				+ ", height=" + height + ", rotation=" + rotation + "]";
+		return "Player [" + (name != null ? "name=" + name + ", " : "") + "playerID=" + playerID + ", bombsSet="
+				+ bombsSet + ", " + (dmgComponent != null ? "dmgComponent=" + dmgComponent + ", " : "")
+				+ (bombComponent != null ? "bombComponent=" + bombComponent + ", " : "") + "direction=" + direction
+				+ ", " + (texture != null ? "texture=" + texture + ", " : "") + "x=" + x + ", y=" + y + ", width="
+				+ width + ", height=" + height + ", rotation=" + rotation + "]";
 	}
 
 	public String getName() {

@@ -22,7 +22,7 @@ public class GeneralDescription extends JPanel {
 		title.setFont(new Font("Arial", Font.BOLD, 25));
 		add(title, BorderLayout.NORTH);
 
-		JTextArea area = new JTextArea(IOTool.getString("./res/projectDescription.txt", false));
+		JTextArea area = new JTextArea(IOTool.getString("./lib/res/projectDescription.txt", false));
 		JScrollPane scrollPaneText = new JScrollPane(area);
 		area.setFont(new Font("Arial", 0, 16));
 		area.setEditable(false);

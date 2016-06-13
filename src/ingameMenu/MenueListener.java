@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import main.Game;
 import settings.SettingsDialog;
-import sound.DefaultSounds;
+import sound.Sounds;
 import sound.SoundPlayer;
 
 public class MenueListener implements ActionListener {
@@ -45,7 +45,7 @@ public class MenueListener implements ActionListener {
 			game.requestFocusInWindow();
 			menue.setVisible(false);
 			menue.setEnabled(false);
-			DefaultSounds.MAIN_MUSIC.stop();
+			Sounds.MAIN_MUSIC.stop();
 			break;
 		case "openSettings":
 			settings.getParentFrame().setVisible(true);

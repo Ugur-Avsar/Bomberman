@@ -22,7 +22,7 @@ import graphics.MovingSpriteConfiguration;
 import graphics.Spritesheet;
 import graphics.Texture;
 import graphics.TextureDisplay;
-import sound.DefaultSounds;
+import sound.Sounds;
 import toolbox.Ticker;
 
 public class Menue extends JFrame {
@@ -38,14 +38,14 @@ public class Menue extends JFrame {
 
 	public Menue() {
 		super("Bomberman HD - Main Menu");
-		DefaultSounds.MAIN_MUSIC.play();
+		Sounds.MAIN_MUSIC.play();
 		addElements();
 		addActionListeners();
 		setActionCommands();
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				int nummber = JOptionPane.showConfirmDialog(Menue.this, "Wollen sie beenden..?", "Beenden?",
+				int nummber = JOptionPane.showConfirmDialog(getParent(), "Wollen sie beenden..?", "Beenden?",
 						JOptionPane.YES_NO_OPTION);
 				if (nummber == JOptionPane.YES_OPTION) {
 					System.exit(0);
@@ -58,7 +58,7 @@ public class Menue extends JFrame {
 	private void addElements() {
 		l = new Listener(this);
 		start = new BombenButton("Start");
-		lvlEditor = new BombenButton("lvlEditor");
+		lvlEditor = new BombenButton("Level-Builder");
 		options = new BombenButton("Options");
 		exit = new BombenButton("Exit");
 

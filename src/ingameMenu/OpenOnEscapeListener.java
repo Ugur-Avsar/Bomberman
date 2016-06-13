@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import main.Game;
-import sound.DefaultSounds;
+import sound.Sounds;
 import toolbox.TimeManager;
 
 public class OpenOnEscapeListener implements KeyListener {
@@ -27,7 +27,7 @@ public class OpenOnEscapeListener implements KeyListener {
 			child.requestFocusInWindow();
 			parent.setEnabled(false);
 			menueOpened = true;
-			DefaultSounds.MAIN_MUSIC.play();
+			Sounds.MAIN_MUSIC.play();
 			System.out.println(TimeManager.getCurrentTime() + "... Menue opened!");
 		}
 	}

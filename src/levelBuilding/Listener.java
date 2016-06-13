@@ -1,4 +1,4 @@
-package levels;
+package levelBuilding;
 
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;

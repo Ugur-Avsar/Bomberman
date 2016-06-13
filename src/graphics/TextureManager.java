@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class TextureManager extends ResourceManager {
 	private BufferedImage image;
-	
+
 	/**
 	 * 
 	 * @param image
