@@ -13,32 +13,30 @@ import levelBuilding.Level;
 import levelBuilding.LevelBuilder;
 import main.Game;
 import settings.SettingsDialog;
-import sound.Sounds;
+import sound.SoundPlayer;
 import toolbox.TimeManager;
 
-public class Listener implements MouseListener, ActionListener {
+public class MenuListener implements MouseListener, ActionListener {
 
 	private Menue m;
 	private Game g;
 	private LevelBuilder lvl;
 	private SettingsDialog options;
+	private SoundPlayer hoverSound;
 
-	public Listener(Menue m) {
+	public MenuListener(Menue m) {
 		this.lvl = new LevelBuilder();
 		this.options = new SettingsDialog();
 		this.m = m;
+		this.hoverSound = new SoundPlayer("buttonHover");
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -49,7 +47,7 @@ public class Listener implements MouseListener, ActionListener {
 	public void mouseEntered(MouseEvent e) {
 		if (e.getSource() instanceof BombenButton) {
 			((BombenButton) e.getSource()).toggleBomb();
-			Sounds.CLICKSOUND.play();
+			hoverSound.play();
 		}
 	}
 
@@ -75,7 +73,11 @@ public class Listener implements MouseListener, ActionListener {
 					"Level - Selection", JOptionPane.PLAIN_MESSAGE, null, levels, "Select");
 			if (level != null) {
 				m.stopTimer();
-				Game.createNewGame(new Level(new File(LevelBuilder.LEVEL_EXPORT_FOLDER + "/" + level)));
+				if (g != null) {
+					g.setEnabled(false);
+					g.setVisible(false);
+				}
+				g = Game.createNewGame(new Level(new File(LevelBuilder.LEVEL_EXPORT_FOLDER + "/" + level)));
 			}
 			break;
 		case "levelEditor":

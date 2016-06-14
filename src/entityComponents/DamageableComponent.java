@@ -8,6 +8,14 @@ import entities.Entity;
 import entities.EntityMaster;
 import graphics.Texture;
 
+/**
+ * Erlaubt es der Einheit Schaden zu bekommen.
+ * 
+ * Wird standartm‰ﬂig von der Player-Klasse verwendet.
+ * 
+ * @author AvsarUgur, KulcsarKevin
+ *
+ */
 public class DamageableComponent extends EntityComponent {
 
 	private int maxHP, hp;
@@ -21,7 +29,12 @@ public class DamageableComponent extends EntityComponent {
 	public void damage() {
 		hp--;
 		if (hp < 1) {
-			PlayerMaster.removePlayer((Player) parent);
+			if (parent instanceof Player)
+				PlayerMaster.removePlayer((Player) parent);
+			else
+				EntityMaster.removeEntity(parent);
+
+			// Grabstein mit zuf‰lliger Textur wird hinzugef¸gt.
 			EntityMaster.addEntity(new Entity((int) parent.getX(), (int) parent.getY(), (int) parent.getWidth(),
 					(int) parent.getHeight(), 0, new Texture("grave" + new Random().nextInt(4))));
 		}
@@ -54,8 +67,7 @@ public class DamageableComponent extends EntityComponent {
 	 *            the hp to set
 	 */
 	public void setHp(int hp) {
-		if (hp < 0)
-			this.hp = Math.min(hp, maxHP);
+		this.hp = Math.max(0, Math.min(hp, maxHP));
 	}
 
 	@Override

@@ -70,9 +70,5 @@ public class Renderer {
 
 			player.getTexture().render(g1, x, y, width, height);
 		}
-
-		if (!game.getTopLevelFrame().isUndecorated()) {
-			game.getTopLevelFrame().setSize(new Dimension(Game.DESKTOP_WIDTH, Game.DESKTOP_HEIGHT + 35));
-		}
 	}
 }

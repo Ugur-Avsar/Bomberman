@@ -1,19 +1,30 @@
 package entityComponents;
 
+import combat.Player;
+import combat.PlayerMaster;
 import entities.DynamicEntity;
 import graphics.MovingSpriteConfiguration;
 import graphics.Spritesheet;
 import inputManagement.Keyboard;
 import toolbox.Ticker;
 
+/**
+ * Erlaubt es der Einheit mit vier Tasten gestuert zu werden und aktualisiert
+ * die Animation der Einheit je nach Tastendruck.
+ * 
+ * Wird standartmäßig von der Player-Klasse verwendet.
+ * 
+ * @author AvsarUgur, KulcsarKevin
+ *
+ */
 public class ControledDirectionsMovement extends EntityComponent {
 
-	private int[] keys;
+	private int[] keys; // Tasten mit der die Einheit gesteuert wird.
 
 	private Ticker frameCounter;
 	private int changeTime;
 
-	// Key-Positions
+	// Key-Positions (für das keys Array)
 	private static final int LEFT = 0;
 	private static final int RIGHT = 1;
 	private static final int UP = 2;
@@ -53,6 +64,9 @@ public class ControledDirectionsMovement extends EntityComponent {
 		changeTime = config.getChangeTime();
 	}
 
+	/**
+	 * Aktualisiert das Spritesheet und bewegt die Einheit.
+	 */
 	@Override
 	public void update() {
 		boolean up = Keyboard.isKeyDown(keys[UP]);
@@ -141,7 +155,5 @@ public class ControledDirectionsMovement extends EntityComponent {
 		} else if (!up && !down) {
 			((DynamicEntity) parent).stayY();
 		}
-
-		frameCounter.incI();
 	}
 }

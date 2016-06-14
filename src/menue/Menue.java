@@ -22,7 +22,7 @@ import graphics.MovingSpriteConfiguration;
 import graphics.Spritesheet;
 import graphics.Texture;
 import graphics.TextureDisplay;
-import sound.Sounds;
+import sound.SoundPlayer;
 import toolbox.Ticker;
 
 public class Menue extends JFrame {
@@ -34,11 +34,11 @@ public class Menue extends JFrame {
 	private BombenButton options;
 	private BombenButton exit;
 
-	private Listener l;
+	private MenuListener l;
 
 	public Menue() {
 		super("Bomberman HD - Main Menu");
-		Sounds.MAIN_MUSIC.play();
+		new SoundPlayer("mainmusic").play();
 		addElements();
 		addActionListeners();
 		setActionCommands();
@@ -56,7 +56,7 @@ public class Menue extends JFrame {
 	}
 
 	private void addElements() {
-		l = new Listener(this);
+		l = new MenuListener(this);
 		start = new BombenButton("Start");
 		lvlEditor = new BombenButton("Level-Builder");
 		options = new BombenButton("Options");

@@ -39,7 +39,7 @@ public class Keyboard implements KeyListener {
 			}
 		}
 		for (int id : keysList) {
-			keys.put(id, new Key(false, false));
+			keys.put(id, new Key(false));
 		}
 		System.out.println();
 		System.out.println("-----------------------------------------------------");

@@ -8,8 +8,8 @@ import javax.swing.JButton;
 import graphics.Texture;
 
 public class BombenButton extends JButton {
-	private boolean bombVisible;
 	private static final Texture BOMBE = new Texture("Bombe");
+	private boolean bombVisible;
 
 	public BombenButton(String text) {
 		super(text);

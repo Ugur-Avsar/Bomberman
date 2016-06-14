@@ -16,7 +16,6 @@ public class Spritesheet implements Renderable {
 	private int rowHeight;
 	private int colWidth;
 
-	private String spritesheetFilename;
 	private List<BufferedImage> sprites;
 
 	private int selectedTexture;
@@ -44,7 +43,6 @@ public class Spritesheet implements Renderable {
 	public void loadSpritesheet(String filename) throws InvalidSpritesheetSizeException {
 		sprites.clear();
 		Texture sheet = new Texture(filename);
-		spritesheetFilename = filename;
 
 		this.rowHeight = sheet.getHeight() / rowCount;
 		this.colWidth = sheet.getWidth() / colCount;
@@ -69,11 +67,6 @@ public class Spritesheet implements Renderable {
 					(int) (hoehe * Game.SCREEN_SCALING_FACTOR), null);
 		else
 			g.drawImage(sprites.get(selectedTexture), x, y, breite, hoehe, null);
-	}
-
-	@Override
-	public String toString() {
-		return sprites.size() + " Sprites from ./res/" + spritesheetFilename + ".png";
 	}
 
 	public int getSeletedSprite() {

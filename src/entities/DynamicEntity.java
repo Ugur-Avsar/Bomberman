@@ -3,6 +3,14 @@ package entities;
 import graphics.Spritesheet;
 import main.Game;
 
+/**
+ * 
+ * Dynamische Entities sind Einheiten die sich um ihre X- und Y-Achse bewegen
+ * können und deren Textur ein Spritesheet und kein Standbild ist.
+ * 
+ * @author AvsarUgur, KulcsarKevin
+ *
+ */
 public class DynamicEntity extends Entity {
 
 	protected double maxXSpeed;
@@ -12,6 +20,13 @@ public class DynamicEntity extends Entity {
 	protected double currentYSpeed;
 
 	protected int direction;
+	/**
+	 * direction:
+	 * 0 ... up
+	 * 1 ... right
+	 * 2 ... down
+	 * 3 ... left
+	 */
 
 	protected Game parent;
 
@@ -33,6 +48,10 @@ public class DynamicEntity extends Entity {
 		this.setMaxYSpeed(speedY);
 	}
 
+	/**
+	 * Kollisions-Überprüfung bevor die Einheit bewegt wird. Siehe
+	 * walkable-Methode für Kollisions-Logik.
+	 */
 	@Override
 	public void update() {
 		super.update();

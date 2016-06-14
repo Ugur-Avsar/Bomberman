@@ -5,7 +5,6 @@ import java.awt.geom.Ellipse2D;
 import entities.Entity;
 import graphics.Spritesheet;
 import sound.SoundPlayer;
-import sound.Sounds;
 import toolbox.Ticker;
 
 public class Bomb extends Entity {
@@ -20,13 +19,33 @@ public class Bomb extends Entity {
 	private double explosionRadius;
 	private Player source;
 
+	private SoundPlayer bombSound;
+
+	/**
+	 * 
+	 * Erstellt eine neue Bombe mit den gegebenen Daten.
+	 * 
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param explosionRadius
+	 * @param texture
+	 * @param player
+	 */
 	public Bomb(double x, double y, int width, int height, double explosionRadius, String texture, Player player) {
 		super(x, y, width, height, 0, new Spritesheet(texture, SPRITE_ROWS, SPRITE_COLS, 0));
 		this.setExplosionRadius(explosionRadius);
 		this.source = player;
 		ticker = new Ticker(true, 0);
+		bombSound = new SoundPlayer("bombSound");
 	}
 
+	/**
+	 * Ändert den Spritesheet-Index um eine Animation zu erzeugen. Explodiert ab
+	 * der gegebenen DEAD_LINE. Entfernt sich aus der Liste der Bomben wenn
+	 * LIFE_TIME erreicht wurde.
+	 */
 	@Override
 	public void update() {
 		super.update();
@@ -36,8 +55,8 @@ public class Bomb extends Entity {
 		}
 
 		if (ticker.getI() >= LIFE_TIME - DEAD_LINE) {
-			if (!Sounds.BOMB_SOUND.isPlaying())
-				Sounds.BOMB_SOUND.play();
+			if (!bombSound.isPlaying())
+				bombSound.play();
 
 			for (Player p : PlayerMaster.getPlayers()) {
 				Ellipse2D kreis = new Ellipse2D.Double(x - explosionRadius, y - explosionRadius, explosionRadius * 2,

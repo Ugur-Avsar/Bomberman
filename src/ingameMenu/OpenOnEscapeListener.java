@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import main.Game;
-import sound.Sounds;
+import sound.SoundPlayer;
 import toolbox.TimeManager;
 
 public class OpenOnEscapeListener implements KeyListener {
@@ -12,11 +12,13 @@ public class OpenOnEscapeListener implements KeyListener {
 	private Game parent;
 	private IngameMenue child;
 	private boolean menueOpened;
+	private SoundPlayer mainmusic;
 
 	public OpenOnEscapeListener(Game parent, IngameMenue child) {
 		this.parent = parent;
 		this.child = child;
 		child.setLocation(1920 / 2 - child.getWidth() / 2, 1080 / 2 - child.getHeight() / 2);
+		mainmusic = new SoundPlayer("mainmusic");
 	}
 
 	@Override
@@ -27,7 +29,7 @@ public class OpenOnEscapeListener implements KeyListener {
 			child.requestFocusInWindow();
 			parent.setEnabled(false);
 			menueOpened = true;
-			Sounds.MAIN_MUSIC.play();
+			mainmusic.play();
 			System.out.println(TimeManager.getCurrentTime() + "... Menue opened!");
 		}
 	}

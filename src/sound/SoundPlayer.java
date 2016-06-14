@@ -24,7 +24,7 @@ public class SoundPlayer {
 	public void play() {
 		try {
 			player.stop(stream);
-			stream = new AudioStream(new FileInputStream("./lib/res/sounds/" + source + ".wav"));
+			stream = new AudioStream(new FileInputStream("./res/sounds/" + source + ".wav"));
 			System.out.println(TimeManager.getCurrentTime() + "... Audio '" + source + "' playing.");
 			player.start(stream);
 			playing = true;

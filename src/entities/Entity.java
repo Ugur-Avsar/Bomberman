@@ -6,11 +6,26 @@ import java.util.List;
 import entityComponents.EntityComponent;
 import graphics.Renderable;
 
+/**
+ * Die allgemeine Klasse für alle Einheiten im Spiel wie z.B. Spieler, Bomben
+ * etc. Alles was eine X- und Y-Koordinate und eine Breite/Höhe hat ist eine
+ * Entity. Optional ist nocht eine Rotation einstellbar. Jede Einheit im Spiel
+ * kann entweder eine Textur (Texture) oder ein Spritesheet haben.
+ * 
+ * Spritesheets können in der 'update'-Methode behandelt werden um eine
+ * Animation zu erzeugen.
+ * 
+ * Entities können Komponenten hinzugeüft werden
+ * (components:List<EntityComponent>) um ihre Funktionalität zu erweitern. Siehe
+ * entityComponents-Package.
+ * 
+ * @author AvsarUgur, KulcsarKevin
+ *
+ */
 public class Entity {
-	protected List<EntityComponent> components;
+	protected List<EntityComponent> components; // Komponenten der Einheit
 
-	protected Renderable texture;
-
+	protected Renderable texture; // Textur oder Spritesheet
 	protected double x, y;
 	protected double width, height;
 	protected double rotation;
@@ -45,6 +60,9 @@ public class Entity {
 		components.remove(index);
 	}
 
+	/**
+	 * Komponenten werden aktualisiert.
+	 */
 	public void update() {
 		for (EntityComponent e : components)
 			e.update();

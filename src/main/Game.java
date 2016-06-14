@@ -43,7 +43,6 @@ import entities.EntityMaster;
 import graphics.MovingSpriteConfiguration;
 import graphics.Renderer;
 import inputManagement.Keyboard;
-import inputManagement.Mouse;
 import levelBuilding.Level;
 import toolbox.Ticker;
 import toolbox.TimeManager;
@@ -55,8 +54,9 @@ import winnerScreen.WinnerFrame;
  *
  */
 public final class Game extends Canvas implements Runnable {
-	private Thread thread;
+	public JFrame topLevelFrame;
 
+	private Thread thread;
 	public static final String TITLE = "Bomberman HD - by Ugur A. & Kevin K.";
 	public static final int DESKTOP_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static final int DESKTOP_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -66,7 +66,6 @@ public final class Game extends Canvas implements Runnable {
 
 	private BufferStrategy bs;
 	private Graphics2D g;
-	public JFrame topLevelFrame;
 	private boolean running;
 	//////////////////////////////////////////////////////// GAME Elements
 	private Level level;
@@ -149,7 +148,6 @@ public final class Game extends Canvas implements Runnable {
 		initGameElements();
 		this.setFocusable(true);
 		this.addKeyListener(new Keyboard());
-		this.addMouseListener(new Mouse());
 
 		System.err.println("Running...");
 

@@ -3,6 +3,7 @@ package levelBuilding;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -36,8 +37,8 @@ public class LevelBuilder extends JPanel {
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 576;
 
-	public static final File LEVEL_BACKGROUND_FOLDER = new File("./lib/res/levels/");
-	public static final File LEVEL_EXPORT_FOLDER = new File("./lib/levels/");
+	public static final File LEVEL_BACKGROUND_FOLDER = new File("./res/levels/");
+	public static final File LEVEL_EXPORT_FOLDER = new File("./levels/");
 
 	private static final double FULLHD_SCALING_FACTOR = (1920f + 1080f) / (WIDTH + HEIGHT);
 	private static final double HD_SCALING_FACTOR = (WIDTH + HEIGHT) / (1920f + 1080f);
@@ -70,7 +71,7 @@ public class LevelBuilder extends JPanel {
 		JFrame f = new JFrame();
 
 		f.setTitle(LevelBuilder.TITLE);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		f.setSize(LevelBuilder.WIDTH + 6, LevelBuilder.BUTTON_HEIGHT + LevelBuilder.HEIGHT + 35);
 		f.setLocationRelativeTo(null);
 		f.setResizable(false);
@@ -86,9 +87,14 @@ public class LevelBuilder extends JPanel {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.err.println("---------------------------------------------");
-				System.err.println("Exits...");
-				System.err.println("---------------------------------------------");
+				int choice = JOptionPane.showConfirmDialog(getParent(), "Any unsaved work will be lost!!", "Exit?",
+						JOptionPane.OK_CANCEL_OPTION);
+				if (choice == JOptionPane.OK_OPTION) {
+					System.err.println("---------------------------------------------");
+					System.err.println("Exits...");
+					System.err.println("---------------------------------------------");
+					System.exit(0);
+				}
 			}
 		});
 
@@ -273,6 +279,9 @@ public class LevelBuilder extends JPanel {
 		collisionBoxes.add(box);
 	}
 
+	/**
+	 * Exportiert das Level 
+	 */
 	public void exportLevel() {
 		String exportName = JOptionPane.showInputDialog(levelField.getParent(), "Enter Level-Name:");
 
@@ -322,6 +331,6 @@ public class LevelBuilder extends JPanel {
 			e.printStackTrace();
 		}
 
-		System.out.println(TimeManager.getCurrentTime() + "... Level exported to: ./lib/levels/" + exportName + ".txt");
+		System.out.println(TimeManager.getCurrentTime() + "... Level exported to: ./levels/" + exportName + ".txt");
 	}
 }
