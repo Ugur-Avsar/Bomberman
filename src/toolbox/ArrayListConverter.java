@@ -52,12 +52,20 @@ public class ArrayListConverter {
 		return arr;
 	}
 
-	public static int[] calculate(int[] arr, char operator, double hdSclaingFactor) {
+	/**
+	 * Multiplitziert jedes Element eines Arrays mit dem 'factor'.
+	 * 
+	 * @param arr
+	 * @param operator
+	 * @param hdSclaingFactor
+	 * @return das berechnete Array
+	 */
+	public static int[] multiply(int[] arr, char operator, double factor) {
 		int[] result = new int[arr.length];
 		switch (operator) {
 		case '*':
 			for (int i = 0; i < arr.length; i++) {
-				result[i] = (int) (arr[i] * hdSclaingFactor);
+				result[i] = (int) (arr[i] * factor);
 			}
 			break;
 		}

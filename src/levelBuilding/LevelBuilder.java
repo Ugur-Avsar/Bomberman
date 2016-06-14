@@ -67,6 +67,9 @@ public class LevelBuilder extends JPanel {
 		background = new Texture("levels/black");
 	}
 
+	/**
+	 * @return Ein JFrame mit dem LevelBuilder
+	 */
 	public JFrame createNewLevelBuilderFrame() {
 		JFrame f = new JFrame();
 
@@ -180,6 +183,11 @@ public class LevelBuilder extends JPanel {
 		}
 	}
 
+	/**
+	 * Ladet die Daten einer Level-Datei in das jetzige Projekt.
+	 * 
+	 * @param levelName
+	 */
 	public void loadLevel(String levelName) {
 		File level = new File("./levels/" + levelName + ".txt");
 		if (level.isFile() && level.exists()) {
@@ -216,8 +224,8 @@ public class LevelBuilder extends JPanel {
 					xCoords = ArrayListConverter.stringArrayToIntArray(ArrayListConverter.toArray(xCoordsSList));
 					yCoords = ArrayListConverter.stringArrayToIntArray(ArrayListConverter.toArray(yCoordsSList));
 
-					xCoords = ArrayListConverter.calculate(xCoords, '*', HD_SCALING_FACTOR);
-					yCoords = ArrayListConverter.calculate(yCoords, '*', HD_SCALING_FACTOR);
+					xCoords = ArrayListConverter.multiply(xCoords, '*', HD_SCALING_FACTOR);
+					yCoords = ArrayListConverter.multiply(yCoords, '*', HD_SCALING_FACTOR);
 
 					collisionBoxes.add(new Polygon(xCoords, yCoords, Math.min(xCoords.length, yCoords.length)));
 				}
@@ -280,7 +288,7 @@ public class LevelBuilder extends JPanel {
 	}
 
 	/**
-	 * Exportiert das Level 
+	 * Exportiert das Level
 	 */
 	public void exportLevel() {
 		String exportName = JOptionPane.showInputDialog(levelField.getParent(), "Enter Level-Name:");

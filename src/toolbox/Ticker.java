@@ -3,6 +3,13 @@ package toolbox;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Zählt Frames. Wird bei jedem Tick durch die statische Methode 'tick()'
+ * auktualisiert.
+ * 
+ * @author AvsarUgur, KulcsarKevin
+ *
+ */
 public class Ticker {
 	private static List<Ticker> tickers = new ArrayList<Ticker>();
 	private int i;

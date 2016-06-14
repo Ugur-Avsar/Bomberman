@@ -17,13 +17,10 @@ public class StringUtils {
 	}
 
 	public static boolean isInt(String text) {
-		if (text == null)
-			return false;
-
 		try {
 			Integer.parseInt(text);
 			return true;
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}

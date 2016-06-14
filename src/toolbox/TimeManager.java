@@ -3,6 +3,12 @@ package toolbox;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * Liefert die jetzige Zeit.
+ * 
+ * @author AvsarUgur, KulcsarKevin
+ *
+ */
 public class TimeManager {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss ");
 

@@ -21,6 +21,9 @@ public class SoundPlayer {
 		return playing;
 	}
 
+	/**
+	 * Startet den Sound
+	 */
 	public void play() {
 		try {
 			player.stop(stream);
@@ -33,6 +36,9 @@ public class SoundPlayer {
 		}
 	}
 
+	/**
+	 * Pausiert den Sound
+	 */
 	public void pause() {
 		if (playing) {
 			System.out.println(TimeManager.getCurrentTime() + "... Audio '" + source + "' paused.");
@@ -41,6 +47,9 @@ public class SoundPlayer {
 		}
 	}
 
+	/**
+	 * Schlieﬂt den Audiostream und beendet die Tonausgabe.
+	 */
 	public void stop() {
 		try {
 			System.out.println(TimeManager.getCurrentTime() + "... Audio '" + source + "' stopped.");
